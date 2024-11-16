@@ -7,6 +7,8 @@ import Table.Table;
 import javax.swing.ImageIcon;
 
 public class Rook extends Piece {
+    private byte index;
+
     public Rook(char color, ImageIcon icon, Coord coord, Table table){
         setType('T');
         setColor(color);
@@ -19,42 +21,49 @@ public class Rook extends Piece {
     public Coord[] move() {
         byte size = (byte)getTable().length;
         Coord[] movements = new Coord[15];
-        byte index = 0;
+        this.index = 0;
 
-        for(int i = getCoord().i; i < size; ++i){
-            if(getTable()[i][getCoord().j].getColor() == getColor()){
+        for(byte i = (byte) (getCoord().i + 1) ; i < size; ++i){
+            if(!putMoves(movements, i, (byte) (getCoord().j))){
                 break;
-            } else{
-                movements[index++] = new Coord(i,getCoord().j);
             }
         }
 
-        for(int i = getCoord().i; i >= 0; --i){
-            if(getTable()[i][getCoord().j].getColor() == getColor()){
+        for(byte i = (byte) (getCoord().i - 1) ; i >= 0; --i){
+            if(!putMoves(movements, i, (byte) (getCoord().j))){
                 break;
-            } else{
-                movements[index++] = new Coord(i,getCoord().j);
             }
         }
 
-        for(int j = getCoord().j; j < size ; ++j){
-            if(getTable()[getCoord().i][j].getColor() == getColor()){
+        for(byte j = (byte) (getCoord().j + 1); j < size ; ++j){
+            if(!putMoves(movements, (byte) getCoord().i, j)){
                 break;
-            } else{
-                movements[index++] = new Coord(getCoord().i,j);
             }
         }
 
-        for(int j = getCoord().j; j >= 0 ; --j){
-            if(getTable()[getCoord().i][j].getColor() == getColor()){
+        for(byte j = (byte) (getCoord().j - 1) ; j >= 0 ; --j){
+            if(!putMoves(movements, (byte) getCoord().i, j)){
                 break;
-            } else{
-                movements[index++] = new Coord(getCoord().i,j);
             }
         }
 
         return movements;
     }
+
+   private boolean putMoves(Coord[] movements, byte i, byte j){
+       if(getTable()[i][j] == null){
+           movements[this.index++] = new Coord(i,j);
+       }else{
+           if(getTable()[i][j].getColor() == getColor()){
+               return false;
+           }else{
+               movements[this.index++] = new Coord(i,j);
+               return false;
+           }
+       }
+
+       return true;
+   }
 
     @Override
     public Coord[] dangerZone() {

@@ -6,6 +6,7 @@ import Piece.Knight.Knight;
 import Piece.Peon.Peon;
 import Piece.Piece;
 import Piece.Coord;
+import Piece.Rook.Rook;
 import Player.Player;
 
 public class Table {
@@ -64,6 +65,15 @@ public class Table {
         coord = new Coord(7, 6);
         table[coord.i][coord.j] = new Knight('w', images.WKnight, coord, this);
 
+        //Rook
+        coord = new Coord(7, 0);
+        table[coord.i][coord.j] = new Rook('w', images.WRook, coord, this);
+
+        coord = new Coord(7, 7);
+        table[coord.i][coord.j] = new Rook('w', images.WRook, coord, this);
+
+
+
 
         ///BLACK PIECES
         //Peon
@@ -78,6 +88,14 @@ public class Table {
 
         coord = new Coord(0, 6);
         table[coord.i][coord.j] = new Knight('b', images.BKnight, coord, this);
+
+        //Rook
+        coord = new Coord(0, 0);
+        table[coord.i][coord.j] = new Rook('b', images.BRook, coord, this);
+
+        coord = new Coord(0, 7);
+        table[coord.i][coord.j] = new Rook('b', images.BRook, coord, this);
+
     }
 
 
