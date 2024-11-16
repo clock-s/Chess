@@ -2,6 +2,7 @@ package Table;
 
 import GUI.GUI;
 import GUI.Images.PieceImages;
+import Piece.Bishop.Bishop;
 import Piece.Knight.Knight;
 import Piece.Peon.Peon;
 import Piece.Piece;
@@ -72,6 +73,13 @@ public class Table {
         coord = new Coord(7, 7);
         table[coord.i][coord.j] = new Rook('w', images.WRook, coord, this);
 
+        //Bishop
+        coord = new Coord(7, 2);
+        table[coord.i][coord.j] = new Bishop('w', images.WBishop, coord, this);
+
+        coord = new Coord(7, 5);
+        table[coord.i][coord.j] = new Bishop('w', images.WBishop, coord, this);
+
 
 
 
@@ -95,6 +103,13 @@ public class Table {
 
         coord = new Coord(0, 7);
         table[coord.i][coord.j] = new Rook('b', images.BRook, coord, this);
+
+        //Bishop
+        coord = new Coord(0, 2);
+        table[coord.i][coord.j] = new Bishop('b', images.BBishop, coord, this);
+
+        coord = new Coord(0, 5);
+        table[coord.i][coord.j] = new Bishop('b', images.BBishop, coord, this);
 
     }
 

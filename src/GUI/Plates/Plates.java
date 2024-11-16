@@ -84,6 +84,9 @@ public class Plates implements MouseListener {
     }
 
     private boolean isCanMove(Coord piece,  Coord goal){
+        if(piece.isEquals(new Coord())){
+            return false;
+        }
         Coord[] moves = (gui.getPiece(piece) != null) ? gui.getPiece(piece).move() : null;
 
         if(moves != null) {
