@@ -23,26 +23,26 @@ public class Rook extends Piece {
         Coord[] movements = new Coord[15];
         this.index = 0;
 
-        for(byte i = (byte) (getCoord().i + 1) ; i < size; ++i){
-            if(!putMoves(movements, i, (byte) (getCoord().j))){
+        for(byte i = (byte) (coord.i + 1) ; i < size; ++i){
+            if(!putMoves(movements, i, (byte) (coord.j))){
                 break;
             }
         }
 
-        for(byte i = (byte) (getCoord().i - 1) ; i >= 0; --i){
-            if(!putMoves(movements, i, (byte) (getCoord().j))){
+        for(byte i = (byte) (coord.i - 1) ; i >= 0; --i){
+            if(!putMoves(movements, i, (byte) (coord.j))){
                 break;
             }
         }
 
-        for(byte j = (byte) (getCoord().j + 1); j < size ; ++j){
-            if(!putMoves(movements, (byte) getCoord().i, j)){
+        for(byte j = (byte) (coord.j + 1); j < size ; ++j){
+            if(!putMoves(movements, (byte) coord.i, j)){
                 break;
             }
         }
 
-        for(byte j = (byte) (getCoord().j - 1) ; j >= 0 ; --j){
-            if(!putMoves(movements, (byte) getCoord().i, j)){
+        for(byte j = (byte) (coord.j - 1) ; j >= 0 ; --j){
+            if(!putMoves(movements, (byte) coord.i, j)){
                 break;
             }
         }
@@ -54,7 +54,7 @@ public class Rook extends Piece {
        if(getTable()[i][j] == null){
            movements[this.index++] = new Coord(i,j);
        }else{
-           if(getTable()[i][j].getColor() == getColor()){
+           if(getTable()[i][j].getColor() == color){
                return false;
            }else{
                movements[this.index++] = new Coord(i,j);

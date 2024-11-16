@@ -6,7 +6,5 @@ public class Main {
         Table table = new Table();
 
 
-
-
     }
 }

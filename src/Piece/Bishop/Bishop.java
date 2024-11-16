@@ -45,26 +45,26 @@ public class Bishop extends Piece {
 
     private void aux(byte i, Coord[] movements, byte size){
         if(topRight) {
-            if (getCoord().i + i < size && getCoord().j + i < size) {
-                topRight = putMoves(movements, (byte) (getCoord().i + i), (byte) (getCoord().j + i));
+            if (coord.i + i < size && coord.j + i < size) {
+                topRight = putMoves(movements, (byte) (coord.i + i), (byte) (coord.j + i));
             }
         }
 
         if(topLeft) {
-            if(getCoord().i + i < size && getCoord().j - i >= 0){
-                topLeft = putMoves(movements, (byte) (getCoord().i + i), (byte) (getCoord().j - i));
+            if(coord.i + i < size && coord.j - i >= 0){
+                topLeft = putMoves(movements, (byte) (coord.i + i), (byte) (coord.j - i));
             }
         }
 
         if(bottomRight) {
-            if(getCoord().i - i >= 0 && getCoord().j + i < size){
-                bottomRight = putMoves(movements, (byte) (getCoord().i - i), (byte) (getCoord().j + i));
+            if(coord.i - i >= 0 && coord.j + i < size){
+                bottomRight = putMoves(movements, (byte) (coord.i - i), (byte) (coord.j + i));
             }
         }
 
         if(bottomLeft) {
-            if(getCoord().i - i >= 0 && getCoord().j - i >= 0){
-                bottomLeft = putMoves(movements, (byte) (getCoord().i - i), (byte) (getCoord().j - i));
+            if(coord.i - i >= 0 && coord.j - i >= 0){
+                bottomLeft = putMoves(movements, (byte) (coord.i - i), (byte) (coord.j - i));
             }
         }
 
@@ -74,7 +74,7 @@ public class Bishop extends Piece {
         if(getTable()[i][j] == null){
             movements[this.index++] = new Coord(i,j);
         }else{
-            if(getTable()[i][j].getColor() == getColor()){
+            if(getTable()[i][j].getColor() == color){
                 return false;
             }else{
                 movements[this.index++] = new Coord(i,j);

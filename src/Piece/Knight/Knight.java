@@ -22,52 +22,52 @@ public class Knight extends Piece {
 
 
 
-        if(getCoord().i - 2 >= 0){
-            if(getCoord().j - 1 >= 0){
-                if (getTable()[getCoord().i - 2][getCoord().j - 1] == null || getTable()[getCoord().i - 2][getCoord().j - 1].getColor() != getColor()) {
-                    movements[index++] = new Coord(getCoord().i - 2, getCoord().j - 1);
+        if(coord.i - 2 >= 0){
+            if(coord.j - 1 >= 0){
+                if (getTable()[coord.i - 2][coord.j - 1] == null || getTable()[coord.i - 2][coord.j - 1].getColor() != color) {
+                    movements[index++] = new Coord(coord.i - 2, coord.j - 1);
                 }
             }
-            if(getCoord().j + 1 < size){
-                if (getTable()[getCoord().i - 2][getCoord().j + 1] == null || getTable()[getCoord().i - 2][getCoord().j + 1].getColor() != getColor()) {
-                    movements[index++] = new Coord(getCoord().i - 2, getCoord().j + 1);
+            if(coord.j + 1 < size){
+                if (getTable()[coord.i - 2][coord.j + 1] == null || getTable()[coord.i - 2][coord.j + 1].getColor() != color) {
+                    movements[index++] = new Coord(coord.i - 2, coord.j + 1);
                 }
             }
         }
-        if(getCoord().i + 2 < size){
-            if(getCoord().j - 1 >= 0){
-                if (getTable()[getCoord().i + 2][getCoord().j - 1] == null || getTable()[getCoord().i + 2][getCoord().j - 1].getColor() != getColor()) {
-                    movements[index++] = new Coord(getCoord().i + 2, getCoord().j - 1);
+        if(coord.i + 2 < size){
+            if(coord.j - 1 >= 0){
+                if (getTable()[coord.i + 2][coord.j - 1] == null || getTable()[coord.i + 2][coord.j - 1].getColor() != color) {
+                    movements[index++] = new Coord(coord.i + 2, coord.j - 1);
                 }
             }
-            if(getCoord().j + 1 < size){
-                if (getTable()[getCoord().i + 2][getCoord().j + 1] == null ||getTable()[getCoord().i + 2][getCoord().j + 1].getColor() != getColor()) {
-                    movements[index++] = new Coord(getCoord().i + 2, getCoord().j + 1);
+            if(coord.j + 1 < size){
+                if (getTable()[coord.i + 2][coord.j + 1] == null ||getTable()[coord.i + 2][coord.j + 1].getColor() != color) {
+                    movements[index++] = new Coord(coord.i + 2, coord.j + 1);
                 }
             }
         }
 
-        if(getCoord().j - 2 >= 0){
-            if(getCoord().i - 1 >= 0){
-                if (getTable()[getCoord().i - 1][getCoord().j - 2] == null || getTable()[getCoord().i - 1][getCoord().j - 2].getColor() != getColor()) {
-                    movements[index++] = new Coord(getCoord().i - 1, getCoord().j - 2);
+        if(coord.j - 2 >= 0){
+            if(coord.i - 1 >= 0){
+                if (getTable()[coord.i - 1][coord.j - 2] == null || getTable()[coord.i - 1][coord.j - 2].getColor() != color) {
+                    movements[index++] = new Coord(coord.i - 1, coord.j - 2);
                 }
             }
-            if(getCoord().i + 1 < size){
-                if (getTable()[getCoord().i + 1][getCoord().j - 2] == null || getTable()[getCoord().i + 1][getCoord().j - 2].getColor() != getColor()) {
-                    movements[index++] = new Coord(getCoord().i + 1, getCoord().j - 2);
+            if(coord.i + 1 < size){
+                if (getTable()[coord.i + 1][coord.j - 2] == null || getTable()[coord.i + 1][coord.j - 2].getColor() != color) {
+                    movements[index++] = new Coord(coord.i + 1, coord.j - 2);
                 }
             }
         }
-        if(getCoord().j + 2 < size){
-            if(getCoord().i - 1 >= 0){
-                if (getTable()[getCoord().i - 1][getCoord().j + 2] == null || getTable()[getCoord().i - 1][getCoord().j + 2].getColor() != getColor()) {
-                    movements[index++] = new Coord(getCoord().i - 1, getCoord().j + 2);
+        if(coord.j + 2 < size){
+            if(coord.i - 1 >= 0){
+                if (getTable()[coord.i - 1][coord.j + 2] == null || getTable()[coord.i - 1][coord.j + 2].getColor() != color) {
+                    movements[index++] = new Coord(coord.i - 1, coord.j + 2);
                 }
             }
-            if(getCoord().i + 1 < size){
-                if (getTable()[getCoord().i + 1][getCoord().j + 2] == null || getTable()[getCoord().i + 1][getCoord().j + 2].getColor() != getColor()) {
-                    movements[index++] = new Coord(getCoord().i + 1, getCoord().j + 2);
+            if(coord.i + 1 < size){
+                if (getTable()[coord.i + 1][coord.j + 2] == null || getTable()[coord.i + 1][coord.j + 2].getColor() != color) {
+                    movements[index++] = new Coord(coord.i + 1, coord.j + 2);
                 }
             }
         }

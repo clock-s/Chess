@@ -6,9 +6,9 @@ import javax.swing.*;
 
 public abstract class Piece {
     private int moves = 0;
-    private char color;
-    private char type;
-    private Coord coord;
+    protected char color;
+    protected char type;
+    protected Coord coord;
     private Table table;
     private ImageIcon icon;
 
@@ -18,7 +18,6 @@ public abstract class Piece {
     public Piece(){
 
     }
-
 
     public ImageIcon getIcon() {
         return icon;

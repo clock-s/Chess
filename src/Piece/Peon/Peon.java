@@ -21,22 +21,22 @@ public class Peon extends Piece {
         Coord[] dangerPlates = new Coord[2];
         byte index = 0;
 
-        if(getColor() == 'w'){
-            if(getCoord().i - 1 >= 0) {
-                if (getCoord().j + 1 < size) {
-                    dangerPlates[index++] = new Coord(getCoord().i - 1, getCoord().j + 1);
+        if(color == 'w'){
+            if(coord.i - 1 >= 0) {
+                if (coord.j + 1 < size) {
+                    dangerPlates[index++] = new Coord(coord.i - 1, coord.j + 1);
                 }
-                if (getCoord().j - 1 >= 0) {
-                    dangerPlates[index++] = new Coord(getCoord().i - 1, getCoord().j - 1);
+                if (coord.j - 1 >= 0) {
+                    dangerPlates[index++] = new Coord(coord.i - 1, coord.j - 1);
                 }
             }
-        }else if(getColor() == 'b'){
-            if(getCoord().i + 1 < size) {
-                if (getCoord().j + 1 < size) {
-                    dangerPlates[index++] = new Coord(getCoord().i + 1, getCoord().j + 1);
+        }else if(color == 'b'){
+            if(coord.i + 1 < size) {
+                if (coord.j + 1 < size) {
+                    dangerPlates[index++] = new Coord(coord.i + 1, coord.j + 1);
                 }
-                if (getCoord().j - 1 >= 0) {
-                    dangerPlates[index++] = new Coord(getCoord().i + 1, getCoord().j - 1);
+                if (coord.j - 1 >= 0) {
+                    dangerPlates[index++] = new Coord(coord.i + 1, coord.j - 1);
                 }
             }
         }
@@ -51,22 +51,22 @@ public class Peon extends Piece {
         byte index = 0;
 
 
-        if(getColor() == 'w'){
-            if(getCoord().i - 1 >= 0 && getTable()[getCoord().i - 1][getCoord().j] == null) {
-                movements[index++] = new Coord(getCoord().i - 1, getCoord().j);
+        if(color == 'w'){
+            if(coord.i - 1 >= 0 && getTable()[coord.i - 1][coord.j] == null) {
+                movements[index++] = new Coord(coord.i - 1, coord.j);
 
-                if(getMoves() == 0 && getTable()[getCoord().i - 2][getCoord().j] == null){
-                    movements[index++] = new Coord(getCoord().i -2,getCoord().j);
+                if(getMoves() == 0 && getTable()[coord.i - 2][coord.j] == null){
+                    movements[index++] = new Coord(coord.i -2,coord.j);
                 }
             }
             
 
-        }else if(getColor() == 'b'){
-            if(getCoord().i +1 < size && getTable()[getCoord().i + 1][getCoord().j] == null) {
-                movements[index++] = new Coord(getCoord().i + 1, getCoord().j);
+        }else if(color == 'b'){
+            if(coord.i +1 < size && getTable()[coord.i + 1][coord.j] == null) {
+                movements[index++] = new Coord(coord.i + 1, coord.j);
 
-                if(getMoves() == 0 && getTable()[getCoord().i + 2][getCoord().j] == null){
-                    movements[index++] = new Coord(getCoord().i + 2,getCoord().j);
+                if(getMoves() == 0 && getTable()[coord.i + 2][coord.j] == null){
+                    movements[index++] = new Coord(coord.i + 2,coord.j);
                 }
             }
 
@@ -76,7 +76,7 @@ public class Peon extends Piece {
         for(Coord d : dangerZone){
             if(d != null) {
                 if(getTable()[d.i][d.j] != null) {
-                    if (getTable()[d.i][d.j].getColor() != getColor()) {
+                    if (getTable()[d.i][d.j].getColor() != color) {
                         movements[index++] = d;
                     }
                 }
