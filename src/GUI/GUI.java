@@ -19,8 +19,8 @@ public class GUI{
     private JPanel table;
     private Plates[][] plate;
     private int imageSize;
-    final private Color color1 = new Color(0,190,43);
-    final private Color color2 = new Color(0,43,190);
+    final private Color color1 = new Color(238,238,212,255);
+    final private Color color2 = new Color(125,148,92,255);
     private Table map;
     public Coord[] clicks;
     public byte count = 0;
@@ -71,10 +71,10 @@ public class GUI{
         for(int i = 0 ; i < 8 ; ++i){
             for(int j = 0 ; j < 8 ; ++j){
                 if((i+j)%2 == 0 ) {
-                    setPlate(i, j, new Color(0, 190, 43));
+                    setPlate(i, j, color1);
                 }
                 else {
-                    setPlate(i, j, new Color(0, 43, 190));
+                    setPlate(i, j, color2);
                 }
             }
         }
