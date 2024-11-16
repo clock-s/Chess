@@ -9,6 +9,11 @@ public class Coord {
         this.j = j;
     }
 
+    public Coord(Coord coord){
+        this.i = coord.i;
+        this.j = coord.j;
+    }
+
     public Coord(){
         this.i = -1;
         this.j = -1;

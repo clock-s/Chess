@@ -10,11 +10,17 @@ public class Rook extends Piece {
     private byte index;
 
     public Rook(char color, ImageIcon icon, Coord coord, Table table){
-        setType('T');
+        setType('R');
         setColor(color);
         setCoord(coord);
         setTable(table);
         setIcon(icon);
+    }
+
+    public Rook(char color, Coord coord, Table table){
+        setColor(color);
+        setCoord(coord);
+        setTable(table);
     }
 
     @Override

@@ -36,7 +36,7 @@ public class Player{
     public void round(){
         gui.resetCoord();
         setPlatesThatPlayerCanUse();
-
+        System.out.println(color);
 
         /*
         for(byte i = 0 ; i < piece.length ; i++){

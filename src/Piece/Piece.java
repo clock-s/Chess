@@ -9,7 +9,7 @@ public abstract class Piece {
     protected char color;
     protected char type;
     protected Coord coord;
-    private Table table;
+    protected Table table;
     private ImageIcon icon;
 
     public abstract Coord[] move();

@@ -7,6 +7,7 @@ import Piece.Knight.Knight;
 import Piece.Peon.Peon;
 import Piece.Piece;
 import Piece.Coord;
+import Piece.Queen.Queen;
 import Piece.Rook.Rook;
 import Player.Player;
 
@@ -80,6 +81,12 @@ public class Table {
         coord = new Coord(7, 5);
         table[coord.i][coord.j] = new Bishop('w', images.WBishop, coord, this);
 
+        //Queen
+        coord = new Coord(7, 3);
+        table[coord.i][coord.j] = new Queen('w', images.WQueen, coord, this);
+
+
+
 
 
 
@@ -110,6 +117,10 @@ public class Table {
 
         coord = new Coord(0, 5);
         table[coord.i][coord.j] = new Bishop('b', images.BBishop, coord, this);
+
+        //Queen
+        coord = new Coord(0, 3);
+        table[coord.i][coord.j] = new Queen('b', images.BQueen, coord, this);
 
     }
 

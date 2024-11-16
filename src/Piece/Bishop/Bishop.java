@@ -8,20 +8,27 @@ import Piece.Coord;
 import javax.swing.ImageIcon;
 
 public class Bishop extends Piece {
+    private byte index = 0;
     private boolean topRight;
     private boolean topLeft;
     private boolean bottomRight;
     private boolean bottomLeft;
 
     public Bishop(char color, ImageIcon icon, Coord coord, Table table){
-        setType('T');
+        setType('B');
         setColor(color);
         setCoord(coord);
         setTable(table);
         setIcon(icon);
     }
 
-    private byte index = 0;
+    public Bishop(char color, Coord coord, Table table){
+        setColor(color);
+        setCoord(coord);
+        setTable(table);
+    }
+
+
 
     @Override
     public Coord[] move() {
