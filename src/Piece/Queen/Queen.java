@@ -10,8 +10,6 @@ import Table.Table;
 import javax.swing.*;
 
 public class Queen extends Piece {
-    private byte index;
-
     public Queen(char color, ImageIcon icon, Coord coord, Table table) {
         setType('Q');
         setColor(color);

@@ -8,7 +8,6 @@ import Piece.Coord;
 import javax.swing.ImageIcon;
 
 public class Bishop extends Piece {
-    private byte index = 0;
     private boolean topRight;
     private boolean topLeft;
     private boolean bottomRight;
@@ -77,20 +76,6 @@ public class Bishop extends Piece {
 
     }
 
-    private boolean putMoves(Coord[] movements, byte i, byte j){
-        if(getTable()[i][j] == null){
-            movements[this.index++] = new Coord(i,j);
-        }else{
-            if(getTable()[i][j].getColor() == color){
-                return false;
-            }else{
-                movements[this.index++] = new Coord(i,j);
-                return false;
-            }
-        }
-
-        return true;
-    }
 
     @Override
     public Coord[] dangerZone() {

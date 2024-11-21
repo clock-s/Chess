@@ -5,18 +5,29 @@ import Table.Table;
 import javax.swing.*;
 
 public abstract class Piece {
-    private int moves = 0;
     protected char color;
     protected char type;
     protected Coord coord;
     protected Table table;
     private ImageIcon icon;
+    private int moves = 0;
+    protected byte index = 0;
 
     public abstract Coord[] move();
     public abstract Coord[] dangerZone();
 
-    public Piece(){
-
+    protected boolean putMoves(Coord[] movements, byte i, byte j){
+        if(getTable()[i][j] == null){
+            movements[this.index++] = new Coord(i,j);
+        }else{
+            if(getTable()[i][j].getColor() == color){
+                return false;
+            }else{
+                movements[this.index++] = new Coord(i,j);
+                return false;
+            }
+        }
+        return true;
     }
 
     public ImageIcon getIcon() {
@@ -29,7 +40,6 @@ public abstract class Piece {
     public Piece[][] getTable() {
         return table.getMap();
     }
-
     public void setTable(Table table) {
         this.table = table;
     }

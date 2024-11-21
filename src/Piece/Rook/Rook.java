@@ -7,8 +7,6 @@ import Table.Table;
 import javax.swing.ImageIcon;
 
 public class Rook extends Piece {
-    private byte index;
-
     public Rook(char color, ImageIcon icon, Coord coord, Table table){
         setType('R');
         setColor(color);
@@ -56,20 +54,6 @@ public class Rook extends Piece {
         return movements;
     }
 
-   private boolean putMoves(Coord[] movements, byte i, byte j){
-       if(getTable()[i][j] == null){
-           movements[this.index++] = new Coord(i,j);
-       }else{
-           if(getTable()[i][j].getColor() == color){
-               return false;
-           }else{
-               movements[this.index++] = new Coord(i,j);
-               return false;
-           }
-       }
-
-       return true;
-   }
 
     @Override
     public Coord[] dangerZone() {

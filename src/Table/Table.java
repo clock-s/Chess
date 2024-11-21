@@ -3,6 +3,7 @@ package Table;
 import GUI.GUI;
 import GUI.Images.PieceImages;
 import Piece.Bishop.Bishop;
+import Piece.King.King;
 import Piece.Knight.Knight;
 import Piece.Peon.Peon;
 import Piece.Piece;
@@ -85,6 +86,11 @@ public class Table {
         coord = new Coord(7, 3);
         table[coord.i][coord.j] = new Queen('w', images.WQueen, coord, this);
 
+        //King
+        coord = new Coord(7, 4);
+        table[coord.i][coord.j] = new King('w', images.WKing, coord, this);
+
+
 
 
 
@@ -121,6 +127,10 @@ public class Table {
         //Queen
         coord = new Coord(0, 3);
         table[coord.i][coord.j] = new Queen('b', images.BQueen, coord, this);
+
+        //King
+        coord = new Coord(0, 4);
+        table[coord.i][coord.j] = new King('b', images.BKing, coord, this);
 
     }
 

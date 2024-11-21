@@ -65,10 +65,13 @@ public class Plates implements MouseListener {
 
         for(Coord m : moves) {
             if(m != null) {
+                System.out.printf("(%d,%d) |",m.i,m.j);
                 Color color = ((m.i+m.j)%2 == 0) ? gui.getColor1() : gui.getColor2();
                 gui.modifyColor(m, color);
             }
         }
+
+        System.out.println("");
     }
 
     private boolean isTheSameColor(Coord[] coord){
@@ -105,7 +108,6 @@ public class Plates implements MouseListener {
     public void move(){
         Coord[] coord = gui.clicks;
         byte count = gui.count;
-
 
 
         if(gui.getPiece(this.coord) != null && gui.getPlate(this.coord).isEnable == true) {
