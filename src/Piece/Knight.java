@@ -1,23 +1,19 @@
-package Piece.Knight;
+package Piece;
 
-import Piece.Coord;
-import Piece.Piece;
 import Table.Table;
 
 import javax.swing.*;
 
 public class Knight extends Piece {
-    public Knight(char color, ImageIcon icon, Coord coord, Table table){
+    public Knight(byte id, char color, ImageIcon icon, Coord coord, Table table){
+        super(id, color, icon, coord, table);
         setType('N');
-        setColor(color);
-        setCoord(coord);
-        setTable(table);
-        setIcon(icon);
+        numOfMoves = 8;
     }
 
     public Coord[] move(){
         byte size = (byte)getTable().length;
-        Coord[] movements = new Coord[8];
+        Coord[] movements = new Coord[numOfMoves];
         this.index = 0;
 
         if(coord.i - 2 >= 0){

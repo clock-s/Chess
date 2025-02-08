@@ -1,9 +1,6 @@
-package Piece.Bishop;
+package Piece;
 
-import Piece.Piece;
-import Piece.Rook.Rook;
 import Table.Table;
-import Piece.Coord;
 
 import javax.swing.ImageIcon;
 
@@ -13,18 +10,15 @@ public class Bishop extends Piece {
     private boolean bottomRight;
     private boolean bottomLeft;
 
-    public Bishop(char color, ImageIcon icon, Coord coord, Table table){
+    public Bishop(byte id, char color, ImageIcon icon, Coord coord, Table table){
+        super(id, color, icon, coord, table);
         setType('B');
-        setColor(color);
-        setCoord(coord);
-        setTable(table);
-        setIcon(icon);
+        numOfMoves = 15;
     }
 
     public Bishop(char color, Coord coord, Table table){
-        setColor(color);
-        setCoord(coord);
-        setTable(table);
+        super((byte)0, color, null, coord, table);
+        numOfMoves = 15;
     }
 
 
@@ -32,7 +26,7 @@ public class Bishop extends Piece {
     @Override
     public Coord[] move() {
         byte size = (byte)getTable().length;
-        Coord[] movements = new Coord[15];
+        Coord[] movements = new Coord[numOfMoves];
         this.index = 0;
         topRight = true;
         topLeft = true;

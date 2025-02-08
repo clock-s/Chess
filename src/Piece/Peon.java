@@ -1,24 +1,20 @@
-package Piece.Peon;
-import Piece.Piece;
-import Piece.Coord;
+package Piece;
 import Table.Table;
 
 import javax.swing.*;
 
 
 public class Peon extends Piece {
-    public Peon(char color, ImageIcon icon, Coord coord, Table table) {
+    public Peon(byte id, char color, ImageIcon icon, Coord coord, Table table) {
+        super(id, color, icon, coord, table);
         setType('P');
-        setColor(color);
-        setCoord(coord);
-        setTable(table);
-        setIcon(icon);
+        numOfMoves = 2;
     }
 
     @Override
     public Coord[] dangerZone() {
         byte size = (byte) getTable().length;
-        Coord[] dangerPlates = new Coord[2];
+        Coord[] dangerPlates = new Coord[numOfMoves];
         this.index = 0;
 
         if(color == 'w'){
@@ -47,7 +43,7 @@ public class Peon extends Piece {
     @Override
     public Coord[] move(){
         byte size = (byte)getTable().length;
-        Coord[] movements = new Coord[4];
+        Coord[] movements = new Coord[numOfMoves + 2];
         this.index = 0;
 
 

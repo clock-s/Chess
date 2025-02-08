@@ -5,6 +5,8 @@ import Table.Table;
 import javax.swing.*;
 
 public abstract class Piece {
+    protected boolean isAlive = true;
+    protected byte id;
     protected char color;
     protected char type;
     protected Coord coord;
@@ -12,9 +14,35 @@ public abstract class Piece {
     private ImageIcon icon;
     private int moves = 0;
     protected byte index = 0;
+    protected byte numOfMoves;
+
+
+    public Piece(byte id, char color, ImageIcon icon, Coord coord, Table table){
+        this.id = id;
+        this.color = color;
+        this.icon = icon;
+        this.coord = coord;
+        this.table = table;
+    }
+
 
     public abstract Coord[] move();
     public abstract Coord[] dangerZone();
+
+    public byte getId(){
+        return id;
+    }
+
+    public boolean isAlive(){
+        return isAlive;
+    }
+    public void death(){
+        isAlive = false;
+    }
+
+    public byte getNumOfMoves(){
+        return numOfMoves;
+    }
 
     protected boolean putMoves(Coord[] movements, byte i, byte j){
         if(getTable()[i][j] == null){

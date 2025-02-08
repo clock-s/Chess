@@ -1,30 +1,25 @@
-package Piece.Rook;
+package Piece;
 
-import Piece.Coord;
-import Piece.Piece;
 import Table.Table;
 
 import javax.swing.ImageIcon;
 
 public class Rook extends Piece {
-    public Rook(char color, ImageIcon icon, Coord coord, Table table){
+    public Rook(byte id, char color, ImageIcon icon, Coord coord, Table table){
+        super(id, color, icon, coord, table);
         setType('R');
-        setColor(color);
-        setCoord(coord);
-        setTable(table);
-        setIcon(icon);
+        numOfMoves = 15;
     }
 
     public Rook(char color, Coord coord, Table table){
-        setColor(color);
-        setCoord(coord);
-        setTable(table);
+        super((byte)0, color, null, coord, table);
+        numOfMoves = 15;
     }
 
     @Override
     public Coord[] move() {
         byte size = (byte)getTable().length;
-        Coord[] movements = new Coord[15];
+        Coord[] movements = new Coord[numOfMoves];
         this.index = 0;
 
         for(byte i = (byte) (coord.i + 1) ; i < size; ++i){

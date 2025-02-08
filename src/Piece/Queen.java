@@ -1,21 +1,15 @@
-package Piece.Queen;
+package Piece;
 
-import Piece.Bishop.Bishop;
-import Piece.Rook.Rook;
-import Piece.Piece;
-import Piece.Coord;
 import Table.Table;
 
 
 import javax.swing.*;
 
 public class Queen extends Piece {
-    public Queen(char color, ImageIcon icon, Coord coord, Table table) {
+    public Queen(byte id, char color, ImageIcon icon, Coord coord, Table table) {
+        super(id, color, icon, coord, table);
         setType('Q');
-        setColor(color);
-        setCoord(coord);
-        setTable(table);
-        setIcon(icon);
+        numOfMoves = 30;
     }
 
     @Override
@@ -23,7 +17,7 @@ public class Queen extends Piece {
         Coord[] movementsBishop = new Bishop(this.color, this.coord, this.table).move();
         Coord[] movementsTower = new Rook(this.color, this.coord, this.table).move();
         this.index = 0;
-        Coord[] movements = new Coord[30];
+        Coord[] movements = new Coord[numOfMoves];
 
         setMovements(movements, movementsBishop);
         setMovements(movements, movementsTower);
