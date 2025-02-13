@@ -1,26 +1,26 @@
 package Piece;
 
 import Table.Table;
+import Utilities.Category;
+import Utilities.Coord;
+import Utilities.Color;
 
 import javax.swing.ImageIcon;
 
 public class Rook extends Piece {
-    public Rook(byte id, char color, ImageIcon icon, Coord coord, Table table){
+    public Rook(byte id, Color color, ImageIcon icon, Coord coord, Table table){
         super(id, color, icon, coord, table);
-        setType('R');
-        numOfMoves = 15;
+        this.category = Category.ROOK;
     }
 
-    public Rook(char color, Coord coord, Table table){
+    public Rook(Color color, Coord coord, Table table){
         super((byte)0, color, null, coord, table);
-        numOfMoves = 15;
     }
 
     @Override
     public Coord[] move() {
         byte size = (byte)getTable().length;
-        Coord[] movements = new Coord[numOfMoves];
-        this.index = 0;
+        this.movements.clear();
 
         for(byte i = (byte) (coord.i + 1) ; i < size; ++i){
             if(!putMoves(movements, i, (byte) (coord.j))){
@@ -46,7 +46,7 @@ public class Rook extends Piece {
             }
         }
 
-        return movements;
+        return (Coord[])this.movements.toArray();
     }
 
 

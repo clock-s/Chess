@@ -2,33 +2,25 @@ package Piece;
 
 import Player.Player;
 import Table.Table;
+import Utilities.*;
 
 import javax.swing.*;
 
 public class King extends Piece {
     private Player master;
-    public King(byte id, char color, ImageIcon icon, Coord coord, Table table, Player master) {
+
+    public King(byte id, Color color, ImageIcon icon, Coord coord, Table table, Player master) {
         super(id, color, icon, coord, table);
-        setType('K');
-        numOfMoves = 8;
+        this.category = Category.KING;
         this.master = master;
     }
 
-    private boolean isInLimit(byte i, byte j, byte size){
-        if(coord.i + i >= size || coord.i + i < 0){
-            return false;
-        }
-        if(coord.j + j >= size || coord.j + j < 0){
-            return false;
-        }
-        return true;
-    }
+
 
     @Override
     public Coord[] move() {
         byte size = (byte) getTable().length;
-        Coord[] movements = new Coord[numOfMoves];
-        this.index = 0;
+        movements.clear();
 
         for(byte i = -1 ; i <= 1 ; ++i){
             for(byte j = -1; j <= 1; ++j){
@@ -42,13 +34,17 @@ public class King extends Piece {
         }
 
 
+        /*
         if(master.isRound()){
-            checkLimitation(movements);
+            //checkLimitation(movements);
         }
+        */
 
-        return movements;
+
+        return (Coord[])movements.toArray();
     }
 
+    /*
     private void checkLimitation(Coord[] movements) {
         Coord[][] enemyZone = master.getEnemysDangerZone();;
 
@@ -78,6 +74,8 @@ public class King extends Piece {
         }
 
     }
+    */
+
 
     @Override
     public Coord[] dangerZone() {

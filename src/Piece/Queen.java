@@ -1,39 +1,30 @@
 package Piece;
 
 import Table.Table;
+import Utilities.*;
 
 
 import javax.swing.*;
 
 public class Queen extends Piece {
-    public Queen(byte id, char color, ImageIcon icon, Coord coord, Table table) {
+
+    public Queen(byte id, Color color, ImageIcon icon, Coord coord, Table table) {
         super(id, color, icon, coord, table);
-        setType('Q');
-        numOfMoves = 30;
+        this.category = Category.QUEEN;
     }
 
     @Override
     public Coord[] move() {
-        Coord[] movementsBishop = new Bishop(this.color, this.coord, this.table).move();
-        Coord[] movementsTower = new Rook(this.color, this.coord, this.table).move();
-        this.index = 0;
-        Coord[] movements = new Coord[numOfMoves];
+        movements.clear();
 
-        setMovements(movements, movementsBishop);
-        setMovements(movements, movementsTower);
+        movements.add(new Bishop(this.color, this.coord, this.table).move());
+        movements.add(new Rook(this.color, this.coord, this.table).move());
 
 
-        return movements;
+
+        return (Coord[]) movements.toArray();
     }
 
-    private void setMovements(Coord[] movements, Coord[] moveBag) {
-        for(Coord m : moveBag) {
-            if(m == null){
-                break;
-            }
-            movements[this.index++] = new Coord(m);
-        }
-    }
 
     @Override
     public Coord[] dangerZone() {

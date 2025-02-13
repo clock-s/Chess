@@ -1,7 +1,7 @@
 package GUI;
 
 import GUI.Plates.Plates;
-import Piece.Coord;
+import Utilities.Coord;
 import Piece.Piece;
 import Table.Table;
 
@@ -40,7 +40,7 @@ public class GUI{
 
     private void configs(){
         frame.setTitle("Chess Test");
-        frame.setSize(480,520);
+        frame.setSize(640,680);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         image = new ImageIcon("src/GUI/Images/logo.jpg");
