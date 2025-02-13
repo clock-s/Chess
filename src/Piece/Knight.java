@@ -1,20 +1,19 @@
 package Piece;
 
 import Table.Table;
+import Utilities.*;
 
 import javax.swing.*;
 
 public class Knight extends Piece {
-    public Knight(byte id, char color, ImageIcon icon, Coord coord, Table table){
+    public Knight(byte id, Color color, ImageIcon icon, Coord coord, Table table){
         super(id, color, icon, coord, table);
-        setType('N');
-        numOfMoves = 8;
+        this.category = Category.KNIGHT;
     }
 
     public Coord[] move(){
         byte size = (byte)getTable().length;
-        Coord[] movements = new Coord[numOfMoves];
-        this.index = 0;
+        this.movements.clear();
 
         if(coord.i - 2 >= 0){
             if(coord.j - 1 >= 0){
@@ -50,7 +49,7 @@ public class Knight extends Piece {
             }
         }
 
-        return movements;
+        return (Coord[]) movements.toArray();
     }
     public Coord[] dangerZone(){
         return move();

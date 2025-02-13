@@ -1,23 +1,28 @@
 package Piece;
 
+import Collection.MoveList;
 import Table.Table;
+import Utilities.*;
 
 import javax.swing.*;
 
 public abstract class Piece {
     protected boolean isAlive = true;
     protected byte id;
-    protected char color;
-    protected char type;
+    protected Color color;
+    protected Category category;
     protected Coord coord;
     protected Table table;
     private ImageIcon icon;
     private int moves = 0;
-    protected byte index = 0;
     protected byte numOfMoves;
 
+    protected MoveList movements = new MoveList();
+    protected MoveList dangerZone = new MoveList();
+    protected MoveList potentialDangerZone = new MoveList();
 
-    public Piece(byte id, char color, ImageIcon icon, Coord coord, Table table){
+
+    public Piece(byte id, Color color, ImageIcon icon, Coord coord, Table table){
         this.id = id;
         this.color = color;
         this.icon = icon;
@@ -44,16 +49,26 @@ public abstract class Piece {
         return numOfMoves;
     }
 
-    protected boolean putMoves(Coord[] movements, byte i, byte j){
+    protected boolean putMoves(MoveList movements, byte i, byte j){
         if(getTable()[i][j] == null){
-            movements[this.index++] = new Coord(i,j);
+            movements.add(new Coord(i,j));
         }else{
             if(getTable()[i][j].getColor() == color){
                 return false;
             }else{
-                movements[this.index++] = new Coord(i,j);
+                movements.add(new Coord(i,j));
                 return false;
             }
+        }
+        return true;
+    }
+
+    protected boolean isInLimit(int i, int j, byte size){
+        if(coord.i + i >= size || coord.i + i < 0){
+            return false;
+        }
+        if(coord.j + j >= size || coord.j + j < 0){
+            return false;
         }
         return true;
     }
@@ -86,18 +101,15 @@ public abstract class Piece {
         return moves;
     }
 
-    public void setColor(char color) {
+    public void setColor(Color color) {
         this.color = color;
     }
-    public char getColor() {
+    public Color getColor() {
         return color;
     }
 
-    public void setType(char type) {
-        this.type = type;
-    }
-    public char getType(){
-        return type;
+    public Category getCategory(){
+        return this.category;
     }
 }
 

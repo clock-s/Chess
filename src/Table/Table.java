@@ -4,6 +4,8 @@ import GUI.GUI;
 import GUI.Images.PieceImages;
 import Piece.*;
 import Player.Player;
+import Utilities.Color;
+import Utilities.Coord;
 
 public class Table {
     private Piece[][] table;
@@ -23,8 +25,8 @@ public class Table {
         table = new Piece[8][8];
         gui = new GUI(this);
         images = new PieceImages(gui.getImageSize());
-        playerW = new Player('w', this, gui);
-        playerB = new Player('b', this, gui);
+        playerW = new Player(Color.WHITE, this, gui);
+        playerB = new Player(Color.BLACK, this, gui);
 
 
         Coord coord = new Coord(0, 0);
@@ -56,37 +58,37 @@ public class Table {
         //Peon
         for(int i = 0; i < 8; i++) {
             coord = new Coord(6, i);
-            table[6][i] = new Peon(indexWhite++, 'w',  images.WPeon, coord, this);
+            table[6][i] = new Pawn(indexWhite++, Color.WHITE,  images.WPeon, coord, this);
         }
 
         //Knight
         coord = new Coord(7, 1);
-        table[coord.i][coord.j] = new Knight(indexWhite++,'w', images.WKnight, coord, this);
+        table[coord.i][coord.j] = new Knight(indexWhite++,Color.WHITE, images.WKnight, coord, this);
 
         coord = new Coord(7, 6);
-        table[coord.i][coord.j] = new Knight(indexWhite++,'w', images.WKnight, coord, this);
+        table[coord.i][coord.j] = new Knight(indexWhite++,Color.WHITE, images.WKnight, coord, this);
 
         //Rook
         coord = new Coord(7, 0);
-        table[coord.i][coord.j] = new Rook(indexWhite++,'w', images.WRook, coord, this);
+        table[coord.i][coord.j] = new Rook(indexWhite++,Color.WHITE, images.WRook, coord, this);
 
         coord = new Coord(7, 7);
-        table[coord.i][coord.j] = new Rook(indexWhite++,'w', images.WRook, coord, this);
+        table[coord.i][coord.j] = new Rook(indexWhite++,Color.WHITE, images.WRook, coord, this);
 
         //Bishop
         coord = new Coord(7, 2);
-        table[coord.i][coord.j] = new Bishop(indexWhite++,'w', images.WBishop, coord, this);
+        table[coord.i][coord.j] = new Bishop(indexWhite++,Color.WHITE, images.WBishop, coord, this);
 
         coord = new Coord(7, 5);
-        table[coord.i][coord.j] = new Bishop(indexWhite++,'w', images.WBishop, coord, this);
+        table[coord.i][coord.j] = new Bishop(indexWhite++,Color.WHITE, images.WBishop, coord, this);
 
         //Queen
         coord = new Coord(7, 3);
-        table[coord.i][coord.j] = new Queen(indexWhite++,'w', images.WQueen, coord, this);
+        table[coord.i][coord.j] = new Queen(indexWhite++,Color.WHITE, images.WQueen, coord, this);
 
         //King
         coord = new Coord(7, 4);
-        table[coord.i][coord.j] = new King(indexWhite++,'w', images.WKing, coord, this, playerW);
+        table[coord.i][coord.j] = new King(indexWhite++,Color.WHITE, images.WKing, coord, this, playerW);
         playerW.setKing(table[coord.i][coord.j]);
 
 
@@ -94,37 +96,37 @@ public class Table {
         //Peon
         for(int i = 0; i < 8; i++) {
             coord = new Coord(1, i);
-            table[1][i] = new Peon(indexBlack++,'b',  images.BPeon, coord, this);
+            table[1][i] = new Pawn(indexBlack++,Color.BLACK,  images.BPeon, coord, this);
         }
 
         //Knight
         coord = new Coord(0, 1);
-        table[coord.i][coord.j] = new Knight(indexBlack++, 'b', images.BKnight, coord, this);
+        table[coord.i][coord.j] = new Knight(indexBlack++, Color.BLACK, images.BKnight, coord, this);
 
         coord = new Coord(0, 6);
-        table[coord.i][coord.j] = new Knight(indexBlack++, 'b', images.BKnight, coord, this);
+        table[coord.i][coord.j] = new Knight(indexBlack++, Color.BLACK, images.BKnight, coord, this);
 
         //Rook
         coord = new Coord(0, 0);
-        table[coord.i][coord.j] = new Rook(indexBlack++, 'b', images.BRook, coord, this);
+        table[coord.i][coord.j] = new Rook(indexBlack++, Color.BLACK, images.BRook, coord, this);
 
         coord = new Coord(0, 7);
-        table[coord.i][coord.j] = new Rook(indexBlack++,'b', images.BRook, coord, this);
+        table[coord.i][coord.j] = new Rook(indexBlack++,Color.BLACK, images.BRook, coord, this);
 
         //Bishop
         coord = new Coord(0, 2);
-        table[coord.i][coord.j] = new Bishop(indexBlack++,'b', images.BBishop, coord, this);
+        table[coord.i][coord.j] = new Bishop(indexBlack++,Color.BLACK, images.BBishop, coord, this);
 
         coord = new Coord(0, 5);
-        table[coord.i][coord.j] = new Bishop(indexBlack++,'b', images.BBishop, coord, this);
+        table[coord.i][coord.j] = new Bishop(indexBlack++,Color.BLACK, images.BBishop, coord, this);
 
         //Queen
         coord = new Coord(0, 3);
-        table[coord.i][coord.j] = new Queen(indexBlack++,'b', images.BQueen, coord, this);
+        table[coord.i][coord.j] = new Queen(indexBlack++,Color.BLACK, images.BQueen, coord, this);
 
         //King
         coord = new Coord(0, 4);
-        table[coord.i][coord.j] = new King(indexBlack++,'b', images.BKing, coord, this, playerB);
+        table[coord.i][coord.j] = new King(indexBlack++,Color.BLACK, images.BKing, coord, this, playerB);
         playerB.setKing(table[coord.i][coord.j]);
     }
 
@@ -171,7 +173,9 @@ public class Table {
 
     }
 
-    public Piece[] checkTable(char color){
+    /*
+
+    public Piece[] checkTable(Color color){
         Piece[] pieces = new Piece[16];
         int index = 0;
 
@@ -218,7 +222,7 @@ public class Table {
             }
         }
     }
-
+    */
 
 
 

@@ -2,11 +2,12 @@ package Player;
 
 import GUI.GUI;
 import Table.Table;
-import Piece.Coord;
+import Utilities.Color;
+import Utilities.Coord;
 import Piece.Piece;
 
 public class Player{
-    final private char color;
+    final private Color color;
     final private Table table;
     private boolean inCheck = false;
     private boolean isRound = false;
@@ -15,13 +16,13 @@ public class Player{
     private Piece[] enemys = new Piece[16];
     private Coord[][] enemysDangerZone = new Coord[16][];
 
-    public Player(char color, Table table, GUI gui) {
+    public Player(Color color, Table table, GUI gui) {
         this.color = color;
         this.table = table;
         this.gui = gui;
     }
 
-    public char getColor() {
+    public Color getColor() {
         return color;
     }
 
@@ -109,7 +110,7 @@ public class Player{
         setPlatesThatPlayerCanUse();
         deleteDeathEnemys();
         if(isInCheck()){
-            System.out.printf("%c in check", color);
+            System.out.printf("%c in check", (color == Color.BLACK ? 'B' : 'W') );
         }
 
         /*

@@ -1,8 +1,11 @@
 package Piece;
 
+import Collection.MoveList;
 import Table.Table;
+import Utilities.*;
 
 import javax.swing.ImageIcon;
+
 
 public class Bishop extends Piece {
     private boolean topRight;
@@ -10,15 +13,13 @@ public class Bishop extends Piece {
     private boolean bottomRight;
     private boolean bottomLeft;
 
-    public Bishop(byte id, char color, ImageIcon icon, Coord coord, Table table){
+    public Bishop(byte id, Color color, ImageIcon icon, Coord coord, Table table){
         super(id, color, icon, coord, table);
-        setType('B');
-        numOfMoves = 15;
+        this.category = Category.BISHOP;
     }
 
-    public Bishop(char color, Coord coord, Table table){
+    public Bishop(Color color, Coord coord, Table table){
         super((byte)0, color, null, coord, table);
-        numOfMoves = 15;
     }
 
 
@@ -26,8 +27,8 @@ public class Bishop extends Piece {
     @Override
     public Coord[] move() {
         byte size = (byte)getTable().length;
-        Coord[] movements = new Coord[numOfMoves];
-        this.index = 0;
+        movements.clear();
+
         topRight = true;
         topLeft = true;
         bottomRight = true;
@@ -38,32 +39,32 @@ public class Bishop extends Piece {
             aux(i,movements, size);
         }
 
-        return movements;
+        return (Coord[])movements.toArray();
     }
 
 
 
-    private void aux(byte i, Coord[] movements, byte size){
+    private void aux(byte i, MoveList movements, byte size){
         if(topRight) {
-            if (coord.i + i < size && coord.j + i < size) {
+            if (isInLimit(i, i, size)) {
                 topRight = putMoves(movements, (byte) (coord.i + i), (byte) (coord.j + i));
             }
         }
 
         if(topLeft) {
-            if(coord.i + i < size && coord.j - i >= 0){
+            if(isInLimit(i, -i, size)){
                 topLeft = putMoves(movements, (byte) (coord.i + i), (byte) (coord.j - i));
             }
         }
 
         if(bottomRight) {
-            if(coord.i - i >= 0 && coord.j + i < size){
+            if(isInLimit(-i, i, size)){
                 bottomRight = putMoves(movements, (byte) (coord.i - i), (byte) (coord.j + i));
             }
         }
 
         if(bottomLeft) {
-            if(coord.i - i >= 0 && coord.j - i >= 0){
+            if(isInLimit(-i, -i, size)){
                 bottomLeft = putMoves(movements, (byte) (coord.i - i), (byte) (coord.j - i));
             }
         }

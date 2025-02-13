@@ -1,4 +1,4 @@
-package Piece;
+package Utilities;
 
 public class Coord {
     public int i;

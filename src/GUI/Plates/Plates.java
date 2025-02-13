@@ -1,8 +1,7 @@
 package GUI.Plates;
 
 import GUI.GUI;
-import Piece.Coord;
-import Piece.Piece;
+import Utilities.Coord;
 
 import javax.swing.*;
 import java.awt.*;
