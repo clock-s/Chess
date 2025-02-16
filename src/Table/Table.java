@@ -69,11 +69,10 @@ public class Table {
 
         ///WHITE PIECES
         //Peon
-        for(int i = 0; i < 7; i++) {
+        for(int i = 0; i < 8; i++) {
             coord = new Coord(6, i);
             table[6][i].setPiece(new Pawn(indexWhite++, Color.WHITE,  PieceImages.WPawn, coord, this));
         }
-        table[2][2].setPiece(new Pawn(indexWhite++, Color.WHITE,  PieceImages.WPawn, new Coord(2,2), this));
 
 
         //Knight
