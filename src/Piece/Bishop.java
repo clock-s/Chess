@@ -1,6 +1,5 @@
 package Piece;
 
-import Collection.MoveList;
 import Table.Table;
 import Utilities.*;
 
@@ -12,7 +11,11 @@ public class Bishop extends Piece {
     private boolean topLeft;
     private boolean bottomRight;
     private boolean bottomLeft;
-    private boolean potentialDangerStopFlag = false;
+
+    private boolean pdzfTopRight; //pdzf - PotentialDangerZoneFlag
+    private boolean pdzfTopLeft;
+    private boolean pdzfBottomRight;
+    private boolean pdzfBootomLeft;
 
     public Bishop(byte id, Color color, ImageIcon icon, Coord coord, Table table){
         super(id, color, icon, coord, table);
@@ -37,6 +40,11 @@ public class Bishop extends Piece {
         bottomRight = true;
         bottomLeft = true;
 
+        pdzfTopRight = true;
+        pdzfTopLeft = true;
+        pdzfBottomRight = true;
+        pdzfBootomLeft = true;
+
 
         for(byte i = 1 ; i < size; ++i){
             aux(i);
@@ -53,7 +61,9 @@ public class Bishop extends Piece {
             if (bottomRight) {
                 bottomRight = putMoves(this.movements, (byte) (coord.i + i), (byte) (coord.j + i));
             } else {
-                putMoves(this.potentialDangerZone, (byte) (coord.i + i), (byte) (coord.j + i));
+                if(pdzfBottomRight) {
+                    pdzfBottomRight = putMoves(this.potentialDangerZone, (byte) (coord.i + i), (byte) (coord.j + i));
+                }
             }
         }
 
@@ -61,7 +71,9 @@ public class Bishop extends Piece {
             if (bottomLeft) {
                 bottomLeft = putMoves(this.movements, (byte) (coord.i + i), (byte) (coord.j - i));
             } else {
-                putMoves(this.potentialDangerZone, (byte) (coord.i + i), (byte) (coord.j - i));
+                if(pdzfBootomLeft){
+                    pdzfBootomLeft = putMoves(this.potentialDangerZone, (byte) (coord.i + i), (byte) (coord.j - i));
+                }
             }
         }
 
@@ -69,7 +81,9 @@ public class Bishop extends Piece {
             if(topRight) {
                 topRight = putMoves(this.movements, (byte) (coord.i - i), (byte) (coord.j + i));
             }else{
-                putMoves(this.potentialDangerZone, (byte) (coord.i - i), (byte) (coord.j + i));
+                if(pdzfTopRight) {
+                    pdzfTopRight = putMoves(this.potentialDangerZone, (byte) (coord.i - i), (byte) (coord.j + i));
+                }
             }
         }
 
@@ -78,7 +92,9 @@ public class Bishop extends Piece {
             if(topLeft) {
                 topLeft = putMoves(this.movements, (byte) (coord.i - i), (byte) (coord.j - i));
             }else{
-                putMoves(this.potentialDangerZone, (byte) (coord.i - i), (byte) (coord.j - i));
+                if(pdzfTopLeft) {
+                    pdzfTopLeft = putMoves(this.potentialDangerZone, (byte) (coord.i - i), (byte) (coord.j - i));
+                }
             }
         }
 

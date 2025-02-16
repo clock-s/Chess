@@ -21,6 +21,7 @@ public class King extends Piece {
     public Coord[] move() {
         movements.clear();
 
+
         for(byte i = -1 ; i <= 1 ; ++i){
             for(byte j = -1; j <= 1; ++j){
                 if(i == 0 && j == 0){
@@ -78,6 +79,9 @@ public class King extends Piece {
 
     @Override
     public Coord[] dangerZone() {
-        return move();
+        dangerZone.clear();
+        potentialDangerZone.clear();
+        dangerZone.add(move());
+        return (Coord[])dangerZone.toArray();
     }
 }

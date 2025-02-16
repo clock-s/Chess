@@ -56,11 +56,8 @@ public abstract class Piece {
         return numOfMoves;
     }
 
-    protected boolean putMoves(MoveList movements, byte i, byte j){
-        return putMoves(movements, i, j,false);
-    }
 
-    protected boolean putMoves(MoveList movements, byte i, byte j, boolean flag){
+    protected boolean putMoves(MoveList movements, byte i, byte j){
         if(seeOtherTable(i,j) == null){
             movements.add(new Coord(i,j));
         }else{
