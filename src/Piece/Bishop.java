@@ -12,6 +12,7 @@ public class Bishop extends Piece {
     private boolean topLeft;
     private boolean bottomRight;
     private boolean bottomLeft;
+    private boolean potentialDangerStopFlag = false;
 
     public Bishop(byte id, Color color, ImageIcon icon, Coord coord, Table table){
         super(id, color, icon, coord, table);
@@ -26,8 +27,10 @@ public class Bishop extends Piece {
 
     @Override
     public Coord[] move() {
-        byte size = (byte)getTable().length;
+        byte size = Table.LENGHT;
         movements.clear();
+        potentialDangerZone.clear();
+
 
         topRight = true;
         topLeft = true;
@@ -36,7 +39,7 @@ public class Bishop extends Piece {
 
 
         for(byte i = 1 ; i < size; ++i){
-            aux(i,movements, size);
+            aux(i);
         }
 
         return (Coord[])movements.toArray();
@@ -44,36 +47,49 @@ public class Bishop extends Piece {
 
 
 
-    private void aux(byte i, MoveList movements, byte size){
-        if(topRight) {
-            if (isInLimit(i, i, size)) {
-                topRight = putMoves(movements, (byte) (coord.i + i), (byte) (coord.j + i));
+    private void aux(byte i){
+
+        if(isInLimit(i,i)) {
+            if (bottomRight) {
+                bottomRight = putMoves(this.movements, (byte) (coord.i + i), (byte) (coord.j + i));
+            } else {
+                putMoves(this.potentialDangerZone, (byte) (coord.i + i), (byte) (coord.j + i));
             }
         }
 
-        if(topLeft) {
-            if(isInLimit(i, -i, size)){
-                topLeft = putMoves(movements, (byte) (coord.i + i), (byte) (coord.j - i));
+        if(isInLimit(i,-i)) {
+            if (bottomLeft) {
+                bottomLeft = putMoves(this.movements, (byte) (coord.i + i), (byte) (coord.j - i));
+            } else {
+                putMoves(this.potentialDangerZone, (byte) (coord.i + i), (byte) (coord.j - i));
             }
         }
 
-        if(bottomRight) {
-            if(isInLimit(-i, i, size)){
-                bottomRight = putMoves(movements, (byte) (coord.i - i), (byte) (coord.j + i));
+        if(isInLimit(-i,i)) {
+            if(topRight) {
+                topRight = putMoves(this.movements, (byte) (coord.i - i), (byte) (coord.j + i));
+            }else{
+                putMoves(this.potentialDangerZone, (byte) (coord.i - i), (byte) (coord.j + i));
             }
         }
 
-        if(bottomLeft) {
-            if(isInLimit(-i, -i, size)){
-                bottomLeft = putMoves(movements, (byte) (coord.i - i), (byte) (coord.j - i));
+
+        if(isInLimit(-i,-i)) {
+            if(topLeft) {
+                topLeft = putMoves(this.movements, (byte) (coord.i - i), (byte) (coord.j - i));
+            }else{
+                putMoves(this.potentialDangerZone, (byte) (coord.i - i), (byte) (coord.j - i));
             }
         }
+
 
     }
 
 
     @Override
     public Coord[] dangerZone() {
-        return move();
+        dangerZone.clear();
+        dangerZone.add(move());
+        return (Coord[])dangerZone.toArray();
     }
 }

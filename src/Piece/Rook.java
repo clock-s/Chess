@@ -19,7 +19,7 @@ public class Rook extends Piece {
 
     @Override
     public Coord[] move() {
-        byte size = (byte)getTable().length;
+        byte size = Table.LENGHT;
         this.movements.clear();
 
         for(byte i = (byte) (coord.i + 1) ; i < size; ++i){
@@ -52,6 +52,8 @@ public class Rook extends Piece {
 
     @Override
     public Coord[] dangerZone() {
-        return move();
+        dangerZone.clear();
+        dangerZone.add(move());
+        return (Coord[])dangerZone.toArray();
     }
 }

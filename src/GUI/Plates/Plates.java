@@ -50,24 +50,30 @@ public class Plates implements MouseListener {
     }
 
     private void showMoves(){
-        Coord[] moves = gui.getPiece(coord).move();
+        Coord[] moves = gui.getPiece(coord).getMovements();
+        Coord[] potentialMoves = gui.getPiece(coord).getPotentialDangerZone();
 
         for(Coord m : moves) {
-            if(m != null) {
-                gui.modifyColor(m, Color.RED);
-            }
+            gui.modifyColor(m, Color.RED);
+        }
+        for(Coord p: potentialMoves) {
+            gui.modifyColor(p, Color.BLUE);
         }
     }
 
     private void disableMoves(Coord coord){
         Coord[] moves = gui.getPiece(coord).move();
+        Coord[] potentialMoves = gui.getPiece(coord).getPotentialDangerZone();
 
         for(Coord m : moves) {
-            if(m != null) {
-                System.out.printf("(%d,%d) |",m.i,m.j);
-                Color color = ((m.i+m.j)%2 == 0) ? gui.getColor1() : gui.getColor2();
-                gui.modifyColor(m, color);
-            }
+            System.out.printf("(%d,%d) |",m.i,m.j);
+            Color color = ((m.i+m.j)%2 == 0) ? gui.getColor1() : gui.getColor2();
+            gui.modifyColor(m, color);
+        }
+
+        for(Coord p : potentialMoves) {
+            Color color = ((p.i+p.j)%2 == 0) ? gui.getColor1() : gui.getColor2();
+            gui.modifyColor(p, color);
         }
 
         System.out.println("");

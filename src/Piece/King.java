@@ -19,7 +19,6 @@ public class King extends Piece {
 
     @Override
     public Coord[] move() {
-        byte size = (byte) getTable().length;
         movements.clear();
 
         for(byte i = -1 ; i <= 1 ; ++i){
@@ -27,7 +26,7 @@ public class King extends Piece {
                 if(i == 0 && j == 0){
                     continue;
                 }
-                if(isInLimit(i,j,size)){
+                if(isInLimit(i,j)){
                     putMoves(movements, (byte) (coord.i + i), (byte) (coord.j + j));
                 }
             }

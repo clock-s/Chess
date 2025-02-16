@@ -18,12 +18,20 @@ public class GUI{
     private Border border;
     private JPanel table;
     private Plates[][] plate;
-    private int imageSize;
+    private static int imageSize;
     final private Color color1 = new Color(238,238,212,255);
     final private Color color2 = new Color(125,148,92,255);
     private Table map;
     public Coord[] clicks;
     public byte count = 0;
+
+    public static int getImageSize(){
+        if(imageSize != 0){
+            return imageSize;
+        }
+        System.out.println("Image size not set");
+        return 0;
+    }
 
     public GUI(Table table){
         this.frame = new JFrame();
@@ -92,10 +100,6 @@ public class GUI{
         clicks[1] = new Coord();
     }
 
-    public int getImageSize() {
-        return imageSize;
-    }
-
     private void setPlate(int i, int j, Color color){
         plate[i][j] = new Plates(color, new Coord(i,j), this);
         table.add(plate[i][j].getPanel());
@@ -120,5 +124,7 @@ public class GUI{
     public void countIncrease(){
         count = (byte) ((count+1)%2);
     }
+
+    public JFrame getFrame(){return this.frame;}
 
 }

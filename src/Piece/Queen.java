@@ -28,6 +28,14 @@ public class Queen extends Piece {
 
     @Override
     public Coord[] dangerZone() {
-        return move();
+        dangerZone.clear();
+        potentialDangerZone.clear();
+
+        dangerZone.add(move());
+        potentialDangerZone.add(new Bishop(this.color, this.coord, this.table).getPotentialDangerZone());
+        potentialDangerZone.add(new Rook(this.color, this.coord, this.table).getPotentialDangerZone());
+
+
+        return (Coord[])dangerZone.toArray();
     }
 }

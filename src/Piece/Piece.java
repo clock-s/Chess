@@ -34,6 +34,13 @@ public abstract class Piece {
     public abstract Coord[] move();
     public abstract Coord[] dangerZone();
 
+    public Coord[] getMovements() {return move();}
+    public Coord[] getDangerZone() {return dangerZone();}
+    public Coord[] getPotentialDangerZone() {
+        dangerZone();
+        return (Coord[])potentialDangerZone.toArray();
+    }
+
     public byte getId(){
         return id;
     }
@@ -50,10 +57,15 @@ public abstract class Piece {
     }
 
     protected boolean putMoves(MoveList movements, byte i, byte j){
-        if(getTable()[i][j] == null){
+        return putMoves(movements, i, j,false);
+    }
+
+    protected boolean putMoves(MoveList movements, byte i, byte j, boolean flag){
+        if(seeOtherTable(i,j) == null){
             movements.add(new Coord(i,j));
         }else{
-            if(getTable()[i][j].getColor() == color){
+            if(seeOtherTable(i,j).getColor() == color){
+                potentialDangerZone.add(new Coord(i,j));
                 return false;
             }else{
                 movements.add(new Coord(i,j));
@@ -63,11 +75,11 @@ public abstract class Piece {
         return true;
     }
 
-    protected boolean isInLimit(int i, int j, byte size){
-        if(coord.i + i >= size || coord.i + i < 0){
+    protected boolean isInLimit(int i, int j){
+        if(coord.i + i >= Table.LENGHT || coord.i + i < 0){
             return false;
         }
-        if(coord.j + j >= size || coord.j + j < 0){
+        if(coord.j + j >= Table.LENGHT || coord.j + j < 0){
             return false;
         }
         return true;
@@ -80,8 +92,8 @@ public abstract class Piece {
         this.icon = icon;
     }
 
-    public Piece[][] getTable() {
-        return table.getMap();
+    public Piece seeOtherTable(int i, int j) {
+        return table.getMap()[i][j].getPiece();
     }
     public void setTable(Table table) {
         this.table = table;

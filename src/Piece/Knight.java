@@ -12,7 +12,7 @@ public class Knight extends Piece {
     }
 
     public Coord[] move(){
-        byte size = (byte)getTable().length;
+        byte size = Table.LENGHT;
         this.movements.clear();
 
         if(coord.i - 2 >= 0){
@@ -52,6 +52,8 @@ public class Knight extends Piece {
         return (Coord[]) movements.toArray();
     }
     public Coord[] dangerZone(){
-        return move();
+        dangerZone.clear();
+        dangerZone.add(move());
+        return (Coord[])dangerZone.toArray();
     }
 }

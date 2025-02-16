@@ -1,31 +1,33 @@
 package GUI.Images;
 
 
+import GUI.GUI;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class PieceImages {
     private int size;
 
-    public ImageIcon WPeon;
-    public ImageIcon WKnight;
-    public ImageIcon WRook;
-    public ImageIcon WBishop;
-    public ImageIcon WQueen;
-    public ImageIcon WKing;
+    public static ImageIcon WPawn;
+    public static ImageIcon WKnight;
+    public static ImageIcon WRook;
+    public static ImageIcon WBishop;
+    public static ImageIcon WQueen;
+    public static ImageIcon WKing;
 
-    public ImageIcon BPeon;
-    public ImageIcon BKnight;
-    public ImageIcon BRook;
-    public ImageIcon BQueen;
-    public ImageIcon BKing;
-    public ImageIcon BBishop;
+    public static ImageIcon BPawn;
+    public static ImageIcon BKnight;
+    public static ImageIcon BRook;
+    public static ImageIcon BQueen;
+    public static ImageIcon BKing;
+    public static ImageIcon BBishop;
 
-    public PieceImages(int imageSize){
-        size = imageSize - 5;
+    public PieceImages(){
+        size = GUI.getImageSize() - 5;
 
-        WPeon = new ImageIcon("src/GUI/Images/WPeon.png");
-        WPeon.setImage(WPeon.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH));
+        WPawn = new ImageIcon("src/GUI/Images/WPeon.png");
+        WPawn.setImage(WPawn.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH));
 
         WKnight = new ImageIcon("src/GUI/Images/WKnight.png");
         WKnight.setImage(WKnight.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH));
@@ -44,8 +46,8 @@ public class PieceImages {
 
         //==============================================================================================//
 
-        BPeon = new ImageIcon("src/GUI/Images/BPeon.png");
-        BPeon.setImage(BPeon.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH));
+        BPawn = new ImageIcon("src/GUI/Images/BPeon.png");
+        BPawn.setImage(BPawn.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH));
 
         BKnight = new ImageIcon("src/GUI/Images/BKnight.png");
         BKnight.setImage(BKnight.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH));

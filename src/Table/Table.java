@@ -2,13 +2,17 @@ package Table;
 
 import GUI.GUI;
 import GUI.Images.PieceImages;
+import GUI.Promotion.PromotionPopUp;
 import Piece.*;
 import Player.Player;
+import Utilities.Category;
 import Utilities.Color;
 import Utilities.Coord;
 
 public class Table {
-    private Piece[][] table;
+    final public static byte LENGHT = 8;
+
+    private EsqueletonPlate[][] table;
     private GUI gui;
     private PieceImages images;
     private Player playerW;
@@ -17,14 +21,14 @@ public class Table {
 
 
     public Piece getPlate(Coord coord) {
-        return table[coord.i][coord.j];
+        return table[coord.i][coord.j].getPiece();
     }
 
 
     public Table() {
-        table = new Piece[8][8];
+        table = new EsqueletonPlate[LENGHT][LENGHT];
         gui = new GUI(this);
-        images = new PieceImages(gui.getImageSize());
+        images = new PieceImages();
         playerW = new Player(Color.WHITE, this, gui);
         playerB = new Player(Color.BLACK, this, gui);
 
@@ -32,14 +36,15 @@ public class Table {
         Coord coord = new Coord(0, 0);
 
         putPieces(coord);
+
         playerW.getEnemyPieces();
         playerB.getEnemyPieces();
 
         for(int i = 0; i < 8; ++i) {
             for(int j = 0; j < 8; ++j) {
-                if(table[i][j] != null) {
+                if(table[i][j].getPiece() != null) {
                     coord = new Coord(i, j);
-                    gui.getPlate(coord).setIcon(table[i][j].getIcon());
+                    gui.getPlate(coord).setIcon(table[i][j].getPiece().getIcon());
                 }
             }
         }
@@ -54,102 +59,118 @@ public class Table {
         byte indexBlack = 0;
         byte indexWhite = 0;
 
+
+        for(int i = 0; i < LENGHT; ++i) {
+            for(int j = 0; j < LENGHT; ++j) {
+                table[i][j] = new EsqueletonPlate();
+            }
+        }
+
+
         ///WHITE PIECES
         //Peon
-        for(int i = 0; i < 8; i++) {
+        for(int i = 0; i < 7; i++) {
             coord = new Coord(6, i);
-            table[6][i] = new Pawn(indexWhite++, Color.WHITE,  images.WPeon, coord, this);
+            table[6][i].setPiece(new Pawn(indexWhite++, Color.WHITE,  PieceImages.WPawn, coord, this));
         }
+        table[2][2].setPiece(new Pawn(indexWhite++, Color.WHITE,  PieceImages.WPawn, new Coord(2,2), this));
+
 
         //Knight
         coord = new Coord(7, 1);
-        table[coord.i][coord.j] = new Knight(indexWhite++,Color.WHITE, images.WKnight, coord, this);
+        table[coord.i][coord.j].setPiece(new Knight(indexWhite++,Color.WHITE, PieceImages.WKnight, coord, this));
 
         coord = new Coord(7, 6);
-        table[coord.i][coord.j] = new Knight(indexWhite++,Color.WHITE, images.WKnight, coord, this);
+        table[coord.i][coord.j].setPiece(new Knight(indexWhite++,Color.WHITE, PieceImages.WKnight, coord, this));
 
         //Rook
         coord = new Coord(7, 0);
-        table[coord.i][coord.j] = new Rook(indexWhite++,Color.WHITE, images.WRook, coord, this);
+        table[coord.i][coord.j].setPiece(new Rook(indexWhite++,Color.WHITE, PieceImages.WRook, coord, this));
 
         coord = new Coord(7, 7);
-        table[coord.i][coord.j] = new Rook(indexWhite++,Color.WHITE, images.WRook, coord, this);
+        table[coord.i][coord.j].setPiece(new Rook(indexWhite++,Color.WHITE, PieceImages.WRook, coord, this));
 
         //Bishop
         coord = new Coord(7, 2);
-        table[coord.i][coord.j] = new Bishop(indexWhite++,Color.WHITE, images.WBishop, coord, this);
+        table[coord.i][coord.j].setPiece(new Bishop(indexWhite++,Color.WHITE, PieceImages.WBishop, coord, this));
 
         coord = new Coord(7, 5);
-        table[coord.i][coord.j] = new Bishop(indexWhite++,Color.WHITE, images.WBishop, coord, this);
+        table[coord.i][coord.j].setPiece(new Bishop(indexWhite++,Color.WHITE, PieceImages.WBishop, coord, this));
 
         //Queen
         coord = new Coord(7, 3);
-        table[coord.i][coord.j] = new Queen(indexWhite++,Color.WHITE, images.WQueen, coord, this);
+        table[coord.i][coord.j].setPiece(new Queen(indexWhite++,Color.WHITE, PieceImages.WQueen, coord, this));
 
         //King
         coord = new Coord(7, 4);
-        table[coord.i][coord.j] = new King(indexWhite++,Color.WHITE, images.WKing, coord, this, playerW);
-        playerW.setKing(table[coord.i][coord.j]);
+        table[coord.i][coord.j].setPiece(new King(indexWhite++,Color.WHITE, PieceImages.WKing, coord, this, playerW));
+        playerW.setKing(table[coord.i][coord.j].getPiece());
 
 
         ///BLACK PIECES
         //Peon
         for(int i = 0; i < 8; i++) {
             coord = new Coord(1, i);
-            table[1][i] = new Pawn(indexBlack++,Color.BLACK,  images.BPeon, coord, this);
+            table[1][i].setPiece(new Pawn(indexBlack++,Color.BLACK,  PieceImages.BPawn, coord, this));
         }
 
         //Knight
         coord = new Coord(0, 1);
-        table[coord.i][coord.j] = new Knight(indexBlack++, Color.BLACK, images.BKnight, coord, this);
+        table[coord.i][coord.j].setPiece(new Knight(indexBlack++, Color.BLACK, PieceImages.BKnight, coord, this));
 
         coord = new Coord(0, 6);
-        table[coord.i][coord.j] = new Knight(indexBlack++, Color.BLACK, images.BKnight, coord, this);
+        table[coord.i][coord.j].setPiece(new Knight(indexBlack++, Color.BLACK, PieceImages.BKnight, coord, this));
 
         //Rook
         coord = new Coord(0, 0);
-        table[coord.i][coord.j] = new Rook(indexBlack++, Color.BLACK, images.BRook, coord, this);
+        table[coord.i][coord.j].setPiece(new Rook(indexBlack++, Color.BLACK, PieceImages.BRook, coord, this));
 
         coord = new Coord(0, 7);
-        table[coord.i][coord.j] = new Rook(indexBlack++,Color.BLACK, images.BRook, coord, this);
+        table[coord.i][coord.j].setPiece(new Rook(indexBlack++,Color.BLACK, PieceImages.BRook, coord, this));
 
         //Bishop
         coord = new Coord(0, 2);
-        table[coord.i][coord.j] = new Bishop(indexBlack++,Color.BLACK, images.BBishop, coord, this);
+        table[coord.i][coord.j].setPiece(new Bishop(indexBlack++,Color.BLACK, PieceImages.BBishop, coord, this));
 
         coord = new Coord(0, 5);
-        table[coord.i][coord.j] = new Bishop(indexBlack++,Color.BLACK, images.BBishop, coord, this);
+        table[coord.i][coord.j].setPiece(new Bishop(indexBlack++,Color.BLACK, PieceImages.BBishop, coord, this));
 
         //Queen
         coord = new Coord(0, 3);
-        table[coord.i][coord.j] = new Queen(indexBlack++,Color.BLACK, images.BQueen, coord, this);
+        table[coord.i][coord.j].setPiece(new Queen(indexBlack++,Color.BLACK, PieceImages.BQueen, coord, this));
 
         //King
         coord = new Coord(0, 4);
-        table[coord.i][coord.j] = new King(indexBlack++,Color.BLACK, images.BKing, coord, this, playerB);
-        playerB.setKing(table[coord.i][coord.j]);
+        table[coord.i][coord.j].setPiece(new King(indexBlack++,Color.BLACK, PieceImages.BKing, coord, this, playerB));
+        playerB.setKing(table[coord.i][coord.j].getPiece());
     }
 
 
-    public Piece[][] getMap() {
+    public EsqueletonPlate[][] getMap() {
         return table;
     }
 
 
 
     public void newPiecePosition(Coord place, Coord goal){
-        if(table[goal.i][goal.j] != null) {
-            table[goal.i][goal.j].death();
+        if(table[goal.i][goal.j].getPiece() != null) {
+            table[goal.i][goal.j].getPiece().death();
         }
 
+
         gui.getPlate(place).setIcon(null);
-        gui.getPlate(goal).setIcon(table[place.i][place.j].getIcon());
+        gui.getPlate(goal).setIcon(table[place.i][place.j].getPiece().getIcon());
 
-        table[place.i][place.j].setCoord(goal);
-        table[place.i][place.j].incrementMoves();
+        table[place.i][place.j].getPiece().setCoord(goal);
+        table[place.i][place.j].getPiece().incrementMoves();
 
-        this.table[goal.i][goal.j] = table[place.i][place.j];
-        this.table[place.i][place.j] = null;
+        this.table[goal.i][goal.j].setPiece(table[place.i][place.j].getPiece());
+        if (promotionZone(table[goal.i][goal.j].getPiece().getCoord())) {
+            PromotionPopUp promotionPopUp = new PromotionPopUp(gui.getFrame());
+        }
+        this.promotionPiece(table[goal.i][goal.j].getPiece().getCoord());
+
+        this.table[place.i][place.j].removePiece();
 
         /*
         swapRound = !swapRound;
@@ -173,57 +194,63 @@ public class Table {
 
     }
 
-    /*
-
-    public Piece[] checkTable(Color color){
-        Piece[] pieces = new Piece[16];
-        int index = 0;
-
-        for(Piece[] i : table){
-            for(Piece p : i){
-                if(p != null){
-                    if(p.getColor() == color){
-                        pieces[index] = p;
-                        ++index;
-                    }
+    public boolean promotionZone(Coord place) {
+        boolean promotionEnabled = false;
+        if (table[place.i][place.j].getPiece() instanceof Pawn){
+            if (table[place.i][place.j].getPiece().getColor() == Color.WHITE) {
+                if (table[place.i][place.j].getPiece().getCoord().i == 0) {
+                    promotionEnabled = true;
+                }
+            }
+            if (table[place.i][place.j].getPiece().getColor() == Color.BLACK) {
+                if (table[place.i][place.j].getPiece().getCoord().i == Table.LENGHT-1) {
+                    promotionEnabled = true;
                 }
             }
         }
-        return pieces;
+        return promotionEnabled;
     }
 
-    public void newPiecePosition(Piece piece, byte movement){
-        Coord acutalCoord  = piece.getCoord();
-        Coord move = piece.move()[movement];
-
-        gui.getPlate(acutalCoord).setIcon(null);
-        gui.getPlate(move).setIcon(piece.getIcon());
-        piece.setCoord(move);
-        piece.incrementMoves();
-
-        this.table[acutalCoord.i][acutalCoord.j] = null;
-        this.table[move.i][move.j] = piece;
-    }
-
-    public void showTable(){
-        for(int i = 0 ; i < table.length ; i++){
-            for(int j = 0 ; j < table[i].length ; j++){
-                if(table[i][j] != null){
-                    System.out.printf(" " + table[i][j].getColor() + table[i][j].getType() + " ");
-                } else{
-                    System.out.printf("    ");
+    public void promotionPiece(Coord place){
+        if (this.promotionZone(place)){
+            if(table[place.i][place.j].getPiece().getColor() == Color.WHITE){
+                if (Player.getChoice() == Category.BISHOP){
+                    table[place.i][place.j].setPiece(new Bishop(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.WBishop,table[place.i][place.j].getPiece().getCoord(), this ));
+                    gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
                 }
-                if(j != table[i].length - 1){
-                    System.out.printf("|");
+                if (Player.getChoice() == Category.ROOK){
+                    table[place.i][place.j].setPiece(new Rook(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.WRook,table[place.i][place.j].getPiece().getCoord(), this));
+                    gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
                 }
-            }
-            if(i != table.length - 1){
-                System.out.printf("\n---------------------------------------\n");
+                if (Player.getChoice() == Category.KNIGHT){
+                    table[place.i][place.j].setPiece(new Knight(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.WKnight,table[place.i][place.j].getPiece().getCoord(), this ));
+                    gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                }
+                if (Player.getChoice() == Category.QUEEN){
+                    table[place.i][place.j].setPiece(new Queen(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.WQueen,table[place.i][place.j].getPiece().getCoord(), this ));
+                    gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                }
+            }else{
+                if (Player.getChoice() == Category.BISHOP){
+                    table[place.i][place.j].setPiece(new Bishop(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.BBishop,table[place.i][place.j].getPiece().getCoord(), this ));
+                    gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                }
+                if (Player.getChoice() == Category.ROOK){
+                    table[place.i][place.j].setPiece(new Rook(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.BRook,table[place.i][place.j].getPiece().getCoord(), this ));
+                    gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                }
+                if (Player.getChoice() == Category.KNIGHT){
+                    table[place.i][place.j].setPiece(new Knight(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.BKnight,table[place.i][place.j].getPiece().getCoord(), this ));
+                    gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                }
+                if (Player.getChoice() == Category.QUEEN){
+                    table[place.i][place.j].setPiece(new Queen(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.BQueen,table[place.i][place.j].getPiece().getCoord(), this ));
+                    gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                }
             }
         }
+        Player.setChoice(null);
     }
-    */
-
 
 
 
