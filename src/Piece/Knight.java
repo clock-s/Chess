@@ -54,6 +54,7 @@ public class Knight extends Piece {
     public Coord[] dangerZone(){
         dangerZone.clear();
         dangerZone.add(move());
+        potentialDangerZone.clear();
         return (Coord[])dangerZone.toArray();
     }
 }

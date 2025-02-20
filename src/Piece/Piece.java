@@ -3,6 +3,7 @@ package Piece;
 import Collection.MoveList;
 import Table.Table;
 import Utilities.*;
+import Table.EsqueletonPlate;
 
 import javax.swing.*;
 
@@ -15,7 +16,6 @@ public abstract class Piece {
     protected Table table;
     private ImageIcon icon;
     private int moves = 0;
-    protected byte numOfMoves;
 
     protected MoveList movements = new MoveList();
     protected MoveList dangerZone = new MoveList();
@@ -52,16 +52,13 @@ public abstract class Piece {
         isAlive = false;
     }
 
-    public byte getNumOfMoves(){
-        return numOfMoves;
-    }
 
 
     protected boolean putMoves(MoveList movements, byte i, byte j){
-        if(seeOtherTable(i,j) == null){
+        if(seeOtherTable(i,j).getPiece() == null){
             movements.add(new Coord(i,j));
         }else{
-            if(seeOtherTable(i,j).getColor() == color){
+            if(seeOtherTable(i,j).getPiece().getColor() == color){
                 potentialDangerZone.add(new Coord(i,j));
                 return false;
             }else{
@@ -89,8 +86,8 @@ public abstract class Piece {
         this.icon = icon;
     }
 
-    public Piece seeOtherTable(int i, int j) {
-        return table.getMap()[i][j].getPiece();
+    public EsqueletonPlate seeOtherTable(int i, int j) {
+        return table.getMap()[i][j];
     }
     public void setTable(Table table) {
         this.table = table;

@@ -24,6 +24,14 @@ public class Table {
         return table[coord.i][coord.j].getPiece();
     }
 
+    public void clearAll(){
+        for(byte i = 0; i < LENGHT; i++){
+            for(byte j = 0; j < LENGHT; j++){
+                table[i][j].clearAll();
+            }
+        }
+    }
+
 
     public Table() {
         table = new EsqueletonPlate[LENGHT][LENGHT];
@@ -37,8 +45,6 @@ public class Table {
 
         putPieces(coord);
 
-        playerW.getEnemyPieces();
-        playerB.getEnemyPieces();
 
         for(int i = 0; i < 8; ++i) {
             for(int j = 0; j < 8; ++j) {
@@ -105,6 +111,12 @@ public class Table {
         table[coord.i][coord.j].setPiece(new King(indexWhite++,Color.WHITE, PieceImages.WKing, coord, this, playerW));
         playerW.setKing(table[coord.i][coord.j].getPiece());
 
+        for(byte i  = 6 ; i < Table.LENGHT ; i++){
+            for(byte j = 0 ; j < Table.LENGHT ; j++){
+                playerW.putPieceInList(table[i][j].getPiece());
+            }
+        }
+
 
         ///BLACK PIECES
         //Peon
@@ -142,6 +154,15 @@ public class Table {
         coord = new Coord(0, 4);
         table[coord.i][coord.j].setPiece(new King(indexBlack++,Color.BLACK, PieceImages.BKing, coord, this, playerB));
         playerB.setKing(table[coord.i][coord.j].getPiece());
+
+
+        for(byte i  = 0 ; i < 1 ; i++){
+            for(byte j = 0 ; j < Table.LENGHT ; j++){
+                playerB.putPieceInList(table[i][j].getPiece());
+            }
+        }
+
+
     }
 
 
@@ -181,15 +202,32 @@ public class Table {
         }
          */
 
+        this.clearAll();
+
+
+        /*
+        Etapas:
+        1 - Limpa
+        2 - Coloca as casa perigosas do jogador inimigo
+        3 - Começa o round do jogador
+        4 - Acaba
+        5 - Volta para 1
+         */
+
         if(playerW.isRound()){
             playerW.setRound(false);
             playerB.setRound(true);
+            playerW.setStatusPlates();
             playerB.round();
+
         }else{
             playerB.setRound(false);
             playerW.setRound(true);
+            playerB.setStatusPlates();
             playerW.round();
         }
+
+
 
     }
 
@@ -213,6 +251,9 @@ public class Table {
     public void promotionPiece(Coord place){
         if (this.promotionZone(place)){
             if(table[place.i][place.j].getPiece().getColor() == Color.WHITE){
+
+                playerW.removePieceFromList(table[place.i][place.j].getPiece());
+
                 if (Player.getChoice() == Category.BISHOP){
                     table[place.i][place.j].setPiece(new Bishop(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.WBishop,table[place.i][place.j].getPiece().getCoord(), this ));
                     gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
@@ -229,7 +270,13 @@ public class Table {
                     table[place.i][place.j].setPiece(new Queen(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.WQueen,table[place.i][place.j].getPiece().getCoord(), this ));
                     gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
                 }
-            }else{
+
+                playerW.putPieceInList(table[place.i][place.j].getPiece());
+
+            }else if (table[place.i][place.j].getPiece().getColor() == Color.BLACK){
+
+                playerB.removePieceFromList(table[place.i][place.j].getPiece());
+
                 if (Player.getChoice() == Category.BISHOP){
                     table[place.i][place.j].setPiece(new Bishop(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.BBishop,table[place.i][place.j].getPiece().getCoord(), this ));
                     gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
@@ -246,6 +293,8 @@ public class Table {
                     table[place.i][place.j].setPiece(new Queen(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.BQueen,table[place.i][place.j].getPiece().getCoord(), this ));
                     gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
                 }
+
+                playerB.putPieceInList(table[place.i][place.j].getPiece());
             }
         }
         Player.setChoice(null);

@@ -65,16 +65,18 @@ public class Plates implements MouseListener {
         Coord[] moves = gui.getPiece(coord).move();
         Coord[] potentialMoves = gui.getPiece(coord).getPotentialDangerZone();
 
+        for(Coord p : potentialMoves) {
+            Color color = ((p.i+p.j)%2 == 0) ? gui.getColor1() : gui.getColor2();
+            gui.modifyColor(p, color);
+        }
+
         for(Coord m : moves) {
             System.out.printf("(%d,%d) |",m.i,m.j);
             Color color = ((m.i+m.j)%2 == 0) ? gui.getColor1() : gui.getColor2();
             gui.modifyColor(m, color);
         }
 
-        for(Coord p : potentialMoves) {
-            Color color = ((p.i+p.j)%2 == 0) ? gui.getColor1() : gui.getColor2();
-            gui.modifyColor(p, color);
-        }
+
 
         System.out.println("");
     }
