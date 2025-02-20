@@ -212,6 +212,7 @@ public class Table {
         3 - Começa o round do jogador
         4 - Acaba
         5 - Volta para 1
+
          */
 
         if(playerW.isRound()){
