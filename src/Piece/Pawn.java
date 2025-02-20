@@ -39,7 +39,7 @@ public class Pawn extends Piece {
 
         for(Coord d : (Coord[])this.dangerZone.toArray()){
             if(d != null) {
-                if(seeOtherTable(d.i,d.j) == null || seeOtherTable(d.i,d.j).getColor() == color) {
+                if(seeOtherTable(d.i,d.j).getPiece() == null || seeOtherTable(d.i,d.j).getPiece().getColor() == color) {
                     this.dangerZone.remove(d);
                     this.potentialDangerZone.add(d);
                 }
@@ -56,20 +56,20 @@ public class Pawn extends Piece {
 
 
         if(color == Color.WHITE){
-            if(coord.i - 1 >= 0 && seeOtherTable(coord.i - 1, coord.j) == null) {
+            if(coord.i - 1 >= 0 && seeOtherTable(coord.i - 1, coord.j).getPiece() == null) {
                 this.movements.add(new Coord(coord.i - 1, coord.j));
 
-                if(getMoves() == 0 && seeOtherTable(coord.i - 2, coord.j) == null){
+                if(getMoves() == 0 && seeOtherTable(coord.i - 2, coord.j).getPiece() == null){
                     this.movements.add(new Coord(coord.i - 2, coord.j));
                 }
             }
             
 
         }else if(color == Color.BLACK){
-            if(coord.i +1 < size && seeOtherTable(coord.i + 1, coord.j) == null) {
+            if(coord.i +1 < size && seeOtherTable(coord.i + 1, coord.j).getPiece() == null) {
                 this.movements.add(new Coord(coord.i + 1, coord.j));
 
-                if(getMoves() == 0 && seeOtherTable(coord.i + 2, coord.j) == null){
+                if(getMoves() == 0 && seeOtherTable(coord.i + 2, coord.j).getPiece() == null){
                     this.movements.add(new Coord(coord.i + 2, coord.j));
                 }
             }

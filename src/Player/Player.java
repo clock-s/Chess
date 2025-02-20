@@ -1,11 +1,13 @@
 package Player;
 
+import Collection.PieceList;
 import GUI.GUI;
 import Table.Table;
 import Utilities.Category;
 import Utilities.Color;
 import Utilities.Coord;
 import Piece.Piece;
+import Utilities.PlateState;
 
 public class Player{
     final private Color color;
@@ -14,9 +16,35 @@ public class Player{
     private boolean isRound = false;
     final private GUI gui;
     private Piece king;
-    private Piece[] enemys = new Piece[16];
-    private Coord[][] enemysDangerZone = new Coord[16][];
     private static Category choice = null;
+    private PieceList pieces = new PieceList();
+
+
+    public void putPieceInList(Piece piece) {
+        this.pieces.add(piece);
+    }
+    public void removePieceFromList(Piece piece) {
+        this.pieces.remove(piece);
+    }
+
+    public void setStatusPlates(){
+        for(Piece p : (Piece[]) pieces.toArray()){
+            Coord[] danger = p.getDangerZone();
+            Coord[] potential = p.getPotentialDangerZone();
+
+            for(Coord d : danger){
+                table.getMap()[d.i][d.j].setPlateState(PlateState.DANGER);
+                table.getMap()[d.i][d.j].setThreaters(p);
+            }
+
+
+            for(Coord pot : potential){
+                table.getMap()[pot.i][pot.j].setPlateState(PlateState.POTENTIAL);
+                table.getMap()[pot.i][pot.j].setThreaters(p);
+            }
+
+        }
+    }
 
     public static void setChoice(Category c){choice = c;}
     public static Category getChoice(){return choice;}
@@ -59,63 +87,28 @@ public class Player{
         this.king = king;
     }
 
-    public void getEnemyPieces(){
-        for(int i = 0; i < Table.LENGHT; ++i){
-            for(int j = 0; j < Table.LENGHT; ++j){
-                Coord coord = new Coord(i,j);
-                if(table.getPlate(coord) != null){
-                    if(table.getPlate(coord).getColor() != this.color){
-                        enemys[table.getPlate(coord).getId()] = table.getPlate(coord);
-                    }
-                }
-            }
-        }
-    }
 
-    public void setDangerZone(){
-        for(int i = 0 ; i < enemys.length; ++i){
-            enemysDangerZone[i] = enemys[i].dangerZone();
-        }
-    }
 
-    public Coord[][] getEnemysDangerZone(){
-        setDangerZone();
-        return enemysDangerZone;
-    }
 
-    private void deleteDeathEnemys(){
-        for(int i = 0; i < enemys.length; ++i){
-            if(!enemys[i].isAlive()){
-                enemysDangerZone[i] = null;
-            }
-        }
 
-    }
 
-    private boolean isInCheck(){
-        setDangerZone();
-        for(Coord[] i : enemysDangerZone){
-            if(i != null){
-                for(Coord j : i){
-                    if(j != null){
-                        if(j.isEquals(king.getCoord())){
-                            inCheck = true;
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        inCheck = false;
-        return false;
-    }
+
 
     public void round(){
         gui.resetCoord();
         setPlatesThatPlayerCanUse();
-        deleteDeathEnemys();
-        if(isInCheck()){
-            System.out.printf("%c in check", (color == Color.BLACK ? 'B' : 'W') );
+
+
+        if(table.getMap()[king.getCoord().i][king.getCoord().j].getPlateSate() == PlateState.DANGER){
+            System.out.println("Player " + color.toString() + " in check");
+            inCheck = true;
+        }
+
+        if(inCheck){
+            if(table.getMap()[king.getCoord().i][king.getCoord().j].getPlateSate() != PlateState.DANGER){
+                inCheck = false;
+                System.out.println("Player " + color.toString() + " run the check");
+            }
         }
 
     }

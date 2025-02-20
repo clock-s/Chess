@@ -27,7 +27,7 @@ public class King extends Piece {
                 if(i == 0 && j == 0){
                     continue;
                 }
-                if(isInLimit(i,j)){
+                if(isInLimit(i,j) && seeOtherTable(coord.i + i, coord.j + j).getPlateSate() != PlateState.DANGER){
                     putMoves(movements, (byte) (coord.i + i), (byte) (coord.j + j));
                 }
             }
@@ -44,37 +44,6 @@ public class King extends Piece {
         return (Coord[])movements.toArray();
     }
 
-    /*
-    private void checkLimitation(Coord[] movements) {
-        Coord[][] enemyZone = master.getEnemysDangerZone();;
-
-        for(byte i = 0 ; i < movements.length ; ++i){
-            if(movements[i] != null){
-                for(byte j = 0 ; j < enemyZone.length ; ++j){
-                    if(enemyZone[j] != null){
-                        for(byte k = 0 ; k < enemyZone[j].length ; ++k){
-                            if(enemyZone[j][k] != null){
-                                if(movements[i].isEquals(enemyZone[j][k])){
-                                    movements[i] = null;
-                                }
-                            }
-                            if(movements[i] == null){
-                                break;
-                            }
-                        }
-                        if(movements[i] == null){
-                            break;
-                        }
-                    }
-                    if(movements[i] == null){
-                        break;
-                    }
-                }
-            }
-        }
-
-    }
-    */
 
 
     @Override
