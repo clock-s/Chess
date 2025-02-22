@@ -78,7 +78,7 @@ public class King extends Piece {
             return false;
         }
         // se passar por todas as verificações, retorna true
-        else if(){
+        else(){
             return true;
         }
     }
