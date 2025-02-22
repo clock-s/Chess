@@ -38,4 +38,62 @@ public class Coord {
         }
     }
 
+    public String coordIToString(){
+        String flag = "";
+        if (this.i == 0){
+            flag = "8";
+        }
+        if (this.i == 1){
+            flag = "7";
+        }
+        if (this.i == 2){
+            flag = "6";
+        }
+        if (this.i == 3){
+            flag = "5";
+        }
+        if (this.i == 4){
+            flag = "4";
+        }
+        if (this.i == 5){
+            flag = "3";
+        }
+        if (this.i == 6){
+            flag = "2";
+        }
+        if (this.i == 7){
+            flag = "1";
+        }
+        return flag;
+    }
+
+    public String coordJToString(){
+        String flag ="";
+        if (this.j == 0){
+            flag = "a";
+        }
+        if (this.i == 1){
+            flag = "b";
+        }
+        if (this.i == 2){
+            flag = "c";
+        }
+        if (this.i == 3){
+            flag = "d";
+        }
+        if (this.i == 4){
+            flag = "e";
+        }
+        if (this.i == 5){
+            flag = "f";
+        }
+        if (this.i == 6){
+            flag = "g";
+        }
+        if (this.i == 7){
+            flag = "h";
+        }
+        return flag;
+    }
+
 }

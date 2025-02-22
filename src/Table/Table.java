@@ -10,6 +10,8 @@ import Utilities.Color;
 import Utilities.Coord;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import Storie.Arquivo;
 
 public class Table {
     final public static byte LENGHT = 8;
@@ -21,6 +23,9 @@ public class Table {
     private Player playerW;
     private Player playerB;
     private boolean swapRound = false;
+
+    //booleano para marcar se comeu, ou se só andou martins hihi
+    private boolean taked;
 
 
     public Piece getPlate(Coord coord) {
@@ -42,6 +47,7 @@ public class Table {
         images = new PieceImages();
         playerW = new Player(Color.WHITE, this, gui);
         playerB = new Player(Color.BLACK, this, gui);
+
 
 
         Coord coord = new Coord(0, 0);
@@ -176,15 +182,29 @@ public class Table {
     }
 
 
+    //adicionando a criação do arquivo de texto no newPiecePosition martins hihi
 
     public void newPiecePosition(Coord place, Coord goal){
+        this.taked = false; //sempre começa na premissa de nao ter comido martins hihi
+
+
         if(table[goal.i][goal.j].getPiece() != null) {
             table[goal.i][goal.j].getPiece().death();
+            this.taked = true;
         }
 
+        if (!taked){
+            Arquivo.addText(table[place.i][place.j].getPiece().categoryToString() + goal.coordJToString() + goal.coordIToString());
+            //adicionar o texto de movimento da peça martins hihi
+        }
+        else{
+            Arquivo.addText(table[place.i][place.j].getPiece().categoryToString() + "x" + goal.coordJToString() + goal.coordIToString());
+            //adicionar o texto de comida martins hihi
+        }
 
         gui.getPlate(place).setIcon(null);
         gui.getPlate(goal).setIcon(table[place.i][place.j].getPiece().getIcon());
+
 
         table[place.i][place.j].getPiece().setCoord(goal);
         table[place.i][place.j].getPiece().incrementMoves();
@@ -192,8 +212,10 @@ public class Table {
         this.table[goal.i][goal.j].setPiece(table[place.i][place.j].getPiece());
         if (promotionZone(table[goal.i][goal.j].getPiece().getCoord())) {
             PromotionPopUp promotionPopUp = new PromotionPopUp(gui.getFrame());
+            this.promotionPiece(table[goal.i][goal.j].getPiece().getCoord());
+
+            //adicionar o texto de promoção
         }
-        this.promotionPiece(table[goal.i][goal.j].getPiece().getCoord());
 
         this.table[place.i][place.j].removePiece();
 
@@ -305,6 +327,7 @@ public class Table {
         }
         Player.setChoice(null);
     }
+
 
 
 

@@ -117,6 +117,26 @@ public abstract class Piece {
     public Category getCategory(){
         return this.category;
     }
+
+    public String categoryToString(){
+        String flag = "";
+        if (this.category == Category.ROOK){
+            flag = "R";
+        }
+        if (this.category == Category.KNIGHT){
+            flag = "N";
+        }
+        if (this.category == Category.QUEEN){
+            flag = "Q";
+        }
+        if (this.category == Category.BISHOP){
+            flag = "B";
+        }
+        if (this.category == Category.KING){
+            flag = "K";
+        }
+        return flag;
+    }
 }
 
 
