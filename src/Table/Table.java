@@ -8,9 +8,12 @@ import Player.Player;
 import Utilities.Category;
 import Utilities.Color;
 import Utilities.Coord;
+import java.io.File;
+import java.io.FileWriter;
 
 public class Table {
     final public static byte LENGHT = 8;
+
 
     private EsqueletonPlate[][] table;
     private GUI gui;
@@ -44,6 +47,8 @@ public class Table {
         Coord coord = new Coord(0, 0);
 
         putPieces(coord);
+
+        //Arquivo
 
 
         for(int i = 0; i < 8; ++i) {
