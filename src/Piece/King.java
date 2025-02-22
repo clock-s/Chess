@@ -71,6 +71,7 @@ public class King extends Piece {
         }
         //verifica as duas casas ao lado DIREITO estão atacadas
         else if(seeOtherPlates(king.coord.i , king.coord.j + 1).getPlateState == PlateState.DANGER || seeOtherPlates(king.coord.i, king.coord.j + 2).getPlateState == PlateState.DANGER){
+            flag = false;
         }
         // verifica se a segunda casa ao lado DIREITO (j+2) está vazia
         else if(seeOtherPlates(king.coord.i, king.coord.j + 2).getPlateSate() != null ){
@@ -113,6 +114,7 @@ public class King extends Piece {
         }
         //verifica se a SEGUNDA casa ao lado ESQUERDO está vazia
         else if(seeOtherPlates(king.coord.i, king.coord.j + 2).getPlateSate() != null){
+            flag = false;
         }
         // se passar por todas as verificações, retorna true
         else{
@@ -132,11 +134,60 @@ public class King extends Piece {
     }
     // função fazer o roque grande
     public void makeBigRock(){
-        // se for possível fazer o roque e o jogador clicou duas a esquerda
         if(BigRockPossible() && ){
             table.newPiecePosition(King.getCoord(), new Coord(king.coord.i, king.coord.j - 2));
             table.newPiecePosition(Rook.getCoord(), new Coord(Rook.coord.i, king.coord.j + 3));
         }
+    }
+
+    //lógica para CHECKMATE, versão não definitiva
+
+    //função que verifica se o rei pode sair do check
+    public boolean reiPodeMover(King king){
+        //verifica as todas casas ao redor do rei estão sob ataque
+        if(){
+            return true
+        }
+        //verifica se  casas ao redor do rei estão ocupadas por peças da mesma cor
+        if(){
+            return true;
+        }
+        return false;
+    }
+
+    //função que verifica se é possível comer a peça que está atacando o rei com check
+    public boolean comerAtacante(King king, Piece atacante){
+        //verifica se algum vetor de ataque chega no atacante
+        if(){
+            return true;
+        }
+        return false;
+    }
+    //função que verifica se é possível tampar o check
+    public boolean tamparCheck(King king, Piece atacante){
+        //verifica primeiramente se é um bispo, torre ou rainha
+        if(atacante == category.BISHOP || atacante == category.QUEEN || atacante == category.ROOK){
+            //caso seja: verifica se existem casas entre o rei e o atacante
+            if(){
+                //caso existam: verifica se alguma peça pode se movimentar para essa casa
+                if(){
+                    return true;
+                }   
+            }
+        }
+        
+        return false;
+
+    }
+
+    public boolean isCheckmate(){
+        if(tamparCheck(null, null) == false && comerAtacante(null, null) == false && reiPodeMover(null) == false){
+            return true;
+        }
+        else{
+            return false;
+        }
+     
     }
 
 }
