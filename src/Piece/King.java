@@ -53,62 +53,90 @@ public class King extends Piece {
         dangerZone.add(move());
         return (Coord[])dangerZone.toArray();
     }
+    // ATENÇÃO O CÓDIGO ABAIXO AINDA PRECISA FAZER ALTERAÇÕES ADEQUADAS PARA KING E ROOK E SUAS ADVERSIDADES
+    // É PRECISO TAMBÉM DEBATER SOBRE ONDE AS FUNÇÕES SERÃO COLOCADAS (PLAYER, KING OU TABLE)
 
 
     //função q verifica se ta podendo fazer o roque pequeno
     public boolean LitlleRockPossible(){
-        // veriffica se o rei ta em check 
+        boolean flag = true;
+
+        // verifica se o rei ta em check 
         if(Player.inCheck){
-            return false;
+            flag = false;
         }
         //verifica se o rei ja moveu ou se a torre ja moveu
         else if(king.jaMoveu() || Rook.jaMoveu()){
-            return false;
+            flag = false;
         }
         //verifica as duas casas ao lado DIREITO estão atacadas
         else if(seeOtherPlates(king.coord.i , king.coord.j + 1).getPlateState == PlateState.DANGER || seeOtherPlates(king.coord.i, king.coord.j + 2).getPlateState == PlateState.DANGER){
-            return false;
         }
         // verifica se a segunda casa ao lado DIREITO (j+2) está vazia
         else if(seeOtherPlates(king.coord.i, king.coord.j + 2).getPlateSate() != null ){
-            return false;
+            flag = false;
         }
         //verifica se a primeira casa ao lado Direito (j+1) está vazia
         else if(seeOtherPlates(king.coord.i , king.coord.j + 1).getPlateSate() != null ){
-            return false;
-        }
-        // se passar por todas as verificações, retorna true
-        else if(){
-            return true;
-        }
-    }
-
-    //verifica se ta podendo fazer o roque grande
-    public boolean BigRockPossible(){
-        //verifica se o rei ta em check
-        if(Player.inCheck){
-            return false;
-        }
-
-         //verifica se o rei ja moveu ou se a torre ja moveu
-        else if(King.jaMoveu() || Rook.jaMoveu()){
-            return false;
-        }
-        //verifica as duas casas ao lado ESQUERDO estão atacadas
-        else if(seeOtherPlates(king.coord.i , king.coord.j - 1).getPlateState == PlateState.DANGER || seeOtherPlates(king.coord.i, king.coord.j - 2).getPlateState == PlateState.DANGER){
-
-        }
-        //verifica se a PRIMEIRA casa ao lado ESQUERDO está vazia
-        else if(seeOtherPlates(king.coord.i, king.coord.j + 2).getPlateSate() != null){
-
-        }
-        //verifica se a SEGUNDA casa ao lado ESQUERDO está vazia
-        else if(seeOtherPlates(king.coord.i, king.coord.j + 2).getPlateSate() != null){
-
+            flag = false;
         }
         // se passar por todas as verificações, retorna true
         else{
-            return true;
+            flag = true;
+        }
+
+        return flag;
+    }
+    
+    
+    
+    //verifica se ta podendo fazer o roque grande
+    public boolean BigRockPossible(){
+
+        boolean flag = true;
+        //verifica se o rei ta em check
+        if(Player.inCheck){
+            flag = false;
+        }
+
+         //verifica se o rei ja moveu ou se a torre ja moveu
+        else if(King.moves != 0 || Rook.moves != 0){
+            flag =  false;
+        }
+        //verifica as duas casas ao lado ESQUERDO estão atacadas
+        else if(seeOtherPlates(king.coord.i , king.coord.j - 1).getPlateState == PlateState.DANGER || seeOtherPlates(king.coord.i, king.coord.j - 2).getPlateState == PlateState.DANGER){
+            flag = false;
+        }
+        //verifica se a PRIMEIRA casa ao lado ESQUERDO está vazia
+        else if(seeOtherPlates(king.coord.i, king.coord.j + 2).getPlateSate() != null){
+            flag = false;
+        }
+        //verifica se a SEGUNDA casa ao lado ESQUERDO está vazia
+        else if(seeOtherPlates(king.coord.i, king.coord.j + 2).getPlateSate() != null){
+        }
+        // se passar por todas as verificações, retorna true
+        else{
+            flag = true;
+        }
+
+        return flag;
+    }
+
+    // função fazer o roque pequeno
+    public void makeLitlleRock(){
+        // se for possível fazer o roque e o jogador clicou duas casas a direita
+        if(litlleRockPossible() && ){
+            table.newPiecePosition(King.getCoord(), new Coord(king.coord.i, king.coord.j + 2));
+            table.newPiecePosition(Rook.getCoord(), new Coord(Rook.coord.i, king.coord.j - 2));
         }
     }
+    // função fazer o roque grande
+    public void makeBigRock(){
+        // se for possível fazer o roque e o jogador clicou duas a esquerda
+        if(BigRockPossible() && ){
+            table.newPiecePosition(King.getCoord(), new Coord(king.coord.i, king.coord.j - 2));
+            table.newPiecePosition(Rook.getCoord(), new Coord(Rook.coord.i, king.coord.j + 3));
+        }
+    }
+
 }
