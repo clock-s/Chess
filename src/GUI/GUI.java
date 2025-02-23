@@ -96,6 +96,7 @@ public class GUI{
     }
 
     public void resetCoord(){
+        count = 0;
         clicks[0] = new Coord();
         clicks[1] = new Coord();
     }

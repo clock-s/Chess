@@ -1,6 +1,8 @@
 package GUI.Plates;
 
 import GUI.GUI;
+import Piece.King;
+import Table.Table;
 import Utilities.Coord;
 
 import javax.swing.*;
@@ -15,12 +17,8 @@ public class Plates implements MouseListener {
     private ImageIcon icon;
     private GUI gui;
     private boolean isClicked;
-    private boolean isEnable = true;
+    private boolean isEnable = false;
 
-
-    public void resetClick(){
-        isClicked = false;
-    }
 
     public Plates(Color color, Coord coord, GUI gui) {
         this.panel = new JPanel();
@@ -61,9 +59,9 @@ public class Plates implements MouseListener {
         }
     }
 
-    private void disableMoves(Coord coord){
-        Coord[] moves = gui.getPiece(coord).move();
-        Coord[] potentialMoves = gui.getPiece(coord).getPotentialDangerZone();
+    private void disableMoves(){
+        Coord[] moves = gui.getPiece(gui.clicks[gui.count]).move();
+        Coord[] potentialMoves = gui.getPiece(gui.clicks[gui.count]).getPotentialDangerZone();
 
         for(Coord p : potentialMoves) {
             Color color = ((p.i+p.j)%2 == 0) ? gui.getColor1() : gui.getColor2();
@@ -71,23 +69,14 @@ public class Plates implements MouseListener {
         }
 
         for(Coord m : moves) {
-            System.out.printf("(%d,%d) |",m.i,m.j);
             Color color = ((m.i+m.j)%2 == 0) ? gui.getColor1() : gui.getColor2();
             gui.modifyColor(m, color);
         }
 
 
-
-        System.out.println("");
     }
 
-    private boolean isTheSameColor(Coord[] coord){
-        if(coord[0].isEquals(new Coord()) || coord[1].isEquals(new Coord())) {
-            return false;
-        }
-        return (gui.getPiece(coord[0]) != null && gui.getPiece(coord[1]) != null) &&
-                (gui.getPiece(coord[0]).getColor() == gui.getPiece(coord[1]).getColor());
-    }
+
 
     public void setIsEnable(boolean enable){
         isEnable = enable;
@@ -97,15 +86,13 @@ public class Plates implements MouseListener {
         if(piece.isEquals(new Coord())){
             return false;
         }
-        Coord[] moves = (gui.getPiece(piece) != null) ? gui.getPiece(piece).move() : null;
+        if(gui.getPiece(piece).getColor() != Table.getRound()) return false;
+        Coord[] moves = gui.getPiece(piece).move();
 
-        if(moves != null) {
-            for (Coord m : moves) {
-                if (m != null) {
-                    if (m.isEquals(goal)) {
-                        return true;
-                    }
-                }
+
+        for(Coord m : moves) {
+            if(m.isEquals(goal) && !(gui.getPiece(m) instanceof King)) {
+                return true;
             }
         }
 
@@ -113,43 +100,57 @@ public class Plates implements MouseListener {
     }
 
     public void move(){
-        Coord[] coord = gui.clicks;
-        byte count = gui.count;
+        boolean attClicks = false;
 
 
-        if(gui.getPiece(this.coord) != null && gui.getPlate(this.coord).isEnable == true) {
-            if(coord[0].isEquals(new Coord()) || coord[1].isEquals(new Coord()) || this.coord.isEquals(coord[count])) {
-                if(isClicked == false){
-                    isClicked = !isClicked;
+        if(gui.getPiece(this.coord) != null){
+            if(gui.getPiece(this.coord).getColor() == Table.getRound()) {
+                if(gui.clicks[gui.count].isEquals(new Coord()) || gui.clicks[gui.count].isEquals(this.coord)) {
+
+                    if(isClicked == false){
+                        isClicked = true;
+                        showMoves();
+                    } else{
+                        isClicked = false;
+                        disableMoves();
+                    }
+                    attClicks = true;
+                }else if(gui.getPiece(gui.clicks[gui.count]) != null) {
+                    disableMoves();
+                    gui.getPlate(gui.clicks[gui.count]).isClicked = false;
                     showMoves();
-                } else{
-                    isClicked = !isClicked;
-                    disableMoves(this.coord);
+                    isClicked = true;
+                    attClicks = true;
                 }
-            }else{
-                if(isTheSameColor(coord)){
-                    gui.getPlate(coord[count]).disableMoves(coord[count]);
-                    showMoves();
-                    isClicked = !isClicked;
+            }else if(gui.getPiece(this.coord).getColor() != Table.getRound()){
+                if(isCanMove(gui.clicks[gui.count], this.coord)){
+                    disableMoves();
+                    isClicked = false;
+                    gui.getPlate(gui.clicks[gui.count]).isClicked = false;
+                    gui.getTable().newPiecePosition(gui.clicks[gui.count], this.coord);
+                    attClicks = true;
                 }
             }
-        }else{
-            if(isCanMove(coord[count], this.coord)) {
-                disableMoves(coord[count]);
-                gui.getTable().newPiecePosition(coord[count], this.coord);
-                isClicked = !isClicked;
-            }else{
-                return;
+        }else if(gui.getPiece(this.coord) == null){
+            if(isCanMove(gui.clicks[gui.count], this.coord)){
+                disableMoves();
+                isClicked = false;
+                gui.getPlate(gui.clicks[gui.count]).isClicked = false;
+                gui.getTable().newPiecePosition(gui.clicks[gui.count], this.coord);
+                attClicks = true;
             }
         }
 
-        gui.countIncrease();
-        gui.clicks[gui.count].setCoord(this.coord);
+
+        if(attClicks) {
+            gui.countIncrease();
+            gui.clicks[gui.count].setCoord(this.coord);
+        }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        move();
+        if(isEnable) move();
     }
 
 

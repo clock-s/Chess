@@ -17,11 +17,15 @@ public class Table {
     private PieceImages images;
     private Player playerW;
     private Player playerB;
-    private boolean swapRound = false;
+    private static Color round = Color.WHITE;
 
 
     public Piece getPlate(Coord coord) {
         return table[coord.i][coord.j].getPiece();
+    }
+
+    public static Color getRound() {
+        return round;
     }
 
     public void clearAll(){
@@ -56,7 +60,6 @@ public class Table {
         }
 
         gui.init();
-        playerW.setRound(true);
         playerW.round();
 
     }
@@ -156,7 +159,7 @@ public class Table {
         playerB.setKing(table[coord.i][coord.j].getPiece());
 
 
-        for(byte i  = 0 ; i < 1 ; i++){
+        for(byte i  = 0 ; i < 2 ; i++){
             for(byte j = 0 ; j < Table.LENGHT ; j++){
                 playerB.putPieceInList(table[i][j].getPiece());
             }
@@ -173,6 +176,8 @@ public class Table {
 
 
     public void newPiecePosition(Coord place, Coord goal){
+        gui.resetCoord();
+
         if(table[goal.i][goal.j].getPiece() != null) {
             table[goal.i][goal.j].getPiece().death();
         }
@@ -192,15 +197,6 @@ public class Table {
 
         this.table[place.i][place.j].removePiece();
 
-        /*
-        swapRound = !swapRound;
-
-        if(swapRound){
-            playerB.round();
-        }else{
-            playerW.round();
-        }
-         */
 
         this.clearAll();
 
@@ -215,15 +211,17 @@ public class Table {
 
          */
 
-        if(playerW.isRound()){
-            playerW.setRound(false);
-            playerB.setRound(true);
+        if(round == Color.WHITE){
+
+            round = Color.BLACK;
+
             playerW.setStatusPlates();
             playerB.round();
 
         }else{
-            playerB.setRound(false);
-            playerW.setRound(true);
+
+            round = Color.WHITE;
+
             playerB.setStatusPlates();
             playerW.round();
         }

@@ -3,22 +3,25 @@ package Player;
 import Collection.PieceList;
 import GUI.GUI;
 import Table.Table;
-import Utilities.Category;
-import Utilities.Color;
-import Utilities.Coord;
+import Utilities.*;
 import Piece.Piece;
-import Utilities.PlateState;
+
+
+
 
 public class Player{
     final private Color color;
     final private Table table;
     private boolean inCheck = false;
-    private boolean isRound = false;
     final private GUI gui;
     private Piece king;
     private static Category choice = null;
     private PieceList pieces = new PieceList();
+    private Coord[] clicks = new Coord[2];
 
+    public Coord[] getClicks() {
+        return clicks;
+    }
 
     public void putPieceInList(Piece piece) {
         this.pieces.add(piece);
@@ -59,28 +62,25 @@ public class Player{
         return color;
     }
 
-    public boolean isRound(){
-        return isRound;
-    }
-
-    public void setRound(boolean round){
-        isRound = round;
-    }
 
     private void setPlatesThatPlayerCanUse() {
         Coord coord = new Coord();
-        for(int i = 0; i < table.getMap().length; ++i){
-            for(int j = 0; j < table.getMap()[i].length; ++j){
-                coord.setCoord(i,j);
 
-                if(table.getPlate(coord) != null && table.getPlate(coord).getColor() != this.color){
-                    gui.getPlate(coord).setIsEnable(false);
-                }else{
-                    gui.getPlate(coord).setIsEnable(true);
-                }
-                gui.getPlate(coord).resetClick();
+        for(int i = 0; i < table.LENGHT; ++i){
+            for(int j = 0; j < table.LENGHT; ++j){
+                coord.setCoord(i,j);
+                gui.getPlate(coord).setIsEnable(false);
             }
         }
+
+        for(Piece p : (Piece[])pieces.toArray()){
+            gui.getPlate(p.getCoord()).setIsEnable(true);
+            for(Coord c : p.getMovements()){
+                gui.getPlate(c).setIsEnable(true);
+            }
+        }
+
+
     }
 
     public void setKing(Piece king){
@@ -91,11 +91,8 @@ public class Player{
 
 
 
-
-
-
     public void round(){
-        gui.resetCoord();
+
         setPlatesThatPlayerCanUse();
 
 
@@ -112,7 +109,5 @@ public class Player{
         }
 
     }
-
-
-
 }
+
