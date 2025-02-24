@@ -107,7 +107,7 @@ public class Player{
             System.out.println("Player " + color.toString() + " in check");
 
             if(king.reiPodeMover()){
-
+//
             }else{
                 Threater threater = king.blockPossible();
                 if(threater.getIsThreater() == false){
