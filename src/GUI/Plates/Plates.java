@@ -24,12 +24,13 @@ public class Plates implements MouseListener {
         this.panel = new JPanel();
         this.coord = new Coord(coord.i,coord.j);
         this.icon = new ImageIcon();
-        piece = new JLabel(icon);
+        this.piece = new JLabel(icon, SwingConstants.CENTER);
         this.gui = gui;
         this.panel.setBackground(color);
+        this.panel.setLayout(new BorderLayout());
 
         panel.addMouseListener(this);
-        panel.add(piece);
+        panel.add(piece, BorderLayout.CENTER);
     }
 
 

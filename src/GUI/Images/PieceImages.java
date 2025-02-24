@@ -24,7 +24,7 @@ public class PieceImages {
     public static ImageIcon BBishop;
 
     public PieceImages(){
-        size = GUI.getImageSize() - 5;
+        size = (int)(GUI.getImageSize()*0.8);
 
         WPawn = new ImageIcon("src/GUI/Images/WPeon.png");
         WPawn.setImage(WPawn.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH));
