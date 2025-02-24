@@ -1,12 +1,14 @@
 package Player;
 
+import Collection.MoveList;
 import Collection.PieceList;
 import GUI.GUI;
 import Table.Table;
 import Utilities.*;
 import Piece.Piece;
 import Piece.King;
-
+import Piece.Rook;
+import Collection.MoveList;
 
 
 
@@ -95,8 +97,6 @@ public class Player{
 
     public void round(){
 
-
-
         for(Piece p : (Piece[])pieces.toArray()){
             p.move();
         }
@@ -120,7 +120,57 @@ public class Player{
                         }
                     }
                 }else{
+                    MoveList blocks = new MoveList();
+                    if(threater.getThreater() instanceof Rook){
+                        int y = king.getCoord().i - threater.getThreater().getCoord().i;
+                        int x = king.getCoord().j - threater.getThreater().getCoord().j;
+                        System.out.printf("%d %d\n", x, y);
 
+                        if(x == 0){
+                            if(y > 0){
+                                for(int i = 1 ; i <= y ; ++i){
+                                    blocks.add(new Coord(king.getCoord().i - i, king.getCoord().j));
+                                }
+                            }else if( y < 0){
+                                y *= -1;
+                                for(int i = 1 ; i <= y ; ++i){
+                                    blocks.add(new Coord(king.getCoord().i + i, king.getCoord().j));
+                                }
+                            }
+
+                        }else if(y == 0){
+                            if(x > 0){
+                                System.out.println("Aki");
+                                for(int j = 1 ; j <= x ; ++j){
+                                    blocks.add(new Coord(king.getCoord().i, king.getCoord().j - j));
+                                }
+                            }else if( x < 0){
+                                x *= -1;
+                                for(int j = 1 ; j <= x ; ++j){
+                                    blocks.add(new Coord(king.getCoord().i , king.getCoord().j + j));
+                                }
+                            }
+
+                        }
+
+
+
+                        for(Piece p : (Piece[])pieces.toArray()){
+                            for(Coord c : (Coord[]) p.getMoveList().toArray()){
+                                boolean remove = true;
+                                for(Coord b : (Coord[]) blocks.toArray()){
+                                    if(c.isEquals(b)){
+                                        remove = false;
+                                    }
+                                }
+                                if(remove){
+                                    p.getMoveList().remove(c);
+                                }
+                            }
+                        }
+
+
+                    }
                 }
             }
 
