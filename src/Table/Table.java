@@ -48,6 +48,8 @@ public class Table {
         playerW = new Player(Color.WHITE, this, gui);
         playerB = new Player(Color.BLACK, this, gui);
 
+        Arquivo.startNewGame();
+
 
 
         Coord coord = new Coord(0, 0);
