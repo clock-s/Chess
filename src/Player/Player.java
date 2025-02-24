@@ -2,6 +2,7 @@ package Player;
 
 import Collection.PieceList;
 import GUI.GUI;
+import Storie.Arquivo;
 import Table.Table;
 import Utilities.Category;
 import Utilities.Color;
@@ -18,6 +19,7 @@ public class Player{
     private Piece king;
     private static Category choice = null;
     private PieceList pieces = new PieceList();
+    private boolean checkmate = false; //para ver se está em checkmate ou não
 
 
     public void putPieceInList(Piece piece) {
@@ -105,6 +107,12 @@ public class Player{
         }
 
         if(inCheck){
+            this.checkmate = false;
+
+            if (!this.checkmate){
+                Arquivo.addText(king.getCoord().coordJToString() + king.getCoord().coordIToString() + "+"); //adicionou no arquivo de jogada
+            }
+
             if(table.getMap()[king.getCoord().i][king.getCoord().j].getPlateSate() != PlateState.DANGER){
                 inCheck = false;
                 System.out.println("Player " + color.toString() + " run the check");
