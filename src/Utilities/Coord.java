@@ -72,25 +72,25 @@ public class Coord {
         if (this.j == 0){
             flag = "a";
         }
-        if (this.i == 1){
+        if (this.j == 1){
             flag = "b";
         }
-        if (this.i == 2){
+        if (this.j == 2){
             flag = "c";
         }
-        if (this.i == 3){
+        if (this.j == 3){
             flag = "d";
         }
-        if (this.i == 4){
+        if (this.j == 4){
             flag = "e";
         }
-        if (this.i == 5){
+        if (this.j == 5){
             flag = "f";
         }
-        if (this.i == 6){
+        if (this.j == 6){
             flag = "g";
         }
-        if (this.i == 7){
+        if (this.j == 7){
             flag = "h";
         }
         return flag;

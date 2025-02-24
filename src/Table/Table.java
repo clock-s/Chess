@@ -8,9 +8,7 @@ import Player.Player;
 import Utilities.Category;
 import Utilities.Color;
 import Utilities.Coord;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import Utilities.PieceState;
 import Storie.Arquivo;
 
 public class Table {
@@ -24,8 +22,9 @@ public class Table {
     private Player playerB;
     private boolean swapRound = false;
 
-    //booleano para marcar se comeu, ou se só andou martins hihi
-    private boolean taked;
+    //booleano para marcar se comeu, se promoveu, se fez roque, ou se só andou martins hihi
+    private PieceState estado;
+
 
 
     public Piece getPlate(Coord coord) {
@@ -187,19 +186,19 @@ public class Table {
     //adicionando a criação do arquivo de texto no newPiecePosition martins hihi
 
     public void newPiecePosition(Coord place, Coord goal){
-        this.taked = false; //sempre começa na premissa de nao ter comido martins hihi
+        this.estado = PieceState.NONE; //sempre começa na premissa de nao ter comido martins hihi
 
 
         if(table[goal.i][goal.j].getPiece() != null) {
             table[goal.i][goal.j].getPiece().death();
-            this.taked = true;
+            this.estado = PieceState.TAKED;
         }
 
-        if (!taked){
+        if (this.estado == PieceState.NONE){
             Arquivo.addText(table[place.i][place.j].getPiece().categoryToString() + goal.coordJToString() + goal.coordIToString());
             //adicionar o texto de movimento da peça martins hihi
         }
-        else{
+        if (this.estado == PieceState.TAKED){
             Arquivo.addText(table[place.i][place.j].getPiece().categoryToString() + "x" + goal.coordJToString() + goal.coordIToString());
             //adicionar o texto de comida martins hihi
         }
@@ -230,6 +229,9 @@ public class Table {
             playerW.round();
         }
          */
+
+
+
 
         this.clearAll();
 
@@ -287,18 +289,22 @@ public class Table {
                 if (Player.getChoice() == Category.BISHOP){
                     table[place.i][place.j].setPiece(new Bishop(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.WBishop,table[place.i][place.j].getPiece().getCoord(), this ));
                     gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                    Arquivo.addText(place.coordJToString() + place.coordIToString() + "=" + "B"); //adicionou no arquivo de jogada
                 }
                 if (Player.getChoice() == Category.ROOK){
                     table[place.i][place.j].setPiece(new Rook(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.WRook,table[place.i][place.j].getPiece().getCoord(), this));
                     gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                    Arquivo.addText(place.coordJToString() + place.coordIToString() + "=" + "R"); //adicionou no arquivo de jogada
                 }
                 if (Player.getChoice() == Category.KNIGHT){
                     table[place.i][place.j].setPiece(new Knight(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.WKnight,table[place.i][place.j].getPiece().getCoord(), this ));
                     gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                    Arquivo.addText(place.coordJToString() + place.coordIToString() + "=" + "N"); //adicionou no arquivo de jogada
                 }
                 if (Player.getChoice() == Category.QUEEN){
                     table[place.i][place.j].setPiece(new Queen(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.WQueen,table[place.i][place.j].getPiece().getCoord(), this ));
                     gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                    Arquivo.addText(place.coordJToString() + place.coordIToString() + "=" + "Q"); //adicionou no arquivo de jogada
                 }
 
                 playerW.putPieceInList(table[place.i][place.j].getPiece());
@@ -310,18 +316,22 @@ public class Table {
                 if (Player.getChoice() == Category.BISHOP){
                     table[place.i][place.j].setPiece(new Bishop(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.BBishop,table[place.i][place.j].getPiece().getCoord(), this ));
                     gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                    Arquivo.addText(place.coordJToString() + place.coordIToString() + "=" + "B"); //adicionou no arquivo de jogada
                 }
                 if (Player.getChoice() == Category.ROOK){
                     table[place.i][place.j].setPiece(new Rook(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.BRook,table[place.i][place.j].getPiece().getCoord(), this ));
                     gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                    Arquivo.addText(place.coordJToString() + place.coordIToString() + "=" + "R"); //adicionou no arquivo de jogada
                 }
                 if (Player.getChoice() == Category.KNIGHT){
                     table[place.i][place.j].setPiece(new Knight(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.BKnight,table[place.i][place.j].getPiece().getCoord(), this ));
                     gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                    Arquivo.addText(place.coordJToString() + place.coordIToString() + "=" + "N"); //adicionou no arquivo de jogada
                 }
                 if (Player.getChoice() == Category.QUEEN){
                     table[place.i][place.j].setPiece(new Queen(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.BQueen,table[place.i][place.j].getPiece().getCoord(), this ));
                     gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                    Arquivo.addText(place.coordJToString() + place.coordIToString() + "=" + "Q"); //adicionou no arquivo de jogada
                 }
 
                 playerB.putPieceInList(table[place.i][place.j].getPiece());
