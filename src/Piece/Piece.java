@@ -34,10 +34,10 @@ public abstract class Piece {
     public abstract Coord[] move();
     public abstract Coord[] dangerZone();
 
-    public Coord[] getMovements() {return move();}
-    public Coord[] getDangerZone() {return dangerZone();}
+    public MoveList getMoveList(){return movements;}
+    public Coord[] getMovements() {return (Coord[])movements.toArray();}
+    public Coord[] getDangerZone() {return (Coord[]) dangerZone.toArray();}
     public Coord[] getPotentialDangerZone() {
-        dangerZone();
         return (Coord[])potentialDangerZone.toArray();
     }
 

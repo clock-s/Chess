@@ -5,6 +5,7 @@ import GUI.GUI;
 import Table.Table;
 import Utilities.*;
 import Piece.Piece;
+import Piece.King;
 
 
 
@@ -14,10 +15,11 @@ public class Player{
     final private Table table;
     private boolean inCheck = false;
     final private GUI gui;
-    private Piece king;
+    private King king;
     private static Category choice = null;
     private PieceList pieces = new PieceList();
     private Coord[] clicks = new Coord[2];
+    private boolean mate = false;
 
     public Coord[] getClicks() {
         return clicks;
@@ -32,7 +34,7 @@ public class Player{
 
     public void setStatusPlates(){
         for(Piece p : (Piece[]) pieces.toArray()){
-            Coord[] danger = p.getDangerZone();
+            Coord[] danger = p.dangerZone();
             Coord[] potential = p.getPotentialDangerZone();
 
             for(Coord d : danger){
@@ -84,7 +86,7 @@ public class Player{
     }
 
     public void setKing(Piece king){
-        this.king = king;
+        this.king = (King) king;
     }
 
 
@@ -93,20 +95,41 @@ public class Player{
 
     public void round(){
 
+
+
+        for(Piece p : (Piece[])pieces.toArray()){
+            p.move();
+        }
+
+        inCheck = king.isCheck();
+
+        if(inCheck){
+            System.out.println("Player " + color.toString() + " in check");
+
+            if(king.reiPodeMover()){
+
+            }else{
+                Threater threater = king.blockPossible();
+                if(threater.getIsThreater() == false){
+                    for(Piece p : (Piece[])pieces.toArray()){
+                        for(Coord c : (Coord[]) p.getMoveList().toArray()){
+
+                            if(!threater.getThreater().getCoord().isEquals(c)){
+                                p.getMoveList().remove(c);
+                            }
+                        }
+                    }
+                }else{
+
+                }
+            }
+
+
+        }
+
         setPlatesThatPlayerCanUse();
 
 
-        if(table.getMap()[king.getCoord().i][king.getCoord().j].getPlateSate() == PlateState.DANGER){
-            System.out.println("Player " + color.toString() + " in check");
-            inCheck = true;
-        }
-
-        if(inCheck){
-            if(table.getMap()[king.getCoord().i][king.getCoord().j].getPlateSate() != PlateState.DANGER){
-                inCheck = false;
-                System.out.println("Player " + color.toString() + " run the check");
-            }
-        }
 
     }
 }
