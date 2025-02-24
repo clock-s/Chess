@@ -171,6 +171,52 @@ public class Player{
 
 
                     }
+                    else if(threater.getThreater() instanceof Bishop){
+                        int bi = bishop.getCoord().i;
+                        int bj = bishop.getCoord().j;
+                        int ki = king.getCoord().i;
+                        int kj = king.getCoord().j;
+                        //bispo superior esquerda
+                        if(kj > bj && ki > bi){
+                            bi++;
+                            bj++;
+                            while( kj > bj && ki > bi ){
+                                blocks.add(new Coord(bi, bj));
+                                bi++;
+                                bj++;
+                            }
+                        }
+                        //bispo inferior esquerda
+                        else if( kj > bj && ki < bi ){
+                            bi--;
+                            bj++;
+                            while( kj > bj && ki < bi ){
+                                blocks.add(new Coord(bi, bj));
+                                bi--;
+                                bj++;
+                            }
+                        }
+                        //bispo superior direita
+                        else if( kj < bj && ki > bi ){
+                            bi++;
+                            bj--;
+                            while( kj < bj && ki > bi ){
+                                blocks.add(new Coord(bi, bj));
+                                bi++;
+                                bj--;
+                            }
+                        }
+                        //bispo inferior direita
+                        else if( kj < bj && ki < bi ){
+                            bi--;
+                            bj--;
+                            while( kj < bj && ki < bi ){
+                                blocks.add(new Coord(bi, bj));
+                                bi--;
+                                bj--;
+                            }
+                        }
+                    }
                 }
             }
 
