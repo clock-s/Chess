@@ -2,6 +2,7 @@ package Player;
 
 import Collection.PieceList;
 import GUI.GUI;
+import Storie.Arquivo;
 import Table.Table;
 import Utilities.Category;
 import Utilities.Color;
@@ -239,6 +240,10 @@ public class Player{
                 }
 
             }
+
+            if (!this.mate){
+                Arquivo.addText(king.getCoord().coordJToString() + king.getCoord().coordIToString() + "+"); //adicionou no arquivo de jogada
+            }
         }else{
             for(Piece p : (Piece[])pieces.toArray()){
                 if(p.getMovements().length >= 1) staleMate = false;
@@ -249,10 +254,12 @@ public class Player{
             System.out.println("Stalemate!");
         }
 
+
         setPlatesThatPlayerCanUse();
 
 
-
     }
+
+
 }
 

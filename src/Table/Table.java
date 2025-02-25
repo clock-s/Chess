@@ -8,6 +8,8 @@ import Player.Player;
 import Utilities.Category;
 import Utilities.Color;
 import Utilities.Coord;
+import Utilities.PieceState;
+import Storie.Arquivo;
 
 public class Table {
     final public static byte LENGHT = 8;
@@ -18,6 +20,9 @@ public class Table {
     private Player playerW;
     private Player playerB;
     private static Color round = Color.WHITE;
+
+    //booleano para marcar se comeu, se promoveu, se fez roque, ou se só andou martins hihi
+    private PieceState estado;
 
 
     public Piece getPlate(Coord coord) {
@@ -43,6 +48,8 @@ public class Table {
         images = new PieceImages();
         playerW = new Player(Color.WHITE, this, gui);
         playerB = new Player(Color.BLACK, this, gui);
+
+        Arquivo.startNewGame();
 
 
         Coord coord = new Coord(0, 0);
@@ -178,6 +185,8 @@ public class Table {
     public void newPiecePosition(Coord place, Coord goal){
         gui.resetCoord();
 
+        this.estado = PieceState.NONE; //sempre começa na premissa de nao ter comido martins hihi
+
         if(table[goal.i][goal.j].getPiece() != null) {
             if(table[goal.i][goal.j].getPiece().getColor() == Color.BLACK) {
                 playerB.removePieceFromList(table[goal.i][goal.j].getPiece());
@@ -185,6 +194,17 @@ public class Table {
                 playerW.removePieceFromList(table[goal.i][goal.j].getPiece());
             }
             table[goal.i][goal.j].getPiece().death();
+            this.estado = PieceState.TAKED;
+        }
+
+
+        if (this.estado == PieceState.NONE){
+            Arquivo.addText(table[place.i][place.j].getPiece().categoryToString() + goal.coordJToString() + goal.coordIToString());
+            //adicionar o texto de movimento da peça martins hihi
+        }
+        if (this.estado == PieceState.TAKED){
+            Arquivo.addText(table[place.i][place.j].getPiece().categoryToString() + "x" + goal.coordJToString() + goal.coordIToString());
+            //adicionar o texto de comida martins hihi
         }
 
 
@@ -261,18 +281,22 @@ public class Table {
                 if (Player.getChoice() == Category.BISHOP){
                     table[place.i][place.j].setPiece(new Bishop(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.WBishop,table[place.i][place.j].getPiece().getCoord(), this ));
                     gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                    Arquivo.addText(place.coordJToString() + place.coordIToString() + "=" + "B");
                 }
                 if (Player.getChoice() == Category.ROOK){
                     table[place.i][place.j].setPiece(new Rook(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.WRook,table[place.i][place.j].getPiece().getCoord(), this));
                     gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                    Arquivo.addText(place.coordJToString() + place.coordIToString() + "=" + "R");
                 }
                 if (Player.getChoice() == Category.KNIGHT){
                     table[place.i][place.j].setPiece(new Knight(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.WKnight,table[place.i][place.j].getPiece().getCoord(), this ));
                     gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                    Arquivo.addText(place.coordJToString() + place.coordIToString() + "=" + "N");
                 }
                 if (Player.getChoice() == Category.QUEEN){
                     table[place.i][place.j].setPiece(new Queen(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.WQueen,table[place.i][place.j].getPiece().getCoord(), this ));
                     gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                    Arquivo.addText(place.coordJToString() + place.coordIToString() + "=" + "Q");
                 }
 
                 playerW.putPieceInList(table[place.i][place.j].getPiece());
@@ -284,18 +308,22 @@ public class Table {
                 if (Player.getChoice() == Category.BISHOP){
                     table[place.i][place.j].setPiece(new Bishop(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.BBishop,table[place.i][place.j].getPiece().getCoord(), this ));
                     gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                    Arquivo.addText(place.coordJToString() + place.coordIToString() + "=" + "B");
                 }
                 if (Player.getChoice() == Category.ROOK){
                     table[place.i][place.j].setPiece(new Rook(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.BRook,table[place.i][place.j].getPiece().getCoord(), this ));
                     gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                    Arquivo.addText(place.coordJToString() + place.coordIToString() + "=" + "R");
                 }
                 if (Player.getChoice() == Category.KNIGHT){
                     table[place.i][place.j].setPiece(new Knight(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.BKnight,table[place.i][place.j].getPiece().getCoord(), this ));
                     gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                    Arquivo.addText(place.coordJToString() + place.coordIToString() + "=" + "N");
                 }
                 if (Player.getChoice() == Category.QUEEN){
                     table[place.i][place.j].setPiece(new Queen(table[place.i][place.j].getPiece().getId(), table[place.i][place.j].getPiece().getColor(), PieceImages.BQueen,table[place.i][place.j].getPiece().getCoord(), this ));
                     gui.getPlate(table[place.i][place.j].getPiece().getCoord()).setIcon(table[place.i][place.j].getPiece().getIcon());
+                    Arquivo.addText(place.coordJToString() + place.coordIToString() + "=" + "Q");
                 }
 
                 playerB.putPieceInList(table[place.i][place.j].getPiece());
