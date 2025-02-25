@@ -9,16 +9,17 @@ public class Main {
         int tableSize = (int)(screenSize.getHeight()*0.6);
 
         // Criar a janela principal
-        JFrame frame = new JFrame("Xadrez em Java");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(tableSize, tableSize);
-        frame.setLayout(new CardLayout());
+        JFrame window = new JFrame("Xadrez em Java");
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setSize(tableSize, tableSize);
+        window.setLayout(new CardLayout());
+        window.setIconImage(new ImageIcon("src/GUI/Images/logo.jpg").getImage());
 
         // Criar o painel principal com CardLayout
         JPanel mainPanel = new JPanel(new CardLayout());
 
         // Criar os painéis para cada "tela"
-        JPanel menuPanel = criarPainelMenu(frame, mainPanel);
+        JPanel menuPanel = criarPainelMenu(mainPanel);
         JPanel infoPanel = criarPainelInformacoes(mainPanel);
         Table gamePanel = new Table();
         mainPanel.add(menuPanel, "Menu");
@@ -30,11 +31,11 @@ public class Main {
         mainPanel.add(infoPanel, "Informacoes");
         mainPanel.add(gamePanel, "Jogo");
 
-        frame.add(mainPanel);
-        frame.setVisible(true);
+        window.add(mainPanel);
+        window.setVisible(true);
     }
 
-    private static JPanel criarPainelMenu(JFrame frame, JPanel mainPanel) {
+    private static JPanel criarPainelMenu(JPanel mainPanel) {
         JPanel painel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
