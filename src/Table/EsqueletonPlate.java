@@ -21,7 +21,7 @@ public class EsqueletonPlate {
         this.piece = piece;
     }
 
-    public PlateState getPlateSate() {return this.plateSate;}
+    public PlateState getPlateState() {return this.plateSate;}
 
     public void setPlateState(PlateState newState) {
         if(newState == PlateState.SAFE){

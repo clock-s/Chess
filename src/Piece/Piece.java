@@ -15,7 +15,7 @@ public abstract class Piece {
     protected Coord coord;
     protected Table table;
     private ImageIcon icon;
-    private int moves = 0;
+    protected int moves = 0;
 
     protected MoveList movements = new MoveList();
     protected MoveList dangerZone = new MoveList();

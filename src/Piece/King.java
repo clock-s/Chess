@@ -4,8 +4,6 @@ import Player.Player;
 import Table.Table;
 import Utilities.*;
 
-import java.awt.Color;
-
 import javax.swing.*;
 
 public class King extends Piece {
@@ -29,7 +27,7 @@ public class King extends Piece {
                 if(i == 0 && j == 0){
                     continue;
                 }
-                if(isInLimit(i,j) && seeOtherTable(coord.i + i, coord.j + j).getPlateSate() != PlateState.DANGER){
+                if(isInLimit(i,j) && seeOtherTable(coord.i + i, coord.j + j).getPlateState() != PlateState.DANGER){
                     putMoves(movements, (byte) (coord.i + i), (byte) (coord.j + j));
                 }
             }
@@ -64,7 +62,7 @@ public class King extends Piece {
     }
 
     public boolean isCheck(){
-        if(seeOtherTable(coord.i, coord.j).getPlateSate() == PlateState.DANGER) return true;
+        if(seeOtherTable(coord.i, coord.j).getPlateState() == PlateState.DANGER) return true;
 
         return false;
     }
@@ -101,23 +99,23 @@ public class King extends Piece {
         boolean flag = true;
 
 // verifica se o rei ta em check
-        if(Player.inCheck){
+        if(isCheck()){
             flag = false;
         }
 //verifica se o rei ja moveu, se a peça é uma torre e se essa torre tem movimentos == 0;
-        else if(king.moves != 0 || seeOtherTable(coord.i, 7).getPiece().getCategory() != category.ROOK || seeOtherTable(coord.i, 7).getPiece().getMoves() != 0 ){
+        else if(moves != 0 || seeOtherTable(coord.i, 7).getPiece().getCategory() != category.ROOK || seeOtherTable(coord.i, 7).getPiece().getMoves() != 0 ){
             flag = false;
         }
 //verifica as duas casas ao lado DIREITO estão atacadas
-        else if(seeOtherPlates(coord.i , coord.j + 1).getPlateState == PlateState.DANGER || seeOtherPlates(king.coord.i, king.coord.j + 2).getPlateState == PlateState.DANGER){
+        else if(seeOtherTable(coord.i , coord.j + 1).getPlateState() == PlateState.DANGER || seeOtherTable(coord.i, coord.j + 2).getPlateState == PlateState.DANGER){
             flag = false;
         }
 // verifica se a segunda casa ao lado DIREITO (j+2) está vazia
-        else if(seeOtherPlates(coord.i, coord.j + 2).getPlateSate() != null ){
+        else if(seeOtherTable(coord.i, coord.j + 2).getPiece() != null ){
             flag = false;
         }
 //verifica se a primeira casa ao lado Direito (j+1) está vazia
-        else if(seeOtherPlates(coord.i , coord.j + 1).getPlateSate() != null ){
+        else if(seeOtherTable(coord.i , coord.j + 1).getPlateState() != null ){
             flag = false;
         }
 // se passar por todas as verificações, retorna true
@@ -135,7 +133,7 @@ public class King extends Piece {
 
         boolean flag = true;
 //verifica se o rei ta em check
-        if(inCheck()){
+        if(isCheck()){
             flag = false;
         }
 
@@ -144,15 +142,15 @@ public class King extends Piece {
             flag =  false;
         }
 //verifica as duas casas ao lado ESQUERDO estão atacadas
-        else if(seeOtherPlates(coord.i , coord.j - 1).getPlateState == PlateState.DANGER || seeOtherPlates(coord.i, coord.j - 2).getPlateState == PlateState.DANGER){
+        else if(seeOtherTable(coord.i , coord.j - 1).getPlateState() == PlateState.DANGER || seeOtherTable(coord.i, coord.j - 2).getPlateState() == PlateState.DANGER){
             flag = false;
         }
 //verifica se a PRIMEIRA casa ao lado ESQUERDO está vazia
-        else if(seeOtherPlates(coord.i, coord.j - 1).getPlateSate() != null){
+        else if(seeOtherTable(coord.i, coord.j - 1).getPlateState() != null){
             flag = false;
         }
 //verifica se a SEGUNDA casa ao lado ESQUERDO está vazia
-        else if(seeOtherPlates(coord.i, coord.j - 2).getPlateSate() != null){
+        else if(seeOtherTable(coord.i, coord.j - 2).getPlateState() != null){
             flag = false;
         }
 // se passar por todas as verificações, retorna true
