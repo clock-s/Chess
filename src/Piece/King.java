@@ -27,7 +27,7 @@ public class King extends Piece {
                 if(i == 0 && j == 0){
                     continue;
                 }
-                if(isInLimit(i,j) && seeOtherTable(coord.i + i, coord.j + j).getPlateSate() != PlateState.DANGER){
+                if(isInLimit(i,j) && seeOtherTable(coord.i + i, coord.j + j).getPlateState() != PlateState.DANGER){
                     putMoves(movements, (byte) (coord.i + i), (byte) (coord.j + j));
                 }
             }
@@ -62,7 +62,7 @@ public class King extends Piece {
     }
 
     public boolean isCheck(){
-        if(seeOtherTable(coord.i, coord.j).getPlateSate() == PlateState.DANGER) return true;
+        if(seeOtherTable(coord.i, coord.j).getPlateState() == PlateState.DANGER) return true;
 
         return false;
     }
