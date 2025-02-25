@@ -27,9 +27,28 @@ public class King extends Piece {
                 if(i == 0 && j == 0){
                     continue;
                 }
-                if(isInLimit(i,j) && seeOtherTable(coord.i + i, coord.j + j).getPlateState() != PlateState.DANGER){
-                    putMoves(movements, (byte) (coord.i + i), (byte) (coord.j + j));
+
+                boolean dontPut = false;
+
+                if(isInLimit(i,j)){
+                    if(seeOtherTable(coord.i + i, coord.j + j).getPlateState() == PlateState.POTENTIAL){
+                        for(Piece threater : seeOtherTable(coord.i + i, coord.j + j).getTheters()){
+                            if(threater instanceof Pawn || threater instanceof Knight){
+                                dontPut = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if(seeOtherTable(coord.i + i, coord.j + j).getPlateState() == PlateState.DANGER) dontPut = true;
+                    if(seeOtherTable(coord.i + i, coord.j + j).getPlateState() == PlateState.BOTH) dontPut = true;
+
+                    if(!dontPut){
+                        putMoves(movements, (byte) (coord.i + i), (byte) (coord.j + j));
+                    }
                 }
+
+
             }
         }
 

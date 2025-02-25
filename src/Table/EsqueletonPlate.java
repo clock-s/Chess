@@ -39,9 +39,7 @@ public class EsqueletonPlate {
     }
 
     public Piece[] getTheters() {return (Piece[])this.threaters.toArray();}
-    public void setThreaters(Piece piece) {
-        this.threaters.add(piece);
-    }
+    public void setThreaters(Piece piece) {this.threaters.add(piece);}
 
 
     public void clearAll(){
