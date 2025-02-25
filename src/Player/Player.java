@@ -30,7 +30,6 @@ public class Player{
 
 
 
-
     public void putPieceInList(Piece piece) {
         this.pieces.add(piece);
     }

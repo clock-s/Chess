@@ -32,9 +32,13 @@ public class Queen extends Piece {
         potentialDangerZone.clear();
 
         dangerZone.add(move());
-        potentialDangerZone.add(new Bishop(this.color, this.coord, this.table).getPotentialDangerZone());
-        potentialDangerZone.add(new Rook(this.color, this.coord, this.table).getPotentialDangerZone());
+        Bishop b = new Bishop(this.color, this.coord, this.table);
+        Rook r = new Rook(this.color, this.coord, this.table);
+        b.move();
+        r.move();
 
+        potentialDangerZone.add(b.getPotentialDangerZone());
+        potentialDangerZone.add(r.getPotentialDangerZone());
 
         return (Coord[])dangerZone.toArray();
     }

@@ -12,10 +12,6 @@ public class Bishop extends Piece {
     private boolean bottomRight;
     private boolean bottomLeft;
 
-    private boolean pdzfTopRight; //pdzf - PotentialDangerZoneFlag
-    private boolean pdzfTopLeft;
-    private boolean pdzfBottomRight;
-    private boolean pdzfBootomLeft;
 
     public Bishop(byte id, Color color, ImageIcon icon, Coord coord, Table table){
         super(id, color, icon, coord, table);
@@ -40,11 +36,6 @@ public class Bishop extends Piece {
         bottomRight = true;
         bottomLeft = true;
 
-        pdzfTopRight = true;
-        pdzfTopLeft = true;
-        pdzfBottomRight = true;
-        pdzfBootomLeft = true;
-
 
         for(byte i = 1 ; i < size; ++i){
             aux(i);
@@ -60,30 +51,18 @@ public class Bishop extends Piece {
         if(isInLimit(i,i)) {
             if (bottomRight) {
                 bottomRight = putMoves(this.movements, (byte) (coord.i + i), (byte) (coord.j + i));
-            } else {
-                if(pdzfBottomRight) {
-                    pdzfBottomRight = putMoves(this.potentialDangerZone, (byte) (coord.i + i), (byte) (coord.j + i));
-                }
             }
         }
 
         if(isInLimit(i,-i)) {
             if (bottomLeft) {
                 bottomLeft = putMoves(this.movements, (byte) (coord.i + i), (byte) (coord.j - i));
-            } else {
-                if(pdzfBootomLeft){
-                    pdzfBootomLeft = putMoves(this.potentialDangerZone, (byte) (coord.i + i), (byte) (coord.j - i));
-                }
             }
         }
 
         if(isInLimit(-i,i)) {
             if(topRight) {
                 topRight = putMoves(this.movements, (byte) (coord.i - i), (byte) (coord.j + i));
-            }else{
-                if(pdzfTopRight) {
-                    pdzfTopRight = putMoves(this.potentialDangerZone, (byte) (coord.i - i), (byte) (coord.j + i));
-                }
             }
         }
 
@@ -91,10 +70,6 @@ public class Bishop extends Piece {
         if(isInLimit(-i,-i)) {
             if(topLeft) {
                 topLeft = putMoves(this.movements, (byte) (coord.i - i), (byte) (coord.j - i));
-            }else{
-                if(pdzfTopLeft) {
-                    pdzfTopLeft = putMoves(this.potentialDangerZone, (byte) (coord.i - i), (byte) (coord.j - i));
-                }
             }
         }
 

@@ -236,6 +236,8 @@ public class Table extends JPanel {
         this.clearAll();
 
 
+
+
         /*
         Etapas:
         1 - Limpa
@@ -245,6 +247,7 @@ public class Table extends JPanel {
         5 - Volta para 1
 
          */
+
 
         if(round == Color.WHITE){
 
