@@ -24,12 +24,13 @@ public class Plates implements MouseListener {
         this.panel = new JPanel();
         this.coord = new Coord(coord.i,coord.j);
         this.icon = new ImageIcon();
-        piece = new JLabel(icon);
+        this.piece = new JLabel(icon, SwingConstants.CENTER);
         this.gui = gui;
         this.panel.setBackground(color);
+        this.panel.setLayout(new BorderLayout());
 
         panel.addMouseListener(this);
-        panel.add(piece);
+        panel.add(piece, BorderLayout.CENTER);
     }
 
 
@@ -60,7 +61,7 @@ public class Plates implements MouseListener {
     }
 
     private void disableMoves(){
-        Coord[] moves = gui.getPiece(gui.clicks[gui.count]).move();
+        Coord[] moves = gui.getPiece(gui.clicks[gui.count]).getMovements();
         Coord[] potentialMoves = gui.getPiece(gui.clicks[gui.count]).getPotentialDangerZone();
 
         for(Coord p : potentialMoves) {
@@ -87,7 +88,7 @@ public class Plates implements MouseListener {
             return false;
         }
         if(gui.getPiece(piece).getColor() != Table.getRound()) return false;
-        Coord[] moves = gui.getPiece(piece).move();
+        Coord[] moves = gui.getPiece(piece).getMovements();
 
 
         for(Coord m : moves) {

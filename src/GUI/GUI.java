@@ -9,13 +9,13 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 
 public class GUI{
-    private JFrame frame;
+    private JFrame window;
     private ImageIcon image;
-    private Border border;
     private JPanel table;
     private Plates[][] plate;
     private static int imageSize;
@@ -34,7 +34,7 @@ public class GUI{
     }
 
     public GUI(Table table){
-        this.frame = new JFrame();
+        this.window = new JFrame();
         this.table = new JPanel(new GridLayout(8,8));
         this.plate = new Plates[8][8];
         this.map = table;
@@ -47,15 +47,21 @@ public class GUI{
     }
 
     private void configs(){
-        frame.setTitle("Chess Test");
-        frame.setSize(640,680);
-        frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int tableSize = (int)(screenSize.getHeight()*0.6);
+
+
+        window.setTitle("Chess Test");
+        window.setSize(tableSize,tableSize);
+        window.setResizable(false);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         image = new ImageIcon("src/GUI/Images/logo.jpg");
-        frame.setIconImage(image.getImage());
-        frame.getContentPane().setBackground(Color.gray);
-        frame.setLayout(null);
-        border = new LineBorder(Color.BLACK, 2);
+        window.setIconImage(image.getImage());
+        window.getContentPane().setBackground(Color.gray);
+        window.setLayout(new BorderLayout());
+
+
+
     }
 
     public Piece getPiece(Coord coord){
@@ -67,14 +73,15 @@ public class GUI{
     }
 
     private void makeTable(){
-        int plateSize = (frame.getWidth() - 20) / 8;
+        int plateSize = (window.getWidth()) / 8;
         imageSize = plateSize;
 
         table.setSize(plateSize*8, plateSize*8);
-        table.setBackground(Color.BLACK);
-        table.setLocation((frame.getSize().width - table.getWidth())/2,
-                          (frame.getSize().width - table.getHeight())/2);
-        table.setBorder(border);
+        table.setBackground(new Color(184, 95, 14));
+        table.setLocation((window.getSize().width - table.getWidth())/2,
+                          (window.getSize().width - table.getHeight())/2);
+        table.setBorder(new LineBorder(new Color(184, 95, 14), 5));
+
 
         for(int i = 0 ; i < 8 ; ++i){
             for(int j = 0 ; j < 8 ; ++j){
@@ -88,11 +95,13 @@ public class GUI{
         }
 
 
-        frame.add(table);
+
+
+        window.add(table, BorderLayout.CENTER);
     }
 
     public void init(){
-        frame.setVisible(true);
+        window.setVisible(true);
     }
 
     public void resetCoord(){
@@ -126,6 +135,6 @@ public class GUI{
         count = (byte) ((count+1)%2);
     }
 
-    public JFrame getFrame(){return this.frame;}
+    public JFrame getFrame(){return this.window;}
 
 }
