@@ -10,8 +10,13 @@ import Utilities.Color;
 import Utilities.Coord;
 import Utilities.PieceState;
 import Storie.Arquivo;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Window;
+import javax.swing.SwingUtilities;
+import javax.swing.JFrame;
 
-public class Table {
+public class Table extends JPanel {
     final public static byte LENGHT = 8;
 
     private EsqueletonPlate[][] table;
@@ -49,6 +54,9 @@ public class Table {
         playerW = new Player(Color.WHITE, this, gui);
         playerB = new Player(Color.BLACK, this, gui);
 
+        setLayout(new BorderLayout()); // Define o layout do tabuleiro
+        add(gui, BorderLayout.CENTER); // Adiciona a interface gráfica ao painel
+
         Arquivo.startNewGame();
 
 
@@ -66,7 +74,6 @@ public class Table {
             }
         }
 
-        gui.init();
         playerW.round();
 
     }
@@ -216,7 +223,10 @@ public class Table {
 
         this.table[goal.i][goal.j].setPiece(table[place.i][place.j].getPiece());
         if (promotionZone(table[goal.i][goal.j].getPiece().getCoord())) {
-            PromotionPopUp promotionPopUp = new PromotionPopUp(gui.getFrame());
+            Window window = SwingUtilities.getWindowAncestor(this);
+            if (window instanceof JFrame) {
+                PromotionPopUp promotionPopUp = new PromotionPopUp((JFrame) window);
+            }
         }
         this.promotionPiece(table[goal.i][goal.j].getPiece().getCoord());
 

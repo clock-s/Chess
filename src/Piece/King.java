@@ -55,9 +55,6 @@ public class King extends Piece {
         if(isCheck()){
             Coord remover = removeIllegalMoves();
 
-            System.out.printf("%d %d\n", coord.i, coord.j);
-            System.out.printf("%d %d\n", remover.i, remover.j);
-
             for(Coord r : (Coord[]) movements.toArray()){
                 if(r.isEquals(remover)){
                     movements.remove(r);
@@ -177,13 +174,10 @@ public class King extends Piece {
         Coord remover = new Coord();
 
         if(threater instanceof Bishop ) {
-            System.out.println(1);
             remover = removeBackBishopAttack(threater, remover);
         }else if(threater instanceof Rook ) {
-            System.out.println(2);
             remover = removeBackRookAttack(threater, remover);
         }else if(threater instanceof Queen ) {
-            System.out.println(3);
             remover = removeBackRookAttack(threater, remover);
 
             if(remover.isEquals(new Coord())){
