@@ -92,10 +92,10 @@ public class King extends Piece {
 
 // ATENÇÃO O CÓDIGO ABAIXO AINDA PRECISA FAZER ALTERAÇÕES ADEQUADAS PARA KING E ROOK E SUAS ADVERSIDADES
 // É PRECISO TAMBÉM DEBATER SOBRE ONDE AS FUNÇÕES SERÃO COLOCADAS (PLAYER, KING OU TABLE)
-/*
+
 
     //função q verifica se ta podendo fazer o roque pequeno
-    public boolean LitlleRockPossible(){
+  /*  public boolean LitlleRockPossible(){
         boolean flag = true;
 
 // verifica se o rei ta em check
@@ -146,11 +146,14 @@ public class King extends Piece {
             flag = false;
         }
 //verifica se a PRIMEIRA casa ao lado ESQUERDO está vazia
-        else if(seeOtherPlates(coord.i, coord.j + 2).getPlateSate() != null){
+        else if(seeOtherPlates(coord.i, coord.j - 1).getPlateSate() != null){
             flag = false;
         }
 //verifica se a SEGUNDA casa ao lado ESQUERDO está vazia
-        else if(seeOtherPlates(coord.i, coord.j + 2).getPlateSate() != null){
+        else if(seeOtherPlates(coord.i, coord.j - 2).getPlateSate() != null){
+            flag = false;
+        }
+        else if(seeOtherPlates(coord.i, coord.j - 3).getPlateSate() != null){
             flag = false;
         }
 // se passar por todas as verificações, retorna true
