@@ -185,7 +185,6 @@ public class Table {
                 playerW.removePieceFromList(table[goal.i][goal.j].getPiece());
             }
             table[goal.i][goal.j].getPiece().death();
-
         }
 
 

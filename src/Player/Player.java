@@ -23,6 +23,7 @@ public class Player{
     private PieceList pieces = new PieceList();
     private Coord[] clicks = new Coord[2];
     private boolean mate = false;
+    private boolean staleMate = true;
 
     public Coord[] getClicks() {
         return clicks;
@@ -231,8 +232,14 @@ public class Player{
                 }
 
             }
+        }else{
+            for(Piece p : (Piece[])pieces.toArray()){
+                if(p.getMovements().length >= 1) staleMate = false;
+            }
+        }
 
-
+        if(staleMate == true){
+            System.out.println("Stalemate!");
         }
 
         setPlatesThatPlayerCanUse();
