@@ -1,22 +1,24 @@
 package Player;
 
-import Collection.MoveList;
 import Collection.PieceList;
 import GUI.GUI;
 import Table.Table;
-import Utilities.*;
+import Utilities.Category;
+import Utilities.Color;
+import Utilities.Coord;
 import Piece.Piece;
 import Piece.King;
-import Piece.Rook;
+import Utilities.PlateState;
+import Utilities.Threater;
 import Collection.MoveList;
+import Piece.Rook;
 import Piece.Bishop;
-
-
 
 public class Player{
     final private Color color;
     final private Table table;
     private boolean inCheck = false;
+    private boolean isRound = false;
     final private GUI gui;
     private King king;
     private static Category choice = null;
@@ -97,7 +99,12 @@ public class Player{
 
 
 
+
+
+
     public void round(){
+        gui.resetCoord();
+        setPlatesThatPlayerCanUse();
 
         for(Piece p : (Piece[])pieces.toArray()){
             p.move();
