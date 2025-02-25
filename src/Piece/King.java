@@ -4,6 +4,8 @@ import Player.Player;
 import Table.Table;
 import Utilities.*;
 
+import java.awt.Color;
+
 import javax.swing.*;
 
 public class King extends Piece {
@@ -93,7 +95,7 @@ public class King extends Piece {
 // ATENÇÃO O CÓDIGO ABAIXO AINDA PRECISA FAZER ALTERAÇÕES ADEQUADAS PARA KING E ROOK E SUAS ADVERSIDADES
 // É PRECISO TAMBÉM DEBATER SOBRE ONDE AS FUNÇÕES SERÃO COLOCADAS (PLAYER, KING OU TABLE)
 
-
+ 
     //função q verifica se ta podendo fazer o roque pequeno
     public boolean LitlleRockPossible(){
         boolean flag = true;
@@ -102,8 +104,8 @@ public class King extends Piece {
         if(Player.inCheck){
             flag = false;
         }
-//verifica se o rei ja moveu ou se a torre ja moveu
-        else if(king.moves != 0 || Rook.moves != 0){
+//verifica se o rei ja moveu, se a peça é uma torre e se essa torre tem movimentos == 0;
+        else if(king.moves != 0 || seeOtherTable(coord.i, 7).getPiece().getCategory() != category.ROOK || seeOtherTable(coord.i, 7).getPiece().getMoves() != 0 ){
             flag = false;
         }
 //verifica as duas casas ao lado DIREITO estão atacadas
@@ -138,7 +140,7 @@ public class King extends Piece {
         }
 
 //verifica se o rei ja moveu ou se a torre ja moveu
-        else if(moves != 0 || Rook.moves != 0){
+        else if(moves != 0 ||seeOtherTable(coord.i, 0).getPiece().getCategory() != category.ROOK || seeOtherTable(coord.i, 0).getPiece().getMoves() != 0  ){
             flag =  false;
         }
 //verifica as duas casas ao lado ESQUERDO estão atacadas
@@ -164,7 +166,7 @@ public class King extends Piece {
     // função fazer o roque pequeno
     public void makeLitlleRock(){
 // se for possível fazer o roque e o jogador clicou duas casas a direita
-        if(litlleRockPossible() &&  ){
+        if(litlleRockPossible() &&   ){
             table.newPiecePosition(getCoord(), new Coord(coord.i, coord.j + 2));
             table.newPiecePosition(Rook.getCoord(), new Coord(Rook.coord.i, coord.j - 2));
         }
@@ -205,6 +207,15 @@ public class King extends Piece {
         i
 
     }
+    if(littleRockPossible()){
+        coord c = king.getCoord();
+        gui.modifyColor( c, Color.GREEN);
+    }
+    if(BigRockPossible()){
+        coord c = king.getCoord();
+        gui.modifyColor( c, Color.GREEN);
+    }
+
 
 
 
