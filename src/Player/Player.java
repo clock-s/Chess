@@ -14,23 +14,22 @@ import Utilities.Threater;
 import Collection.MoveList;
 import Piece.Rook;
 import Piece.Bishop;
+import Piece.Queen;
 
 public class Player{
     final private Color color;
     final private Table table;
     private boolean inCheck = false;
-    private boolean isRound = false;
     final private GUI gui;
     private King king;
     private static Category choice = null;
     private PieceList pieces = new PieceList();
-    private Coord[] clicks = new Coord[2];
     private boolean mate = false;
-    private boolean staleMate = true;
+    private boolean staleMate = false;
+    private boolean noMoves = true;
 
-    public Coord[] getClicks() {
-        return clicks;
-    }
+
+
 
     public void putPieceInList(Piece piece) {
         this.pieces.add(piece);
@@ -107,6 +106,8 @@ public class Player{
         gui.resetCoord();
         setPlatesThatPlayerCanUse();
 
+        noMoves = true;
+
         for(Piece p : (Piece[])pieces.toArray()){
             p.move();
         }
@@ -122,7 +123,7 @@ public class Player{
             }
 
             Threater threater = king.blockPossible();
-            System.out.println(threater.getThreater().getClass().getName());
+
             if(threater.getIsThreater() == false){
                 for(Piece p : (Piece[])pieces.toArray()){
                     if(p instanceof King){
@@ -137,90 +138,8 @@ public class Player{
                     }
                 }
             }else if(threater.getIsThreater() == true){
-                System.out.printf("Aki");
-                MoveList blocks = new MoveList();
+                Coord[] blocks = getAllBlocksCoords(threater.getThreater());
 
-
-                if(threater.getThreater() instanceof Rook){
-                    int y = king.getCoord().i - threater.getThreater().getCoord().i;
-                    int x = king.getCoord().j - threater.getThreater().getCoord().j;
-                    System.out.printf("%d %d\n", x, y);
-
-                    if(x == 0){
-                        if(y > 0){
-                            for(int i = 1 ; i <= y ; ++i){
-                                blocks.add(new Coord(king.getCoord().i - i, king.getCoord().j));
-                            }
-                        }else if( y < 0){
-                            y *= -1;
-                            for(int i = 1 ; i <= y ; ++i){
-                                blocks.add(new Coord(king.getCoord().i + i, king.getCoord().j));
-                            }
-                        }
-
-                    }else if(y == 0){
-                        if(x > 0){
-                            System.out.println("Aki");
-                            for(int j = 1 ; j <= x ; ++j){
-                                blocks.add(new Coord(king.getCoord().i, king.getCoord().j - j));
-                            }
-                        }else if( x < 0){
-                            x *= -1;
-                            for(int j = 1 ; j <= x ; ++j){
-                                blocks.add(new Coord(king.getCoord().i , king.getCoord().j + j));
-                            }
-                        }
-
-                    }
-
-
-                }
-                else if(threater.getThreater() instanceof Bishop){
-                    int bi = threater.getThreater().getCoord().i;
-                    int bj = threater.getThreater().getCoord().j;
-                    int ki = king.getCoord().i;
-                    int kj = king.getCoord().j;
-                    //bispo superior esquerda
-                    if(kj > bj && ki > bi){
-                        bi++;
-                        bj++;
-                        while( kj > bj && ki > bi ){
-                            blocks.add(new Coord(bi, bj));
-                            bi++;
-                            bj++;
-                        }
-                    }
-                    //bispo inferior esquerda
-                    else if( kj > bj && ki < bi ){
-                        bi--;
-                        bj++;
-                        while( kj > bj && ki < bi ){
-                            blocks.add(new Coord(bi, bj));
-                            bi--;
-                            bj++;
-                        }
-                    }
-                    //bispo superior direita
-                    else if( kj < bj && ki > bi ){
-                        bi++;
-                        bj--;
-                        while( kj < bj && ki > bi ){
-                            blocks.add(new Coord(bi, bj));
-                            bi++;
-                            bj--;
-                        }
-                    }
-                    //bispo inferior direita
-                    else if( kj < bj && ki < bi ){
-                        bi--;
-                        bj--;
-                        while( kj < bj && ki < bi ){
-                            blocks.add(new Coord(bi, bj));
-                            bi--;
-                            bj--;
-                        }
-                    }
-                }
 
                 for(Piece p : (Piece[])pieces.toArray()){
                     if(p instanceof King){
@@ -228,7 +147,7 @@ public class Player{
                     }
                     for(Coord c : (Coord[]) p.getMoveList().toArray()){
                         boolean remove = true;
-                        for(Coord b : (Coord[]) blocks.toArray()){
+                        for(Coord b : blocks){
                             if(c.isEquals(b)){
                                 remove = false;
                             }
@@ -244,20 +163,142 @@ public class Player{
             if (!this.mate){
                 Arquivo.addText(king.getCoord().coordJToString() + king.getCoord().coordIToString() + "+"); //adicionou no arquivo de jogada
             }
-        }else{
-            for(Piece p : (Piece[])pieces.toArray()){
-                if(p.getMovements().length >= 1) staleMate = false;
+        }
+
+        for(Piece p : (Piece[])pieces.toArray()){
+            if(p.getMovements().length >= 1) noMoves = false;
+        }
+
+        if(noMoves){
+            if(inCheck){
+                mate = true;
+            }else{
+                staleMate = true;
             }
         }
 
-        if(staleMate == true){
-            System.out.println("Stalemate!");
+
+        //Flags de fim de jogo
+        if(staleMate){
+            System.out.println("Stalemate!"); //Adiocionar flag em excpetion
         }
 
+        if(mate){
+            System.out.println("Mate!"); //Adionar flag em excpetion
+        }
 
         setPlatesThatPlayerCanUse();
 
 
+    }
+
+    private Coord[] getAllBlocksCoords(Piece threater){
+        MoveList blocks = new MoveList();
+
+        if(threater instanceof Rook){
+            attBlocksRook(blocks, threater.getCoord());
+        }
+        else if(threater instanceof Bishop){
+            attBlocksBishop(blocks, threater.getCoord());
+        }
+        else if(threater instanceof Queen){
+            attBlocksBishop(blocks, threater.getCoord());
+            attBlocksRook(blocks, threater.getCoord());
+        }
+
+
+        return (Coord[])blocks.toArray();
+    }
+
+
+
+    private void attBlocksRook(MoveList blocks, Coord threaterCoord){
+        int y = king.getCoord().i - threaterCoord.i;
+        int x = king.getCoord().j - threaterCoord.j;
+
+        if(x == 0){
+            //Torre em baixo
+            if(y > 0){
+                for(int i = 1 ; i <= y ; ++i){
+                    blocks.add(new Coord(king.getCoord().i - i, king.getCoord().j));
+                }
+            }
+            //Torre em cima
+            else if( y < 0){
+                y *= -1;
+                for(int i = 1 ; i <= y ; ++i){
+                    blocks.add(new Coord(king.getCoord().i + i, king.getCoord().j));
+                }
+            }
+
+        }else if(y == 0){
+
+            //Torre na esquerda
+            if(x > 0){
+                for(int j = 1 ; j <= x ; ++j){
+                    blocks.add(new Coord(king.getCoord().i, king.getCoord().j - j));
+                }
+            }
+            //Torre na direita
+            else if( x < 0){
+                x *= -1;
+                for(int j = 1 ; j <= x ; ++j){
+                    blocks.add(new Coord(king.getCoord().i , king.getCoord().j + j));
+                }
+            }
+
+        }
+    }
+
+    private void attBlocksBishop(MoveList blocks, Coord threaterCoord){
+        int bi = threaterCoord.i;
+        int bj = threaterCoord.j;
+        int ki = king.getCoord().i;
+        int kj = king.getCoord().j;
+
+
+        blocks.add(new Coord(bi, bj));
+
+        //bispo superior esquerda
+        if(kj > bj && ki > bi){
+            bi++;
+            bj++;
+            while( kj >= bj && ki >= bi ){
+                blocks.add(new Coord(bi, bj));
+                bi++;
+                bj++;
+            }
+        }
+        //bispo inferior esquerda
+        else if( kj > bj && ki < bi ){
+            bi--;
+            bj++;
+            while( kj >= bj && ki <= bi ){
+                blocks.add(new Coord(bi, bj));
+                bi--;
+                bj++;
+            }
+        }
+        //bispo superior direita
+        else if( kj < bj && ki > bi ){
+            bi++;
+            bj--;
+            while( kj <= bj && ki >= bi ){
+                blocks.add(new Coord(bi, bj));
+                bi++;
+                bj--;
+            }
+        }
+        //bispo inferior direita
+        else if( kj < bj && ki < bi ){
+            bi--;
+            bj--;
+            while( kj <= bj && ki <= bi ){
+                blocks.add(new Coord(bi, bj));
+                bi--;
+                bj--;
+            }
+        }
     }
 
 

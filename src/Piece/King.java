@@ -33,12 +33,19 @@ public class King extends Piece {
             }
         }
 
+        if(isCheck()){
+            Coord remover = removeIllegalMoves();
 
-/*
-       if(master.isRound()){
-           //checkLimitation(movements);
-       }
-       */
+            System.out.printf("%d %d\n", coord.i, coord.j);
+            System.out.printf("%d %d\n", remover.i, remover.j);
+
+            for(Coord r : (Coord[]) movements.toArray()){
+                if(r.isEquals(remover)){
+                    movements.remove(r);
+                }
+            }
+
+        }
 
 
         return (Coord[])movements.toArray();
@@ -88,127 +95,87 @@ public class King extends Piece {
         return null;
     }
 
+    private Coord removeBackBishopAttack(Piece threater, Coord remover){
+        int bi = threater.getCoord().i;
+        int bj = threater.getCoord().j;
 
-/*
-// ATENÇÃO O CÓDIGO ABAIXO AINDA PRECISA FAZER ALTERAÇÕES ADEQUADAS PARA KING E ROOK E SUAS ADVERSIDADES
-// É PRECISO TAMBÉM DEBATER SOBRE ONDE AS FUNÇÕES SERÃO COLOCADAS (PLAYER, KING OU TABLE)
 
 
-    //função q verifica se ta podendo fazer o roque pequeno
-    public boolean LitlleRockPossible(){
-        boolean flag = true;
-
-// verifica se o rei ta em check
-        if(Player.inCheck){
-            flag = false;
+        //bispo superior esquerda
+        if(this.coord.j > bj && this.coord.i > bi){
+            remover = new Coord(this.coord.i + 1 , this.coord.j + 1);
         }
-//verifica se o rei ja moveu ou se a torre ja moveu
-        else if(king.moves != 0 || Rook.moves != 0){
-            flag = false;
+        //bispo inferior esquerda
+        else if( this.coord.j > bj && this.coord.i < bi ){
+            remover = new Coord(this.coord.i - 1 , this.coord.j + 1);
         }
-//verifica as duas casas ao lado DIREITO estão atacadas
-        else if(seeOtherPlates(coord.i , coord.j + 1).getPlateState == PlateState.DANGER || seeOtherPlates(king.coord.i, king.coord.j + 2).getPlateState == PlateState.DANGER){
-            flag = false;
+        //bispo superior direita
+        else if( this.coord.j < bj && this.coord.i > bi ){
+            remover = new Coord(this.coord.i + 1 , this.coord.j - 1);
         }
-// verifica se a segunda casa ao lado DIREITO (j+2) está vazia
-        else if(seeOtherPlates(coord.i, coord.j + 2).getPlateSate() != null ){
-            flag = false;
-        }
-//verifica se a primeira casa ao lado Direito (j+1) está vazia
-        else if(seeOtherPlates(coord.i , coord.j + 1).getPlateSate() != null ){
-            flag = false;
-        }
-// se passar por todas as verificações, retorna true
-        else{
-            flag = true;
+        //bispo inferior direita
+        else if( this.coord.j < bj && this.coord.i < bi ){
+            remover = new Coord(this.coord.i - 1 , this.coord.j - 1);
         }
 
-        return flag;
+        return remover;
     }
 
+    public Coord removeBackRookAttack(Piece threater, Coord remover){
+        int y = coord.i - threater.getCoord().i;
+        int x = coord.j - threater.getCoord().j;
 
-
-    //verifica se ta podendo fazer o roque grande
-    public boolean BigRockPossible(){
-
-        boolean flag = true;
-//verifica se o rei ta em check
-        if(inCheck()){
-            flag = false;
-        }
-
-//verifica se o rei ja moveu ou se a torre ja moveu
-        else if(moves != 0 || Rook.moves != 0){
-            flag =  false;
-        }
-//verifica as duas casas ao lado ESQUERDO estão atacadas
-        else if(seeOtherPlates(coord.i , coord.j - 1).getPlateState == PlateState.DANGER || seeOtherPlates(coord.i, coord.j - 2).getPlateState == PlateState.DANGER){
-            flag = false;
-        }
-//verifica se a PRIMEIRA casa ao lado ESQUERDO está vazia
-        else if(seeOtherPlates(coord.i, coord.j - 1).getPlateSate() != null){
-            flag = false;
-        }
-//verifica se a SEGUNDA casa ao lado ESQUERDO está vazia
-        else if(seeOtherPlates(coord.i, coord.j - 2).getPlateSate() != null){
-            flag = false;
-        }
-// se passar por todas as verificações, retorna true
-        else{
-            flag = true;
-        }
-
-        return flag;
-    }
-
-    // função fazer o roque pequeno
-    public void makeLitlleRock(){
-// se for possível fazer o roque e o jogador clicou duas casas a direita
-        if(litlleRockPossible() &&  ){
-            table.newPiecePosition(getCoord(), new Coord(coord.i, coord.j + 2));
-            table.newPiecePosition(Rook.getCoord(), new Coord(Rook.coord.i, coord.j - 2));
-        }
-    }
-    // função fazer o roque grande
-    public void makeBigRock(){
-        // se for possível fazer o roque e o jogador clicou duas a esquerda
-        if(BigRockPossible() && ){
-            table.newPiecePosition(getCoord(), new Coord(coord.i, coord.j - 2));
-            table.newPiecePosition(Rook.getCoord(), new Coord(Rook.coord.i, coord.j + 3));
-        }
-    }
-
-    //lógica para CHECKMATE, versão não definitiva
-
-
-
-    //função que verifica se é possível comer a peça que está atacando o rei com check
-    public boolean comerAtacante(King king, Piece atacante){
-        //verifica se algum vetor de ataque chega no atacante
-        if(){
-            return true;
-        }
-        return false;
-    }
-    //função que verifica se é possível tampar o check
-
-
-    public boolean isCheckmate(){
-        if(isCheck()){
-            if(PodetamparCheck(null, null) == false && comerAtacante(null, null) == false && !reiPodeMover()){
-                return true;
+        if(x == 0){
+            //Torre em cima
+            if(y > 0){
+                remover = new Coord(this.coord.i + 1 , this.coord.j);
             }
-            else{
-                return false;
+            //Torre em baixo
+            else if( y < 0){
+                remover = new Coord(this.coord.i - 1 , this.coord.j);
             }
-        }
-        i
 
+        }else if(y == 0){
+            //Torre na esquerda
+            if(x > 0){
+                remover = new Coord(this.coord.i , this.coord.j + 1);
+            }
+            //Torre na direita
+            else if( x < 0){
+                remover = new Coord(this.coord.i, this.coord.j - 1);
+            }
+
+        }else{
+            return new Coord();
+        }
+
+        return remover;
     }
 
 
+    private Coord removeIllegalMoves(){
+        Piece threater = seeOtherTable(coord.i, coord.j).getTheters()[0];
+        Coord remover = new Coord();
 
- */
+        if(threater instanceof Bishop ) {
+            System.out.println(1);
+            remover = removeBackBishopAttack(threater, remover);
+        }else if(threater instanceof Rook ) {
+            System.out.println(2);
+            remover = removeBackRookAttack(threater, remover);
+        }else if(threater instanceof Queen ) {
+            System.out.println(3);
+            remover = removeBackRookAttack(threater, remover);
+
+            if(remover.isEquals(new Coord())){
+                remover = removeBackBishopAttack(threater, remover);
+            }
+
+        }
+
+
+        return remover;
+    }
 
 
 }

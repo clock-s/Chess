@@ -11,6 +11,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.HierarchyBoundsListener;
 
 
 public class GUI{
@@ -42,6 +43,7 @@ public class GUI{
         clicks[0] = new Coord();
         clicks[1] = new Coord();
 
+
         configs();
         makeTable();
     }
@@ -59,7 +61,6 @@ public class GUI{
         window.setIconImage(image.getImage());
         window.getContentPane().setBackground(Color.gray);
         window.setLayout(new BorderLayout());
-
 
 
     }
@@ -93,7 +94,6 @@ public class GUI{
                 }
             }
         }
-
 
 
 
