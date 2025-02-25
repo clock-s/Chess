@@ -89,7 +89,7 @@ public class King extends Piece {
     }
 
 
-
+/*
 // ATENÇÃO O CÓDIGO ABAIXO AINDA PRECISA FAZER ALTERAÇÕES ADEQUADAS PARA KING E ROOK E SUAS ADVERSIDADES
 // É PRECISO TAMBÉM DEBATER SOBRE ONDE AS FUNÇÕES SERÃO COLOCADAS (PLAYER, KING OU TABLE)
 
@@ -209,5 +209,6 @@ public class King extends Piece {
 
 
  */
+
 
 }

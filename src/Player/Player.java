@@ -9,6 +9,7 @@ import Piece.Piece;
 import Piece.King;
 import Piece.Rook;
 import Collection.MoveList;
+import Piece.Bishop;
 
 
 
@@ -104,120 +105,131 @@ public class Player{
         inCheck = king.isCheck();
 
         if(inCheck){
+            boolean kingCanMove = false;
             System.out.println("Player " + color.toString() + " in check");
 
             if(king.reiPodeMover()){
-//
-            }else{
-                Threater threater = king.blockPossible();
-                if(threater.getIsThreater() == false){
-                    for(Piece p : (Piece[])pieces.toArray()){
-                        for(Coord c : (Coord[]) p.getMoveList().toArray()){
+                kingCanMove = true;
+            }
 
-                            if(!threater.getThreater().getCoord().isEquals(c)){
-                                p.getMoveList().remove(c);
-                            }
-                        }
+            Threater threater = king.blockPossible();
+            System.out.println(threater.getThreater().getClass().getName());
+            if(threater.getIsThreater() == false){
+                for(Piece p : (Piece[])pieces.toArray()){
+                    if(p instanceof King){
+                        if(kingCanMove) continue;
                     }
-                }else{
-                    MoveList blocks = new MoveList();
-                    if(threater.getThreater() instanceof Rook){
-                        int y = king.getCoord().i - threater.getThreater().getCoord().i;
-                        int x = king.getCoord().j - threater.getThreater().getCoord().j;
-                        System.out.printf("%d %d\n", x, y);
 
-                        if(x == 0){
-                            if(y > 0){
-                                for(int i = 1 ; i <= y ; ++i){
-                                    blocks.add(new Coord(king.getCoord().i - i, king.getCoord().j));
-                                }
-                            }else if( y < 0){
-                                y *= -1;
-                                for(int i = 1 ; i <= y ; ++i){
-                                    blocks.add(new Coord(king.getCoord().i + i, king.getCoord().j));
-                                }
-                            }
+                    for(Coord c : (Coord[]) p.getMoveList().toArray()){
 
-                        }else if(y == 0){
-                            if(x > 0){
-                                System.out.println("Aki");
-                                for(int j = 1 ; j <= x ; ++j){
-                                    blocks.add(new Coord(king.getCoord().i, king.getCoord().j - j));
-                                }
-                            }else if( x < 0){
-                                x *= -1;
-                                for(int j = 1 ; j <= x ; ++j){
-                                    blocks.add(new Coord(king.getCoord().i , king.getCoord().j + j));
-                                }
-                            }
-
-                        }
-
-
-
-                        for(Piece p : (Piece[])pieces.toArray()){
-                            for(Coord c : (Coord[]) p.getMoveList().toArray()){
-                                boolean remove = true;
-                                for(Coord b : (Coord[]) blocks.toArray()){
-                                    if(c.isEquals(b)){
-                                        remove = false;
-                                    }
-                                }
-                                if(remove){
-                                    p.getMoveList().remove(c);
-                                }
-                            }
-                        }
-
-
-                    }
-                    else if(threater.getThreater() instanceof Bishop){
-                        int bi = bishop.getCoord().i;
-                        int bj = bishop.getCoord().j;
-                        int ki = king.getCoord().i;
-                        int kj = king.getCoord().j;
-                        //bispo superior esquerda
-                        if(kj > bj && ki > bi){
-                            bi++;
-                            bj++;
-                            while( kj > bj && ki > bi ){
-                                blocks.add(new Coord(bi, bj));
-                                bi++;
-                                bj++;
-                            }
-                        }
-                        //bispo inferior esquerda
-                        else if( kj > bj && ki < bi ){
-                            bi--;
-                            bj++;
-                            while( kj > bj && ki < bi ){
-                                blocks.add(new Coord(bi, bj));
-                                bi--;
-                                bj++;
-                            }
-                        }
-                        //bispo superior direita
-                        else if( kj < bj && ki > bi ){
-                            bi++;
-                            bj--;
-                            while( kj < bj && ki > bi ){
-                                blocks.add(new Coord(bi, bj));
-                                bi++;
-                                bj--;
-                            }
-                        }
-                        //bispo inferior direita
-                        else if( kj < bj && ki < bi ){
-                            bi--;
-                            bj--;
-                            while( kj < bj && ki < bi ){
-                                blocks.add(new Coord(bi, bj));
-                                bi--;
-                                bj--;
-                            }
+                        if(!threater.getThreater().getCoord().isEquals(c)){
+                            p.getMoveList().remove(c);
                         }
                     }
                 }
+            }else if(threater.getIsThreater() == true){
+                System.out.printf("Aki");
+                MoveList blocks = new MoveList();
+
+
+                if(threater.getThreater() instanceof Rook){
+                    int y = king.getCoord().i - threater.getThreater().getCoord().i;
+                    int x = king.getCoord().j - threater.getThreater().getCoord().j;
+                    System.out.printf("%d %d\n", x, y);
+
+                    if(x == 0){
+                        if(y > 0){
+                            for(int i = 1 ; i <= y ; ++i){
+                                blocks.add(new Coord(king.getCoord().i - i, king.getCoord().j));
+                            }
+                        }else if( y < 0){
+                            y *= -1;
+                            for(int i = 1 ; i <= y ; ++i){
+                                blocks.add(new Coord(king.getCoord().i + i, king.getCoord().j));
+                            }
+                        }
+
+                    }else if(y == 0){
+                        if(x > 0){
+                            System.out.println("Aki");
+                            for(int j = 1 ; j <= x ; ++j){
+                                blocks.add(new Coord(king.getCoord().i, king.getCoord().j - j));
+                            }
+                        }else if( x < 0){
+                            x *= -1;
+                            for(int j = 1 ; j <= x ; ++j){
+                                blocks.add(new Coord(king.getCoord().i , king.getCoord().j + j));
+                            }
+                        }
+
+                    }
+
+
+                }
+                else if(threater.getThreater() instanceof Bishop){
+                    int bi = threater.getThreater().getCoord().i;
+                    int bj = threater.getThreater().getCoord().j;
+                    int ki = king.getCoord().i;
+                    int kj = king.getCoord().j;
+                    //bispo superior esquerda
+                    if(kj > bj && ki > bi){
+                        bi++;
+                        bj++;
+                        while( kj > bj && ki > bi ){
+                            blocks.add(new Coord(bi, bj));
+                            bi++;
+                            bj++;
+                        }
+                    }
+                    //bispo inferior esquerda
+                    else if( kj > bj && ki < bi ){
+                        bi--;
+                        bj++;
+                        while( kj > bj && ki < bi ){
+                            blocks.add(new Coord(bi, bj));
+                            bi--;
+                            bj++;
+                        }
+                    }
+                    //bispo superior direita
+                    else if( kj < bj && ki > bi ){
+                        bi++;
+                        bj--;
+                        while( kj < bj && ki > bi ){
+                            blocks.add(new Coord(bi, bj));
+                            bi++;
+                            bj--;
+                        }
+                    }
+                    //bispo inferior direita
+                    else if( kj < bj && ki < bi ){
+                        bi--;
+                        bj--;
+                        while( kj < bj && ki < bi ){
+                            blocks.add(new Coord(bi, bj));
+                            bi--;
+                            bj--;
+                        }
+                    }
+                }
+
+                for(Piece p : (Piece[])pieces.toArray()){
+                    if(p instanceof King){
+                        if(kingCanMove) continue;
+                    }
+                    for(Coord c : (Coord[]) p.getMoveList().toArray()){
+                        boolean remove = true;
+                        for(Coord b : (Coord[]) blocks.toArray()){
+                            if(c.isEquals(b)){
+                                remove = false;
+                            }
+                        }
+                        if(remove){
+                            p.getMoveList().remove(c);
+                        }
+                    }
+                }
+
             }
 
 

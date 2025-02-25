@@ -179,7 +179,13 @@ public class Table {
         gui.resetCoord();
 
         if(table[goal.i][goal.j].getPiece() != null) {
+            if(table[goal.i][goal.j].getPiece().getColor() == Color.BLACK) {
+                playerB.removePieceFromList(table[goal.i][goal.j].getPiece());
+            }else if(table[goal.i][goal.j].getPiece().getColor() == Color.WHITE) {
+                playerW.removePieceFromList(table[goal.i][goal.j].getPiece());
+            }
             table[goal.i][goal.j].getPiece().death();
+
         }
 
 
