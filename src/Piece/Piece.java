@@ -1,6 +1,7 @@
 package Piece;
 
 import Collection.MoveList;
+import Player.Player;
 import Table.Table;
 import Utilities.*;
 import Table.EsqueletonPlate;
@@ -15,7 +16,7 @@ public abstract class Piece {
     protected Coord coord;
     protected Table table;
     private ImageIcon icon;
-    protected int moves = 0;
+    private int moves = 0;
 
     protected MoveList movements = new MoveList();
     protected MoveList dangerZone = new MoveList();
@@ -116,6 +117,21 @@ public abstract class Piece {
 
     public Category getCategory(){
         return this.category;
+    }
+
+    public void makeLitteRock() {
+    }
+    public void makeBigRock() {
+    }
+    public boolean LitlleRockPossible() {
+        return false;
+    }
+    public boolean BigRockPossible() {
+        return false;
+    }
+
+    public Player getMaster() {
+        return null;
     }
 }
 

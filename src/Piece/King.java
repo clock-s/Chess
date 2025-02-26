@@ -1,5 +1,6 @@
 package Piece;
 
+import Collection.MoveList;
 import Player.Player;
 import Table.Table;
 import Utilities.*;
@@ -8,6 +9,11 @@ import javax.swing.*;
 
 public class King extends Piece {
     private Player master;
+    protected MoveList specialMove = new MoveList();
+    public boolean littleRock = this.LitlleRockPossible();
+    public boolean bigRock = this.BigRockPossible();
+
+    public Coord[] getSpecialMovements(){return (Coord[])specialMove.toArray();}
 
     public King(byte id, Color color, ImageIcon icon, Coord coord, Table table, Player master) {
         super(id, color, icon, coord, table);
@@ -16,31 +22,30 @@ public class King extends Piece {
     }
 
 
-
     @Override
     public Coord[] move() {
         movements.clear();
-
-
         for(byte i = -1 ; i <= 1 ; ++i){
-            for(byte j = -1; j <= 1; ++j){
-                if(i == 0 && j == 0){
+            for (byte j = -1; j <= 1; ++j) {
+                if (i == 0 && j == 0) {
                     continue;
                 }
-                if(isInLimit(i,j) && seeOtherTable(coord.i + i, coord.j + j).getPlateState() != PlateState.DANGER){
+                if (isInLimit(i, j) && seeOtherTable(coord.i + i, coord.j + j).getPlateState() != PlateState.DANGER) {
                     putMoves(movements, (byte) (coord.i + i), (byte) (coord.j + j));
                 }
             }
         }
-
-
+        if(this.LitlleRockPossible()){
+            putMoves(movements, (byte) (coord.i + 0), (byte) (coord.j + 2));
+        }
+        if(this.BigRockPossible()){
+            putMoves(movements, (byte) (coord.i + 0), (byte) (coord.j - 2));
+        }
 /*
        if(master.isRound()){
            //checkLimitation(movements);
        }
        */
-
-
         return (Coord[])movements.toArray();
     }
 
@@ -89,12 +94,6 @@ public class King extends Piece {
     }
 
 
-
-// ATENÇÃO O CÓDIGO ABAIXO AINDA PRECISA FAZER ALTERAÇÕES ADEQUADAS PARA KING E ROOK E SUAS ADVERSIDADES
-// É PRECISO TAMBÉM DEBATER SOBRE ONDE AS FUNÇÕES SERÃO COLOCADAS (PLAYER, KING OU TABLE)
-
- 
-    //função q verifica se ta podendo fazer o roque pequeno
     public boolean LitlleRockPossible(){
         boolean flag = true;
 
@@ -102,27 +101,22 @@ public class King extends Piece {
         if(isCheck()){
             flag = false;
         }
-//verifica se o rei ja moveu, se a peça é uma torre e se essa torre tem movimentos == 0;
-        else if(moves != 0 || seeOtherTable(coord.i, 7).getPiece().getCategory() != category.ROOK || seeOtherTable(coord.i, 7).getPiece().getMoves() != 0 ){
+//verifica se o rei ja moveu, se a peça é uma torre e se essa torre tem movimentos == 0;
+        if(this.getMoves() != 0 || seeOtherTable(coord.i, 7).getPiece().getCategory() != category.ROOK || seeOtherTable(coord.i, 7).getPiece().getMoves() != 0 ){
             flag = false;
         }
-//verifica as duas casas ao lado DIREITO estão atacadas
-        else if(seeOtherTable(coord.i , coord.j + 1).getPlateState() == PlateState.DANGER || seeOtherTable(coord.i, coord.j + 2).getPlateState == PlateState.DANGER){
+//verifica as duas casas ao lado DIREITO estão atacadas
+        if(seeOtherTable(coord.i , coord.j + 1).getPlateState() == PlateState.DANGER || seeOtherTable(coord.i, coord.j + 2).getPlateState() == PlateState.DANGER || seeOtherTable(coord.i , coord.j + 1).getPlateState() == PlateState.BOTH || seeOtherTable(coord.i, coord.j + 2).getPlateState() == PlateState.BOTH){
             flag = false;
         }
-// verifica se a segunda casa ao lado DIREITO (j+2) está vazia
-        else if(seeOtherTable(coord.i, coord.j + 2).getPiece() != null ){
+// verifica se a segunda casa ao lado DIREITO (j+2) está vazia
+        if(seeOtherTable(coord.i, coord.j + 2).getPiece() != null ){
             flag = false;
         }
-//verifica se a primeira casa ao lado Direito (j+1) está vazia
-        else if(seeOtherTable(coord.i , coord.j + 1).getPlateState() != null ){
+//verifica se a primeira casa ao lado Direito (j+1) está vazia
+        if(seeOtherTable(coord.i , coord.j + 1).getPiece() != null ){
             flag = false;
         }
-// se passar por todas as verificações, retorna true
-        else{
-            flag = true;
-        }
-
         return flag;
     }
 
@@ -130,93 +124,35 @@ public class King extends Piece {
 
     //verifica se ta podendo fazer o roque grande
     public boolean BigRockPossible(){
-
         boolean flag = true;
 //verifica se o rei ta em check
         if(isCheck()){
             flag = false;
         }
-
 //verifica se o rei ja moveu ou se a torre ja moveu
-        else if(moves != 0 ||seeOtherTable(coord.i, 0).getPiece().getCategory() != category.ROOK || seeOtherTable(coord.i, 0).getPiece().getMoves() != 0  ){
+        if(this.getMoves() != 0 ||seeOtherTable(coord.i, 0).getPiece().getCategory() != category.ROOK || seeOtherTable(coord.i, 0).getPiece().getMoves() != 0  ){
             flag =  false;
         }
-//verifica as duas casas ao lado ESQUERDO estão atacadas
-        else if(seeOtherTable(coord.i , coord.j - 1).getPlateState() == PlateState.DANGER || seeOtherTable(coord.i, coord.j - 2).getPlateState() == PlateState.DANGER){
+//verifica as duas casas ao lado ESQUERDO estão atacadas
+        if(seeOtherTable(coord.i , coord.j - 1).getPlateState() == PlateState.DANGER || seeOtherTable(coord.i, coord.j - 2).getPlateState() == PlateState.DANGER || seeOtherTable(coord.i , coord.j - 1).getPlateState() == PlateState.BOTH || seeOtherTable(coord.i, coord.j - 2).getPlateState() == PlateState.BOTH){
             flag = false;
         }
-//verifica se a PRIMEIRA casa ao lado ESQUERDO está vazia
-        else if(seeOtherTable(coord.i, coord.j - 1).getPlateState() != null){
+//verifica se a PRIMEIRA casa ao lado ESQUERDO está vazia
+        if(seeOtherTable(coord.i, coord.j - 1).getPiece() != null){
             flag = false;
         }
-//verifica se a SEGUNDA casa ao lado ESQUERDO está vazia
-        else if(seeOtherTable(coord.i, coord.j - 2).getPlateState() != null){
+//verifica se a SEGUNDA casa ao lado ESQUERDO está vazia
+        if(seeOtherTable(coord.i, coord.j - 2).getPiece() != null){
             flag = false;
         }
-// se passar por todas as verificações, retorna true
-        else{
-            flag = true;
+//verifica se a TERCEIRA casa ao lado ESQUERDO está vazia
+        if(seeOtherTable(coord.i, coord.j - 3).getPiece() != null){
+            flag = false;
         }
-
         return flag;
     }
 
-    // função fazer o roque pequeno
-    public void makeLitlleRock(){
-// se for possível fazer o roque e o jogador clicou duas casas a direita
-        if(litlleRockPossible() &&   ){
-            table.newPiecePosition(getCoord(), new Coord(coord.i, coord.j + 2));
-            table.newPiecePosition(Rook.getCoord(), new Coord(Rook.coord.i, coord.j - 2));
-        }
+    public Player getMaster() {
+        return master;
     }
-    // função fazer o roque grande
-    public void makeBigRock(){
-        // se for possível fazer o roque e o jogador clicou duas a esquerda
-        if(BigRockPossible() && ){
-            table.newPiecePosition(getCoord(), new Coord(coord.i, coord.j - 2));
-            table.newPiecePosition(Rook.getCoord(), new Coord(Rook.coord.i, coord.j + 3));
-        }
-    }
-
-    //lógica para CHECKMATE, versão não definitiva
-
-
-
-    //função que verifica se é possível comer a peça que está atacando o rei com check
-    public boolean comerAtacante(King king, Piece atacante){
-        //verifica se algum vetor de ataque chega no atacante
-        if(){
-            return true;
-        }
-        return false;
-    }
-    //função que verifica se é possível tampar o check
-
-
-    public boolean isCheckmate(){
-        if(isCheck()){
-            if(PodetamparCheck(null, null) == false && comerAtacante(null, null) == false && !reiPodeMover()){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-        i
-
-    }
-    if(littleRockPossible()){
-        coord c = king.getCoord();
-        gui.modifyColor( c, Color.GREEN);
-    }
-    if(BigRockPossible()){
-        coord c = king.getCoord();
-        gui.modifyColor( c, Color.GREEN);
-    }
-
-
-
-
- */
-
 }

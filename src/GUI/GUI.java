@@ -53,7 +53,7 @@ public class GUI{
 
         window.setTitle("Chess Test");
         window.setSize(tableSize,tableSize);
-        window.setResizable(false);
+        window.setResizable(true);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         image = new ImageIcon("src/GUI/Images/logo.jpg");
         window.setIconImage(image.getImage());

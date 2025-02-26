@@ -51,6 +51,7 @@ public class Plates implements MouseListener {
     private void showMoves(){
         Coord[] moves = gui.getPiece(coord).getMovements();
         Coord[] potentialMoves = gui.getPiece(coord).getPotentialDangerZone();
+        //Coord[] specialMoves = gui.getPiece(coord).getSpecialMoves();
 
         for(Coord m : moves) {
             gui.modifyColor(m, Color.RED);
@@ -58,6 +59,9 @@ public class Plates implements MouseListener {
         for(Coord p: potentialMoves) {
             gui.modifyColor(p, Color.BLUE);
         }
+        //for(Coord s: specialMoves) {
+            //gui.modifyColor(s, Color.GEEN)
+        //}
     }
 
     private void disableMoves(){
