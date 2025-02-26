@@ -55,9 +55,11 @@ public class Plates implements MouseListener {
         for(Coord m : moves) {
             gui.modifyColor(m, Color.RED);
         }
+        /*
         for(Coord p: potentialMoves) {
             gui.modifyColor(p, Color.BLUE);
         }
+        */
     }
 
     private void disableMoves(){

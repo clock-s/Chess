@@ -6,10 +6,10 @@ import java.awt.*;
 public class Main {
     public static void main(String[] args) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int tableSize = (int)(screenSize.getHeight()*0.6);
+        int tableSize = (int)(screenSize.getHeight()*0.7);
 
         // Criar a janela principal
-        JFrame window = new JFrame("Xadrez em Java");
+        JFrame window = new JFrame("Javadrez");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setSize(tableSize, tableSize);
         window.setLayout(new CardLayout());
@@ -39,7 +39,7 @@ public class Main {
         JPanel painel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        JLabel label = new JLabel("Xadrez dos crias");
+        JLabel label = new JLabel("Javadrez");
         label.setFont(new Font("Arial", Font.BOLD, 30));
         gbc.gridx = 0;
         gbc.gridy = 0;
