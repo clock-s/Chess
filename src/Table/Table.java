@@ -230,6 +230,7 @@ public class Table extends JPanel {
         }
         this.promotionPiece(table[goal.i][goal.j].getPiece().getCoord());
 
+        this.rockEnabled(table[goal.i][goal.j].getPiece().getCoord());
         this.table[place.i][place.j].removePiece();
 
 
@@ -266,6 +267,62 @@ public class Table extends JPanel {
 
 
 
+    }
+
+    public void roqueSwap (Coord place, Coord goal){
+        gui.getPlate(place).setIcon(null);
+        gui.getPlate(goal).setIcon(table[place.i][place.j].getPiece().getIcon());
+
+        table[place.i][place.j].getPiece().setCoord(goal);
+        table[place.i][place.j].getPiece().incrementMoves();
+
+        this.table[goal.i][goal.j].setPiece(table[place.i][place.j].getPiece());
+        this.table[place.i][place.j].removePiece();
+    }
+
+    public void rockEnabled(Coord place){
+        if(table[place.i][place.j].getPiece().getCategory() == Category.KING) {
+            if (table[place.i][place.j].getPiece().getColor() == Color.BLACK) {
+                if (table[place.i][place.j].getPiece().getCoord().i == 0 &&
+                        table[place.i][place.j].getPiece().getCoord().j == 6) {
+                    this.makeLitlleRockBlack(new Coord (0, 7));
+                }
+
+                if (table[place.i][place.j].getPiece().getCoord().i == 0 &&
+                        table[place.i][place.j].getPiece().getCoord().j == 2) {
+                    this.makeBigRockBlack(new Coord (0, 0));
+                }
+            }
+            if (table[place.i][place.j].getPiece().getColor() == Color.WHITE) {
+                if(table[place.i][place.j].getPiece().getCoord().i == 7 &&
+                        table[place.i][place.j].getPiece().getCoord().j == 6){
+                    this.makeLitlleRockWhite(new Coord (7, 7));
+                }
+                if(table[place.i][place.j].getPiece().getCoord().i == 7 &&
+                        table[place.i][place.j].getPiece().getCoord().j == 2){
+                    this.makeBigRockWhite(new Coord (7, 0));
+                }
+            }
+        }
+    }
+
+    // função fazer o roque pequeno
+    public void makeLitlleRockWhite(Coord placeRook){
+        // se for possível fazer o roque e o jogador clicou duas casas a direita
+        this.roqueSwap(placeRook, new Coord (7,5));
+    }
+    public void makeLitlleRockBlack(Coord placeRook){
+        // se for possível fazer o roque e o jogador clicou duas casas a direita
+        this.roqueSwap(placeRook, new Coord (0,5));
+    }
+    // função fazer o roque grande
+    public void makeBigRockWhite(Coord placeRook){
+        // se for possível fazer o roque e o jogador clicou duas a esquerda
+        this.roqueSwap(placeRook, new Coord (7,3));
+    }
+    public void makeBigRockBlack(Coord placeRook){
+        // se for possível fazer o roque e o jogador clicou duas a esquerda
+        this.roqueSwap(placeRook, new Coord (0,3));
     }
 
     public boolean promotionZone(Coord place) {

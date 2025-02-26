@@ -138,6 +138,17 @@ public abstract class Piece {
         return flag;
     }
 
+    public void makeLitteRock() {
+    }
+    public void makeBigRock() {
+    }
+    public boolean LitlleRockPossible() {
+        return false;
+    }
+    public boolean BigRockPossible() {
+        return false;
+    }
+
 }
 
 

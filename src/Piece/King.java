@@ -44,8 +44,14 @@ public class King extends Piece {
                     }
                 }
 
-
             }
+        }
+
+        if(this.LitlleRockPossible()){
+            putMoves(movements, (byte) (coord.i + 0), (byte) (coord.j + 2));
+        }
+        if(this.BigRockPossible()){
+            putMoves(movements, (byte) (coord.i + 0), (byte) (coord.j - 2));
         }
 
         if(isCheck()){
@@ -58,6 +64,7 @@ public class King extends Piece {
             }
 
         }
+
 
 
         return (Coord[])movements.toArray();
@@ -184,6 +191,78 @@ public class King extends Piece {
 
 
         return remover;
+    }
+
+    public boolean LitlleRockPossible(){
+        boolean flag = true;
+
+// verifica se o rei ta em check
+        if(isCheck()){
+            flag = false;
+        }
+//verifica se o rei ja moveu, se a peça é uma torre e se essa torre tem movimentos == 0;
+        if(this.getMoves() != 0 || seeOtherTable(coord.i, 7).getPiece().getCategory() != category.ROOK || seeOtherTable(coord.i, 7).getPiece().getMoves() != 0 ){
+            flag = false;
+        }
+//verifica as duas casas ao lado DIREITO estão atacadas
+        if(coord.j + 1 < Table.LENGHT && coord.j + 2 < Table.LENGHT) {
+            if (seeOtherTable(coord.i, coord.j + 1).getPlateState() == PlateState.DANGER || seeOtherTable(coord.i, coord.j + 2).getPlateState() == PlateState.DANGER || seeOtherTable(coord.i, coord.j + 1).getPlateState() == PlateState.BOTH || seeOtherTable(coord.i, coord.j + 2).getPlateState() == PlateState.BOTH) {
+                flag = false;
+            }
+        }
+// verifica se a segunda casa ao lado DIREITO (j+2) está vazia
+        if(coord.j + 2 < Table.LENGHT) {
+            if (seeOtherTable(coord.i, coord.j + 2).getPiece() != null) {
+                flag = false;
+            }
+        }
+//verifica se a primeira casa ao lado Direito (j+1) está vazia
+        if(coord.j + 1 < Table.LENGHT) {
+            if (seeOtherTable(coord.i, coord.j + 1).getPiece() != null) {
+                flag = false;
+            }
+        }
+        return flag;
+    }
+
+
+
+    //verifica se ta podendo fazer o roque grande
+    public boolean BigRockPossible(){
+        boolean flag = true;
+//verifica se o rei ta em check
+        if(isCheck()){
+            flag = false;
+        }
+//verifica se o rei ja moveu ou se a torre ja moveu
+        if(this.getMoves() != 0 ||seeOtherTable(coord.i, 0).getPiece().getCategory() != category.ROOK || seeOtherTable(coord.i, 0).getPiece().getMoves() != 0  ){
+            flag =  false;
+        }
+//verifica as duas casas ao lado ESQUERDO estão atacadas
+        if(coord.j - 1 >= 0 && coord.j - 2 >= 0) {
+            if (seeOtherTable(coord.i, coord.j - 1).getPlateState() == PlateState.DANGER || seeOtherTable(coord.i, coord.j - 2).getPlateState() == PlateState.DANGER || seeOtherTable(coord.i, coord.j - 1).getPlateState() == PlateState.BOTH || seeOtherTable(coord.i, coord.j - 2).getPlateState() == PlateState.BOTH) {
+                flag = false;
+            }
+        }
+//verifica se a PRIMEIRA casa ao lado ESQUERDO está vazia
+        if(coord.j - 1 >= 0) {
+            if (seeOtherTable(coord.i, coord.j - 1).getPiece() != null) {
+                flag = false;
+            }
+        }
+//verifica se a SEGUNDA casa ao lado ESQUERDO está vazia
+        if(coord.j - 2 >= 0) {
+            if (seeOtherTable(coord.i, coord.j - 2).getPiece() != null) {
+                flag = false;
+            }
+        }
+//verifica se a TERCEIRA casa ao lado ESQUERDO está vazia
+        if(coord.j - 3 >= 0) {
+            if (seeOtherTable(coord.i, coord.j - 3).getPiece() != null) {
+                flag = false;
+            }
+        }
+        return flag;
     }
 
 
